@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useStore } from '../store/useStore';
 import {
-  Shield, Eye, Clock, Lock, Download,
+  Shield, Eye, Clock, Lock,
   ChevronRight, BarChart3, BookOpen, TrendingUp,
 } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -60,7 +60,7 @@ export default function ParentalDashboard() {
                 {key === 'del' ? '←' : key}
               </button>
             );
-          })}}
+          })}
         </div>
         <p className="text-xs text-gray-400">Enter any 4 digits for this demo</p>
       </div>
@@ -166,41 +166,6 @@ export default function ParentalDashboard() {
               {maxMinutes} min
             </span>
           </div>
-        </div>
-      </div>
-
-      {/* Export */}
-      <div className="card mb-6">
-        <h2 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
-          <Download className="w-5 h-5 text-orange-500" />
-          Export Reports
-        </h2>
-        <p className="text-sm text-gray-500 mb-4">
-          Download a summary of your child's progress, lessons completed, and trading performance.
-        </p>
-        <div className="flex gap-3">
-          <button
-            onClick={() => {
-              alert(`PDF Report:\n\nLessons Passed: ${passedLessons}\nTotal XP: ${xp}\nStreak: ${streakCount} days\nBadges: ${earnedBadges.length}\n\nThis would download a PDF in production.`);
-            }}
-            className="btn-primary text-sm"
-          >
-            Download PDF Report
-          </button>
-          <button
-            onClick={() => {
-              const csv = `Metric,Value\nLessons Passed,${passedLessons}\nTotal XP,${xp}\nStreak,${streakCount}\nBadges,${earnedBadges.length}`;
-              const blob = new Blob([csv], { type: 'text/csv' });
-              const url = URL.createObjectURL(blob);
-              const a = document.createElement('a');
-              a.href = url;
-              a.download = 'child-progress.csv';
-              a.click();
-            }}
-            className="btn-secondary text-sm"
-          >
-            Download CSV Data
-          </button>
         </div>
       </div>
 

@@ -1,207 +1,176 @@
-import { useState, useEffect, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useStore } from '../store/useStore';
 import { MODULES, isLessonAccessible } from '../data/lessons';
-import { LessonsPageSkeleton } from '../components/Skeleton';
 import { OutOfHeartsModal } from '../components/Feedback';
-import { Lock, Check, Star, Crown } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { CheckCircle2, ChevronRight, Lock, PlayCircle } from 'lucide-react';
+import { useMemo, useState } from 'react';
 
-// Duolingo-style S-curve offsets — nodes zigzag left and right
-const OFFSETS = [0, 1, 1.5, 1, 0, -1, -1.5, -1];
-const AMPLITUDE = 50; // max px offset from center
+const MODULE_EXPLAINERS = {
+  1: 'You are building the language of investing so later choices make sense.',
+  2: 'This module turns vocabulary into action with your first trade decisions.',
+  3: 'You start learning how to think before you click buy or sell.',
+  4: 'Charts help you notice trends instead of guessing.',
+  5: 'Advanced ideas are optional once your foundation is solid.',
+};
 
 export default function LessonsPage() {
   const { completedLessons, hearts } = useStore();
-  const [loading, setLoading] = useState(true);
-  const [showOutOfHearts, setShowOutOfHearts] = useState(false);
   const navigate = useNavigate();
-  
-  useEffect(() => {
-    const t = setTimeout(() => setLoading(false), 600);
-    return () => clearTimeout(t);
-  }, []);
+  const [showOutOfHearts, setShowOutOfHearts] = useState(false);
 
-  const { items, nextId, total } = useMemo(() => {
-    const items = [];
-    let li = 0;
-    let nextId = null;
-    for (const mod of MODULES) {
+  const moduleRows = useMemo(() => {
+    return MODULES.map((mod) => {
       const unlocked =
         mod.id === 1 ||
         completedLessons.some(
-          (c) => c.lessonId === `module-${mod.id - 1}-quiz` && c.score >= 80
+          (entry) => entry.lessonId === `module-${mod.id - 1}-quiz` && entry.score >= 80
         );
-      items.push({ key: `h-${mod.id}`, banner: true, mod, unlocked });
-      let first = true;
-      for (const lesson of mod.lessons) {
-        const done = completedLessons.find((c) => c.lessonId === lesson.id);
-        const quiz = lesson.type === 'quiz';
+
+      const lessons = mod.lessons.map((lesson) => {
+        const result = completedLessons.find((entry) => entry.lessonId === lesson.id);
+        const done = !!result && result.score >= 80;
         const accessible = unlocked && isLessonAccessible(lesson.id, completedLessons);
-        if (!nextId && accessible && !done) nextId = lesson.id;
-        items.push({ key: lesson.id, banner: false, lesson, mod, unlocked, accessible, done, quiz, li, firstInMod: first });
-        li++;
-        first = false;
-      }
-    }
-    return { items, nextId, total: li };
+        return { ...lesson, result, done, accessible };
+      });
+
+      const completedCount = lessons.filter((lesson) => lesson.done).length;
+      const progress = Math.round((completedCount / lessons.length) * 100);
+
+      return { ...mod, unlocked, lessons, completedCount, progress };
+    });
   }, [completedLessons]);
 
-  if (loading) return <LessonsPageSkeleton />;
+  const firstAvailable = moduleRows
+    .flatMap((mod) => mod.lessons)
+    .find((lesson) => lesson.accessible && !lesson.done);
 
-  // Pre-compute positions for curved connectors
-  const NODE_GAP = 100; // vertical spacing between nodes
-  const CX = 180; // center x within the SVG / container
-  const getNodeX = (li) => CX + OFFSETS[li % OFFSETS.length] * AMPLITUDE;
+  const handleLessonClick = (event) => {
+    if (hearts === 0) {
+      event.preventDefault();
+      setShowOutOfHearts(true);
+    }
+  };
 
   return (
-    <div className="max-w-md mx-auto py-4 px-4">
-      <AnimatePresence>
-        {showOutOfHearts && (
-          <OutOfHeartsModal
-            onGoBack={() => setShowOutOfHearts(false)}
-            onGoHome={() => navigate('/')}
-          />
+    <div className="mx-auto max-w-4xl space-y-6">
+      {showOutOfHearts && (
+        <OutOfHeartsModal onGoBack={() => setShowOutOfHearts(false)} onGoHome={() => navigate('/')} />
+      )}
+
+      <div className="rounded-[2rem] border border-orange-100 bg-gradient-to-br from-orange-50 via-white to-white p-8">
+        <div className="inline-flex rounded-full bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-orange-700 ring-1 ring-orange-100">
+          Next step
+        </div>
+        <h1 className="mt-4 text-3xl font-black tracking-tight text-gray-900 sm:text-4xl">
+          Follow one clear learning path
+        </h1>
+        <p className="mt-3 max-w-2xl text-base leading-7 text-gray-600">
+          Start with the next available lesson, pass the checkpoint, and unlock the lesson after that.
+        </p>
+        {firstAvailable && (
+          <Link
+            to={`/lessons/${firstAvailable.id}`}
+            onClick={handleLessonClick}
+            className="mt-6 inline-flex items-center gap-2 rounded-2xl bg-orange-500 px-6 py-3 text-sm font-semibold text-white transition hover:bg-orange-600"
+          >
+            Start {firstAvailable.title}
+            <ChevronRight className="h-4 w-4" />
+          </Link>
         )}
-      </AnimatePresence>
-      
-      <div className="flex flex-col items-center">
-        {items.map((it) => {
-          if (it.banner) {
-            return (
-              <motion.div
-                key={it.key}
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className={`w-full rounded-2xl px-5 py-4 text-center my-5 shadow-sm ${
-                  it.unlocked
-                    ? 'bg-orange-500 text-white shadow-orange-200/50'
-                    : 'bg-gray-200 text-gray-400'
-                }`}
-              >
-                <span className="text-2xl block">{it.mod.icon}</span>
-                <h2 className="text-base font-bold mt-1">{it.mod.title}</h2>
-                {!it.unlocked && (
-                  <p className="flex items-center justify-center gap-1 text-xs mt-1 opacity-80">
-                    <Lock className="w-3 h-3" /> Pass Module {it.mod.id - 1} Quiz
-                  </p>
-                )}
-              </motion.div>
-            );
-          }
+      </div>
 
-          const { lesson, unlocked, accessible, done, quiz, li, firstInMod } = it;
-          const curr = lesson.id === nextId;
-
-          // Positions
-          const nodeX = getNodeX(li);
-          const prevX = firstInMod ? CX : getNodeX(li - 1);
-
-          const passed = done && done.score >= 80;
-          const connColor = passed ? '#22c55e' : done ? '#f59e0b' : curr ? '#fdba74' : '#e5e7eb';
-
-          const size = curr ? 64 : 56;
-          let bg, content;
-          if (passed) {
-            bg = quiz
-              ? 'bg-yellow-400 shadow-lg shadow-yellow-200/60'
-              : 'bg-green-500 shadow-lg shadow-green-200/60';
-            content = <Check className="w-6 h-6 text-white" strokeWidth={3} />;
-          } else if (done) {
-            // Failed (score < 80)
-            bg = 'bg-orange-400 shadow-lg shadow-orange-200/60';
-            content = <span className="text-white text-lg font-bold">✗</span>;
-          } else if (curr) {
-            bg = 'bg-orange-500 shadow-xl shadow-orange-300/60 ring-[5px] ring-orange-100';
-            content = quiz ? <Star className="w-6 h-6 text-white" fill="white" /> : <span className="text-lg font-bold text-white">▶</span>;
-          } else if (accessible) {
-            bg = 'bg-white border-[3px] border-gray-200 shadow-sm';
-            content = quiz ? <Star className="w-5 h-5 text-gray-300" /> : <span className="text-sm font-bold text-gray-400">{li + 1}</span>;
-          } else {
-            bg = 'bg-gray-100';
-            content = <Lock className="w-5 h-5 text-gray-300" />;
-          }
-
-          // Curved connector SVG — bezier from previous node center to this node center
-          const svgW = CX * 2;
-          const svgH = 40;
-          const cpY = svgH / 2;
-          const curvePath = `M ${prevX} 0 C ${prevX} ${cpY}, ${nodeX} ${cpY}, ${nodeX} ${svgH}`;
-
-          const nodeEl = (
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: li * 0.03 }}
-              className="flex flex-col items-center"
-              style={{ width: svgW, position: 'relative' }}
-            >
-              {/* Curved connector line */}
-              <svg width={svgW} height={svgH} style={{ overflow: 'visible', display: 'block' }}>
-                <path
-                  d={curvePath}
-                  fill="none"
-                  stroke={connColor}
-                  strokeWidth={4}
-                  strokeLinecap="round"
-                />
-              </svg>
-              {/* Node circle — positioned at nodeX */}
-              <div
-                className="flex flex-col items-center"
-                style={{ transform: `translateX(${nodeX - CX}px)` }}
-              >
-                <div
-                  className={`rounded-full flex items-center justify-center transition-all ${bg}`}
-                  style={{ width: size, height: size }}
-                >
-                  {content}
+      <div className="space-y-5">
+        {moduleRows.map((mod) => (
+          <section key={mod.id} className="rounded-[1.75rem] border border-gray-200 bg-white p-6">
+            <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+              <div className="max-w-2xl">
+                <div className="flex items-center gap-3">
+                  <div className={`flex h-12 w-12 items-center justify-center rounded-2xl text-xl ${mod.unlocked ? 'bg-orange-50' : 'bg-gray-100'}`}>
+                    <span>{mod.icon}</span>
+                  </div>
+                  <div>
+                    <div className="text-sm font-semibold uppercase tracking-[0.18em] text-gray-500">
+                      Module {mod.id}
+                    </div>
+                    <h2 className="text-2xl font-bold text-gray-900">{mod.title}</h2>
+                  </div>
                 </div>
-                <span
-                  className={`text-xs mt-1.5 text-center max-w-[130px] leading-tight font-medium ${
-                  passed ? 'text-gray-700' : done ? 'text-orange-600' : curr ? 'text-orange-600 font-semibold' : unlocked ? 'text-gray-500' : 'text-gray-300'
+                <p className="mt-4 text-sm leading-6 text-gray-600">{mod.description}</p>
+                <p className="mt-2 text-sm leading-6 text-orange-700">{MODULE_EXPLAINERS[mod.id]}</p>
+              </div>
+
+              <div className="min-w-[220px] rounded-2xl bg-gray-50 px-4 py-4">
+                <div className="flex items-center justify-between text-sm">
+                  <span className="font-semibold text-gray-900">Progress</span>
+                  <span className="text-gray-500">{mod.progress}%</span>
+                </div>
+                <div className="mt-3 h-2 overflow-hidden rounded-full bg-gray-200">
+                  <div className="h-full rounded-full bg-orange-500" style={{ width: `${mod.progress}%` }} />
+                </div>
+                <div className="mt-3 text-xs text-gray-500">
+                  {mod.unlocked
+                    ? `${mod.completedCount} of ${mod.lessons.length} lessons passed`
+                    : `Pass Module ${mod.id - 1} quiz with 80% to unlock`}
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-6 space-y-3">
+              {mod.lessons.map((lesson, index) => (
+                <div
+                  key={lesson.id}
+                  className={`rounded-2xl border px-4 py-4 ${
+                    lesson.done
+                      ? 'border-green-200 bg-green-50/60'
+                      : lesson.accessible
+                      ? 'border-orange-200 bg-white'
+                      : 'border-gray-200 bg-gray-50'
                   }`}
                 >
-                  {lesson.title}
-                </span>
-                {done && <span className={`text-[10px] font-semibold mt-0.5 ${passed ? 'text-green-500' : 'text-orange-500'}`}>{done.score}%</span>}
-              </div>
-            </motion.div>
-          );
+                  <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+                    <div className="min-w-0">
+                      <div className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-400">
+                        {lesson.type === 'quiz' ? 'Checkpoint' : `Lesson ${index + 1}`}
+                      </div>
+                      <div className="mt-1 flex items-center gap-2">
+                        {lesson.done ? (
+                          <CheckCircle2 className="h-5 w-5 text-green-600" />
+                        ) : lesson.accessible ? (
+                          <PlayCircle className="h-5 w-5 text-orange-500" />
+                        ) : (
+                          <Lock className="h-5 w-5 text-gray-400" />
+                        )}
+                        <h3 className="text-lg font-semibold text-gray-900">{lesson.title}</h3>
+                      </div>
+                      <div className="mt-2 text-sm text-gray-500">
+                        {lesson.done && lesson.result ? `Passed with ${lesson.result.score}%` : null}
+                        {!lesson.done && lesson.accessible ? 'This is available now and is the right next step in your path.' : null}
+                        {!lesson.accessible && mod.unlocked ? 'Complete the earlier lessons in order to open this one.' : null}
+                        {!mod.unlocked ? `Locked until Module ${mod.id - 1} is passed.` : null}
+                      </div>
+                    </div>
 
-          if (!accessible) return <div key={it.key}>{nodeEl}</div>;
-
-          const handleClick = (e) => {
-            if (hearts === 0) {
-              e.preventDefault();
-              setShowOutOfHearts(true);
-            }
-          };
-
-          return (
-            <Link key={it.key} to={`/lessons/${lesson.id}`} onClick={handleClick}>
-              {curr ? (
-                <motion.div animate={{ y: [0, -6, 0] }} transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}>
-                  {nodeEl}
-                </motion.div>
-              ) : nodeEl}
-            </Link>
-          );
-        })}
-
-        {/* Finish crown */}
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }} className="flex flex-col items-center mt-2 mb-6" style={{ width: CX * 2 }}>
-          <svg width={CX * 2} height={40} style={{ overflow: 'visible', display: 'block' }}>
-            <path
-              d={`M ${getNodeX(total - 1)} 0 C ${getNodeX(total - 1)} 20, ${CX} 20, ${CX} 40`}
-              fill="none" stroke="#fbbf24" strokeWidth={4} strokeLinecap="round"
-            />
-          </svg>
-          <div className="w-16 h-16 rounded-full bg-gradient-to-br from-yellow-300 to-yellow-500 flex items-center justify-center shadow-lg shadow-yellow-200/50">
-            <Crown className="w-8 h-8 text-white" />
-          </div>
-          <span className="text-sm font-bold text-yellow-600 mt-2">Master Investor!</span>
-        </motion.div>
+                    {lesson.accessible ? (
+                      <Link
+                        to={`/lessons/${lesson.id}`}
+                        onClick={handleLessonClick}
+                        className={`inline-flex items-center justify-center rounded-2xl px-4 py-2 text-sm font-semibold ${
+                          lesson.done
+                            ? 'border border-gray-300 bg-white text-gray-800 hover:bg-gray-50'
+                            : 'bg-orange-500 text-white hover:bg-orange-600'
+                        }`}
+                      >
+                        {lesson.done ? 'Review lesson' : 'Start now'}
+                      </Link>
+                    ) : (
+                      <div className="text-xs font-medium text-gray-400">Not ready yet</div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        ))}
       </div>
     </div>
   );

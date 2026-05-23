@@ -1,0 +1,45 @@
+
+> stockquest-client@1.0.0 dev
+> vite --host localhost
+
+
+  [32m[1mVITE[22m v5.4.21[39m  [2mready in [0m[1m826[22m[2m[0m ms[22m
+
+  [32m➜[39m  [1mLocal[22m:   [36mhttp://localhost:[1m3000[22m/[39m
+[2m[32m  ➜[39m[22m[2m  press [22m[1mh + enter[22m[2m to show help[22m
+[2m10:24:10 AM[22m [33m[1m[vite][22m[39m [33mwarning: [33mThe character "}" is not valid inside a JSX element[33m
+80 |                </button>);
+81 |  
+82 |            })}}
+   |               ^
+83 |          </div>
+84 |          <p className="text-xs text-gray-400">Enter any 4 digits for this demo</p>
+[39m
+  Plugin: [35mvite:esbuild[39m
+  File: [36mC:/Users/Connor.Sawaya29/OneDrive - Bellarmine College Preparatory/Documents/Vscode Python/HACKATHON/Synthesis hacks/StockQuest-master/StockQuest-master/client/src/pages/ParentalDashboard.jsx[39m
+[2m10:30:53 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx, /src/index.css[22m
+[2m10:30:58 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx, /src/index.css[22m
+[2m10:31:43 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Landing.jsx, /src/index.css[22m
+[2m10:32:04 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Landing.jsx, /src/index.css[22m
+[2m10:32:27 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/SignIn.jsx, /src/index.css[22m
+[2m10:38:50 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/Navbar.jsx, /src/index.css[22m
+[2m10:38:50 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/Navbar.jsx, /src/index.css[22m
+[2m10:38:50 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx, /src/index.css[22m
+[2m10:40:07 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Landing.jsx, /src/index.css[22m
+[2m10:40:07 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx, /src/index.css[22m
+[2m10:42:41 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/TradingSimulator.jsx, /src/index.css[22m
+[2m10:44:44 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/LessonsPage.jsx, /src/index.css[22m
+[2m10:44:44 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/TradingSimulator.jsx[22m
+[2m10:47:06 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/SettingsPage.jsx, /src/index.css[22m
+[2m10:47:06 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Profile.jsx, /src/index.css[22m
+[2m10:48:02 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/ParentalDashboard.jsx, /src/index.css[22m
+[2m10:48:02 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/SignIn.jsx, /src/index.css[22m
+[2m11:00:18 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx, /src/index.css, /src/components/AdminPanel.jsx, /src/pages/LessonsPage.jsx, /src/pages/LessonScreen.jsx, /src/pages/Dashboard.jsx, /src/pages/Landing.jsx, /src/pages/Profile.jsx, /src/pages/SettingsPage.jsx, /src/pages/ParentalDashboard.jsx, /src/components/Navbar.jsx, /src/pages/SignIn.jsx, /src/pages/TradingSimulator.jsx[22m
+[2m11:02:04 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx, /src/index.css[22m
+[2m11:02:04 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx, /src/index.css[22m
+[2m11:02:04 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Landing.jsx, /src/index.css[22m
+[2m11:02:04 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/Navbar.jsx, /src/index.css[22m
+[2m11:06:02 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx, /src/index.css[22m
+[2m11:06:02 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx, /src/index.css[22m
+[2m11:06:02 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/SignIn.jsx, /src/index.css[22m
+[2m11:06:48 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/ParentalDashboard.jsx, /src/index.css[22m

@@ -1,101 +1,132 @@
+import { Link } from 'react-router-dom';
 import { useStore } from '../store/useStore';
-import { ALL_BADGES, MODULES, getModuleProgress } from '../data/lessons';
-import { BadgeCard, XPBar, StatCard } from '../components/Gamification';
-import { PortfolioChart } from '../components/Charts';
-import { motion } from 'framer-motion';
-import { Award, BookOpen, TrendingUp, Flame, Target } from 'lucide-react';
+import { ALL_BADGES, MODULES } from '../data/lessons';
+import { BadgeCard } from '../components/Gamification';
+import { Award, ChevronRight, Flame, Settings, Shield, Target, TrendingUp, Zap } from 'lucide-react';
 
 export default function Profile() {
-  const {
-    xp, streakCount, hearts, earnedBadges, completedLessons,
-    cash, holdings, transactions,
-  } = useStore();
+  const { user, xp, streakCount, earnedBadges, completedLessons, transactions, holdings } = useStore();
   const level = Math.floor(xp / 100) + 1;
-  const totalLessons = MODULES.reduce((sum, m) => sum + m.lessons.length, 0);
-
-  // Generate mock portfolio history
-  const portfolioHistory = Array.from({ length: 30 }, (_, i) => ({
-    label: `Day ${i + 1}`,
-    value: 10000 + Math.random() * 500 * Math.sin(i * 0.3) + i * 20,
-  }));
+  const totalLessons = MODULES.reduce((sum, mod) => sum + mod.lessons.length, 0);
+  const passedLessons = completedLessons.filter((item) => item.score >= 80).length;
+  const progressPercent = Math.round((passedLessons / totalLessons) * 100);
 
   return (
-    <div className="max-w-3xl mx-auto">
-      {/* Profile header */}
-      <div className="card mb-6">
-        <div className="flex items-center gap-4">
-          <div className="w-14 h-14 bg-orange-100 rounded-xl flex items-center justify-center text-3xl flex-shrink-0">
-            🧑‍💼
+    <div className="mx-auto max-w-4xl space-y-6">
+      <div className="rounded-[2rem] border border-orange-100 bg-gradient-to-br from-orange-50 via-white to-white p-8">
+        <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+          <div className="flex items-center gap-4">
+            <div className="flex h-16 w-16 items-center justify-center rounded-3xl bg-white text-lg font-bold text-orange-700 shadow-sm ring-1 ring-orange-100">
+              ST
+            </div>
+            <div>
+              <h1 className="text-3xl font-black tracking-tight text-gray-900">{user?.name || 'Stock Trader'}</h1>
+              <p className="mt-1 text-sm text-gray-500">{user?.email || 'student@example.com'}</p>
+              <p className="mt-2 text-sm text-orange-700">Your motivation lives here: progress, milestones, and account tools in one calmer place.</p>
+            </div>
           </div>
-          <div className="flex-1 min-w-0">
-            <h1 className="text-lg font-bold text-gray-900">Stock Trader</h1>
-            <div className="text-sm text-gray-500 mb-2">Level {level}</div>
-            <XPBar xp={xp} />
+          <div className="rounded-[1.5rem] bg-white px-5 py-4 ring-1 ring-orange-100">
+            <div className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-400">Current level</div>
+            <div className="mt-1 text-3xl font-bold text-gray-900">{level}</div>
+            <div className="text-sm text-gray-500">{xp} total XP earned</div>
           </div>
         </div>
       </div>
 
-      {/* Stats grid */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-        <StatCard icon="⭐" label="Total XP" value={xp} color="primary" />
-        <StatCard icon="🔥" label="Streak" value={`${streakCount}d`} color="warning" />
-        <StatCard icon="📚" label="Lessons" value={`${completedLessons.length}/${totalLessons}`} color="success" />
-        <StatCard icon="💰" label="Trades" value={transactions.length} color="primary" />
-      </div>
-
-      {/* Portfolio chart */}
-      <div className="card mb-6">
-        <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-          <TrendingUp className="w-5 h-5 text-orange-500" />
-          Portfolio Performance
-        </h2>
-        <PortfolioChart data={portfolioHistory} />
-      </div>
-
-      {/* Badges */}
-      <div className="card mb-6">
-        <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-          <Award className="w-5 h-5 text-warning-500" />
-          Badges ({earnedBadges.length}/{ALL_BADGES.length})
-        </h2>
-        <div className="grid grid-cols-3 md:grid-cols-5 gap-3">
-          {ALL_BADGES.map((badge) => {
-            const earned = earnedBadges.find((b) => b.id === badge.id);
-            return <BadgeCard key={badge.id} badge={badge} earned={!!earned} />;
-          })}
+      <div className="grid gap-4 md:grid-cols-4">
+        <div className="rounded-[1.5rem] border border-gray-200 bg-white p-5">
+          <div className="flex items-center gap-2 text-sm text-gray-500">
+            <Target className="h-4 w-4 text-orange-500" />
+            Progress
+          </div>
+          <div className="mt-3 text-2xl font-bold text-gray-900">{progressPercent}%</div>
+          <div className="text-sm text-gray-500">Learning path complete</div>
+        </div>
+        <div className="rounded-[1.5rem] border border-gray-200 bg-white p-5">
+          <div className="flex items-center gap-2 text-sm text-gray-500">
+            <Flame className="h-4 w-4 text-orange-500" />
+            Streak
+          </div>
+          <div className="mt-3 text-2xl font-bold text-gray-900">{streakCount}d</div>
+          <div className="text-sm text-gray-500">Days in a row</div>
+        </div>
+        <div className="rounded-[1.5rem] border border-gray-200 bg-white p-5">
+          <div className="flex items-center gap-2 text-sm text-gray-500">
+            <Award className="h-4 w-4 text-orange-500" />
+            Badges
+          </div>
+          <div className="mt-3 text-2xl font-bold text-gray-900">{earnedBadges.length}</div>
+          <div className="text-sm text-gray-500">Unlocked so far</div>
+        </div>
+        <div className="rounded-[1.5rem] border border-gray-200 bg-white p-5">
+          <div className="flex items-center gap-2 text-sm text-gray-500">
+            <TrendingUp className="h-4 w-4 text-orange-500" />
+            Practice trades
+          </div>
+          <div className="mt-3 text-2xl font-bold text-gray-900">{transactions.length}</div>
+          <div className="text-sm text-gray-500">{holdings.length} active holdings</div>
         </div>
       </div>
 
-      {/* Module progress */}
-      <div className="card">
-        <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-          <Target className="w-5 h-5 text-orange-500" />
-          Module Progress
-        </h2>
-        <div className="space-y-4">
-          {MODULES.map((mod) => {
-            const progress = getModuleProgress(mod.id, completedLessons);
-            return (
-              <div key={mod.id}>
-                <div className="flex items-center justify-between mb-1">
-                  <span className="text-sm font-medium text-gray-700">
-                    {mod.icon} {mod.title}
-                  </span>
-                  <span className="text-xs text-gray-500">{progress}%</span>
+      <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
+        <div className="rounded-[1.75rem] border border-gray-200 bg-white p-6">
+          <div className="flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.18em] text-orange-700">
+            <Award className="h-4 w-4" />
+            Badge collection
+          </div>
+          <h2 className="mt-3 text-2xl font-bold text-gray-900">Celebrate your milestones</h2>
+          <div className="mt-5 grid grid-cols-3 gap-3 md:grid-cols-5">
+            {ALL_BADGES.map((badge) => {
+              const earned = earnedBadges.find((entry) => entry.id === badge.id);
+              return <BadgeCard key={badge.id} badge={badge} earned={!!earned} />;
+            })}
+          </div>
+        </div>
+
+        <div className="space-y-6">
+          <div className="rounded-[1.75rem] border border-gray-200 bg-white p-6">
+            <div className="flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.18em] text-orange-700">
+              <Zap className="h-4 w-4" />
+              Keep going
+            </div>
+            <h2 className="mt-3 text-2xl font-bold text-gray-900">What your progress means</h2>
+            <p className="mt-3 text-sm leading-6 text-gray-600">
+              Your level shows consistency. Your badges show milestones. Your streak shows momentum. The goal is steady confidence, not rushing.
+            </p>
+          </div>
+
+          <div className="rounded-[1.75rem] border border-gray-200 bg-white p-6">
+            <div className="text-sm font-semibold uppercase tracking-[0.18em] text-orange-700">Account tools</div>
+            <div className="mt-4 space-y-2">
+              <Link
+                to="/settings"
+                className="flex items-center justify-between rounded-2xl bg-gray-50 px-4 py-4 text-sm text-gray-700 hover:bg-gray-100"
+              >
+                <div className="flex items-center gap-3">
+                  <Settings className="h-4 w-4 text-orange-500" />
+                  <div>
+                    <div className="font-semibold text-gray-900">Settings</div>
+                    <div className="text-xs text-gray-500">Difficulty, reminders, and preferences</div>
+                  </div>
                 </div>
-                <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
-                  <motion.div
-                    className={`h-full rounded-full ${
-                      progress === 100 ? 'bg-success-500' : 'bg-orange-500'
-                    }`}
-                    initial={{ width: 0 }}
-                    animate={{ width: `${progress}%` }}
-                    transition={{ duration: 0.5 }}
-                  />
+                <ChevronRight className="h-4 w-4 text-gray-400" />
+              </Link>
+
+              <Link
+                to="/parental"
+                className="flex items-center justify-between rounded-2xl bg-gray-50 px-4 py-4 text-sm text-gray-700 hover:bg-gray-100"
+              >
+                <div className="flex items-center gap-3">
+                  <Shield className="h-4 w-4 text-orange-500" />
+                  <div>
+                    <div className="font-semibold text-gray-900">Parental dashboard</div>
+                    <div className="text-xs text-gray-500">Progress and support controls for adults</div>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+                <ChevronRight className="h-4 w-4 text-gray-400" />
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
     </div>

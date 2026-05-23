@@ -176,6 +176,36 @@ export const useStore = create((set, get) => ({
   notifications: true,
   setNotifications: (n) => set({ notifications: n }),
 
+  currentChallengeId: 'snackbot-hype',
+  completedChallenges: [],
+  challengeResponses: [],
+  setCurrentChallenge: (challengeId) => set({ currentChallengeId: challengeId }),
+  completeChallenge: (challengeId, payload) =>
+    set((s) => {
+      const today = new Date().toDateString();
+      const yesterday = new Date(Date.now() - 86400000).toDateString();
+      const streakCount =
+        s.streakLastDate === today
+          ? s.streakCount
+          : s.streakLastDate === yesterday
+          ? s.streakCount + 1
+          : 1;
+
+      return {
+        currentChallengeId: challengeId,
+        completedChallenges: s.completedChallenges.includes(challengeId)
+          ? s.completedChallenges
+          : [...s.completedChallenges, challengeId],
+        challengeResponses: [
+          ...s.challengeResponses.filter((response) => response.challengeId !== challengeId),
+          { challengeId, completedAt: Date.now(), ...payload },
+        ],
+        xp: s.xp + (payload.xpEarned || 0),
+        streakCount,
+        streakLastDate: s.streakLastDate === today ? s.streakLastDate : today,
+      };
+    }),
+
   // ── Admin ────────────────────────────────────────────
   adminMode: false,
   toggleAdminMode: () => set((s) => ({ adminMode: !s.adminMode })),
