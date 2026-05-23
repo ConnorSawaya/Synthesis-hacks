@@ -216,7 +216,7 @@ export default function LessonScreen() {
 
   return (
     <div className="max-w-2xl mx-auto">
-      {/* Out of hearts â€” blocks lesson */}
+      {/* Out of hearts - blocks lesson */}
       <AnimatePresence>
         {showOutOfHearts && noHearts && !reviewMode && (
           <OutOfHeartsModal

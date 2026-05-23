@@ -7,6 +7,7 @@ export const CHART_COMPARE_COLORS = ['#3B82F6', '#F59E0B', '#D946EF', '#8B5CF6',
 const CHART_AXIS = '#93A3AF';
 const CHART_SURFACE = '#101720';
 const CHART_BORDER = '#2A3848';
+const CHART_LIGHT_GRID = '#E5E7EB';
 
 export function SparkLine({ data, color = CHART_UP, height = 40, width = 120 }) {
   const chartData = data.map((value, index) => ({ index, value }));
@@ -57,6 +58,15 @@ function getPortfolioYAxisTicks(data) {
   const step = 250;
   const start = Math.floor(min / step) * step;
   const end = Math.ceil(max / step) * step;
+
+  if (min === max) {
+    const lower = Math.max(0, start - step);
+    const centeredTicks = [lower, start, start + step].filter(
+      (value, index, list) => list.indexOf(value) === index
+    );
+    return centeredTicks.length > 1 ? centeredTicks : [0, step];
+  }
+
   const ticks = [];
 
   for (let value = start; value <= end; value += step) {
@@ -155,6 +165,7 @@ export function StockLineChart({ data, comparisons = [], height = 300, primaryLa
     <ResponsiveContainer width="100%" height={height}>
       {hasComparison ? (
         <LineChart data={chartData} margin={{ top: 12, right: 18, left: 8, bottom: 22 }}>
+          <CartesianGrid stroke={CHART_BORDER} strokeDasharray="4 4" vertical={false} />
           <XAxis
             dataKey="day"
             tick={{ fontSize: 12, fill: CHART_AXIS }}
@@ -221,6 +232,7 @@ export function StockLineChart({ data, comparisons = [], height = 300, primaryLa
         </LineChart>
       ) : (
         <AreaChart data={chartData} margin={{ top: 12, right: 18, left: 8, bottom: 22 }}>
+          <CartesianGrid stroke={CHART_BORDER} strokeDasharray="4 4" vertical={false} />
           <XAxis
             dataKey="day"
             tick={{ fontSize: 12, fill: CHART_AXIS }}
@@ -286,8 +298,8 @@ export function PortfolioChart({ data, height = 250 }) {
 
   return (
     <ResponsiveContainer width="100%" height={height}>
-      <AreaChart data={data} margin={{ top: 10, right: 12, left: 6, bottom: 20 }}>
-        <CartesianGrid stroke={CHART_BORDER} strokeDasharray="4 4" vertical={true} horizontal={true} />
+      <AreaChart data={data} margin={{ top: 10, right: 18, left: 10, bottom: 30 }}>
+        <CartesianGrid stroke={CHART_LIGHT_GRID} strokeDasharray="4 4" vertical={true} horizontal={true} />
         <XAxis
           type="number"
           dataKey="timestamp"
@@ -297,7 +309,7 @@ export function PortfolioChart({ data, height = 250 }) {
           tickLine={false}
           axisLine={false}
           tickFormatter={formatTimeTick}
-          label={{ value: 'Time', position: 'insideBottom', offset: -10, fill: CHART_AXIS, fontSize: 12 }}
+          label={{ value: 'Time', position: 'insideBottom', offset: -12, fill: CHART_AXIS, fontSize: 12 }}
           minTickGap={24}
         />
         <YAxis
@@ -307,9 +319,9 @@ export function PortfolioChart({ data, height = 250 }) {
           tickLine={false}
           axisLine={false}
           tickFormatter={(v) => `$${Number(v).toFixed(0)}`}
-          width={70}
+          width={86}
           label={{
-            value: 'Portfolio value',
+            value: 'Portfolio value ($)',
             angle: -90,
             position: 'insideLeft',
             fill: CHART_AXIS,

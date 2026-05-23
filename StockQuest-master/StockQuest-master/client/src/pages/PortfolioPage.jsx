@@ -206,7 +206,7 @@ export default function PortfolioPage() {
               <div>
                 <div className="text-sm font-semibold uppercase tracking-[0.18em] text-orange-700">Portfolio value graph</div>
                 <p className="mt-2 max-w-2xl text-sm leading-6 text-gray-600">
-                  This graph follows your full portfolio value after each market move, including both cash and active holdings.
+                  This graph follows your cash plus the live value of any shares you still own.
                 </p>
               </div>
               <div className="text-sm font-semibold text-gray-500">

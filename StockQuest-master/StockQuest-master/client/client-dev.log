@@ -985,3 +985,15 @@ Re-optimizing dependencies because lockfile has changed
 [2m3:05:32 PM[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/lib/portfolio.test.js[22m
 [2m3:05:32 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/PortfolioPage.jsx, /src/index.css[22m
 [2m3:06:18 PM[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/lib/portfolio.test.js[22m
+[2m3:14:44 PM[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/lib/portfolio.test.js[22m
+[2m3:14:44 PM[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/lib/portfolio.test.js[22m
+[2m3:16:05 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/Charts.jsx, /src/index.css[22m
+[2m3:16:05 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/Charts.jsx, /src/index.css[22m
+[2m3:16:05 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/PortfolioPage.jsx, /src/index.css[22m
+[2m3:16:06 PM[22m [36m[1m[vite][22m[39m [33mhmr invalidate [39m[2m/src/components/Charts.jsx[22m Could not Fast Refresh ("CHART_COMPARE_COLORS" export is incompatible). Learn more at https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react#consistent-components-exports
+[2m3:16:06 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css, /src/pages/TradingSimulator.jsx, /src/pages/PortfolioPage.jsx[22m
+[2m3:26:10 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx, /src/index.css[22m
+[2m3:26:11 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx, /src/index.css[22m
+[2m3:26:32 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx, /src/index.css[22m
+[2m3:27:44 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/LessonScreen.jsx, /src/index.css[22m
+[2m3:27:44 PM[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/pages/Landing_backup.jsx[22m

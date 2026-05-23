@@ -1,9 +1,27 @@
 import { Link } from 'react-router-dom';
+import {
+  BarChart3,
+  BookOpen,
+  CheckCircle2,
+  ChevronRight,
+  Clock3,
+  Flame,
+  GraduationCap,
+  Lock,
+  Newspaper,
+  Target,
+  TrendingUp,
+  Wallet,
+} from 'lucide-react';
 import { useStore } from '../store/useStore';
-import { MODULES, getModuleProgress } from '../data/lessons';
-import { BookOpen, ChevronRight, Flame, Newspaper, Target, TrendingUp, Zap } from 'lucide-react';
+import { MODULES, getLessonById, getLessonCashReward, getModuleProgress } from '../data/lessons';
 import { MARKET_CHALLENGES } from '../data/challenges';
 import { getPassedLessonCount, isChallengeUnlocked, isMarketUnlocked } from '../lib/progression';
+import { getTotalPortfolioValue } from '../lib/portfolio';
+
+function formatMoney(value) {
+  return `$${Number(value || 0).toFixed(2)}`;
+}
 
 function getNextLesson(completedLessons) {
   for (const mod of MODULES) {
@@ -16,314 +34,414 @@ function getNextLesson(completedLessons) {
   return null;
 }
 
+function getLatestCompletedLesson(completedLessons) {
+  const latestEntry = completedLessons
+    .filter((entry) => entry.score >= 80)
+    .sort((left, right) => (right.completedAt || 0) - (left.completedAt || 0))[0];
+
+  if (!latestEntry) return null;
+
+  const lesson = getLessonById(latestEntry.lessonId);
+  if (!lesson) return null;
+
+  return { ...lesson, result: latestEntry };
+}
+
+function DashboardAction({ to, label, description, icon: Icon, locked = false }) {
+  const content = (
+    <div className={`h-full rounded-[1.5rem] border p-5 transition ${
+      locked
+        ? 'border-gray-200 bg-gray-50 text-gray-400'
+        : 'border-gray-200 bg-white text-gray-900 hover:border-orange-300 hover:shadow-sm'
+    }`}>
+      <div className="flex items-start justify-between gap-3">
+        <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-orange-50 text-orange-600">
+          <Icon className="h-5 w-5" />
+        </div>
+        {locked ? <Lock className="h-4 w-4" /> : <ChevronRight className="h-5 w-5 text-orange-500" />}
+      </div>
+      <div className="mt-5 text-lg font-bold">{label}</div>
+      <p className="mt-2 text-sm leading-6 text-gray-500">{description}</p>
+    </div>
+  );
+
+  return locked ? content : <Link to={to}>{content}</Link>;
+}
+
 export default function Dashboard() {
-  const { xp, streakCount, completedLessons, holdings, completedChallenges, cash } = useStore();
+  const {
+    xp,
+    streakCount,
+    completedLessons,
+    holdings,
+    transactions,
+    completedChallenges,
+    cash,
+    marketSimulation,
+  } = useStore();
+
   const level = Math.floor(xp / 100) + 1;
   const totalLessons = MODULES.reduce((sum, mod) => sum + mod.lessons.length, 0);
   const passedLessons = getPassedLessonCount(completedLessons);
-  const challengeProgress = Math.round((completedChallenges.length / MARKET_CHALLENGES.length) * 100);
-  const nextLesson = getNextLesson(completedLessons);
   const progressPercent = Math.round((passedLessons / totalLessons) * 100);
+  const challengeProgress = MARKET_CHALLENGES.length
+    ? Math.round((completedChallenges.length / MARKET_CHALLENGES.length) * 100)
+    : 0;
+  const nextLesson = getNextLesson(completedLessons);
+  const latestCompletedLesson = getLatestCompletedLesson(completedLessons);
   const activeModule = nextLesson
     ? MODULES.find((mod) => mod.id === nextLesson.moduleId)
     : MODULES[MODULES.length - 1];
-  const activeModuleProgress = activeModule
-    ? getModuleProgress(activeModule.id, completedLessons)
-    : 100;
+  const activeModuleProgress = activeModule ? getModuleProgress(activeModule.id, completedLessons) : 100;
   const challengeUnlocked = isChallengeUnlocked(completedLessons);
   const marketUnlocked = isMarketUnlocked(completedLessons);
+  const lessonCashEarned = completedLessons.reduce(
+    (sum, lesson) => sum + Number(lesson.cashEarned || 0),
+    0
+  );
+  const nextLessonCashReward = nextLesson
+    ? getLessonCashReward(nextLesson, marketUnlocked)
+    : 0;
+  const portfolioValue = marketUnlocked
+    ? getTotalPortfolioValue(cash, holdings, marketSimulation)
+    : cash;
+  const openPositions = holdings.filter((holding) => holding.shares > 0).length;
+  const nextAction = (() => {
+    if (!challengeUnlocked && nextLesson) {
+      return {
+        eyebrow: 'Today\'s next step',
+        title: `Continue: ${nextLesson.title}`,
+        body: `You are working through ${nextLesson.moduleName}. Pass with 80% or higher to keep the path moving.`,
+        to: `/lessons/${nextLesson.id}`,
+        label: 'Continue lesson',
+      };
+    }
+
+    if (challengeUnlocked && !marketUnlocked) {
+      return {
+        eyebrow: 'Today\'s next step',
+        title: 'Practice one market decision',
+        body: 'Use a challenge to slow down, check the evidence, and explain why a trade might be risky.',
+        to: '/challenge',
+        label: 'Open challenge',
+      };
+    }
+
+    if (marketUnlocked && openPositions === 0) {
+      return {
+        eyebrow: 'Today\'s next step',
+        title: 'Use your lesson cash carefully',
+        body: 'Search a company, compare it with another stock, and make a small practice trade only if the reason makes sense.',
+        to: '/trade',
+        label: 'Open market',
+      };
+    }
+
+    if (marketUnlocked) {
+      return {
+        eyebrow: 'Today\'s next step',
+        title: 'Review what changed in your portfolio',
+        body: 'Your holdings now move with the market. Check whether the change came from price movement, buying, or selling.',
+        to: '/portfolio',
+        label: 'Review portfolio',
+      };
+    }
+
+    return {
+      eyebrow: 'Today\'s next step',
+      title: 'Review lessons',
+      body: 'You have completed the main lesson path. Keep practicing so the ideas stay fresh.',
+      to: '/lessons',
+      label: 'Review lessons',
+    };
+  })();
+
+  const pathSteps = [
+    {
+      label: 'Stock Basics',
+      detail: `${Math.min(activeModuleProgress, 100)}% in current module`,
+      status: marketUnlocked ? 'Complete' : 'Current',
+      tone: marketUnlocked ? 'complete' : 'current',
+      icon: BookOpen,
+    },
+    {
+      label: 'Challenge',
+      detail: challengeUnlocked ? `${challengeProgress}% complete` : 'Pass 1 lesson',
+      status: !challengeUnlocked ? 'Locked' : marketUnlocked ? 'Complete' : 'Current',
+      tone: !challengeUnlocked ? 'locked' : marketUnlocked ? 'complete' : 'current',
+      icon: Target,
+    },
+    {
+      label: 'Market',
+      detail: marketUnlocked ? `${transactions.length} trades made` : 'Pass Module 1 quiz',
+      status: !marketUnlocked ? 'Locked' : transactions.length > 0 ? 'In use' : 'Ready',
+      tone: !marketUnlocked ? 'locked' : transactions.length > 0 ? 'current' : 'ready',
+      icon: TrendingUp,
+    },
+    {
+      label: 'Portfolio',
+      detail: marketUnlocked ? `${openPositions} open positions` : 'Unlocks with market',
+      status: !marketUnlocked ? 'Locked' : openPositions > 0 ? 'In use' : 'Ready',
+      tone: !marketUnlocked ? 'locked' : openPositions > 0 ? 'current' : 'ready',
+      icon: BarChart3,
+    },
+    {
+      label: 'News',
+      detail: marketUnlocked ? 'Connect headlines to prices' : 'Unlocks with market',
+      status: marketUnlocked ? 'Ready' : 'Locked',
+      tone: marketUnlocked ? 'ready' : 'locked',
+      icon: Newspaper,
+    },
+  ];
 
   return (
-    <div className="mx-auto max-w-6xl space-y-6">
-      <div className="rounded-[2rem] border border-orange-100 bg-gradient-to-br from-orange-50 via-white to-white p-8 shadow-sm">
-        <div className="grid gap-8 xl:grid-cols-[1.3fr_0.7fr]">
-          <div>
+    <div className="mx-auto max-w-7xl space-y-6">
+      <section className="grid gap-5 xl:grid-cols-[minmax(0,1.45fr)_minmax(22rem,0.55fr)]">
+        <div className="rounded-[2rem] border border-gray-200 bg-white p-7">
+          <div className="inline-flex items-center gap-2 rounded-full border border-orange-200 bg-orange-50 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-orange-700">
+            <GraduationCap className="h-4 w-4" />
+            {nextAction.eyebrow}
+          </div>
+          <h1 className="mt-5 max-w-3xl text-3xl font-black tracking-tight text-gray-900 sm:text-4xl">
+            {nextAction.title}
+          </h1>
+          <p className="mt-3 max-w-2xl text-base leading-7 text-gray-600">
+            {nextAction.body}
+          </p>
+
+          <div className="mt-6 flex flex-wrap gap-3">
+            <Link
+              to={nextAction.to}
+              className="inline-flex items-center gap-2 rounded-2xl bg-orange-500 px-5 py-3 text-sm font-semibold text-white transition hover:bg-orange-600"
+            >
+              {nextAction.label}
+              <ChevronRight className="h-4 w-4" />
+            </Link>
+            <Link
+              to="/lessons"
+              className="inline-flex items-center gap-2 rounded-2xl border border-gray-300 bg-white px-5 py-3 text-sm font-semibold text-gray-900 transition hover:bg-gray-50"
+            >
+              Review lessons
+            </Link>
             {marketUnlocked ? (
-              <>
-                <h1 className="text-3xl font-black tracking-tight text-gray-900 sm:text-4xl">
-                  The market is open
-                </h1>
-                <p className="mt-3 max-w-2xl text-base leading-7 text-gray-600">
-                  Use simulated cash, follow prices, and test decisions in a simpler market.
-                </p>
-                <div className="mt-6 flex flex-wrap gap-3">
-                  <Link to="/trade" className="rounded-2xl bg-orange-500 px-6 py-3 text-sm font-semibold text-white transition hover:bg-orange-600">
-                    Open Market
-                  </Link>
-                  <Link to="/news" className="rounded-2xl border border-gray-300 bg-white px-6 py-3 text-sm font-semibold text-gray-900 transition hover:bg-gray-50">
-                    Read finance news
-                  </Link>
-                  <Link to="/lessons" className="rounded-2xl border border-gray-300 bg-white px-6 py-3 text-sm font-semibold text-gray-900 transition hover:bg-gray-50">
-                    Review lessons
-                  </Link>
-                </div>
-              </>
-            ) : challengeUnlocked ? (
-              <>
-                <h1 className="text-3xl font-black tracking-tight text-gray-900 sm:text-4xl">
-                  Can you handle today&apos;s market challenge?
-                </h1>
-                <p className="mt-3 max-w-2xl text-base leading-7 text-gray-600">
-                  Spot hype, manage risk, and build steady decision-making.
-                </p>
-                <div className="mt-6 flex flex-wrap gap-4">
-                  <Link to="/challenge" className="rounded-2xl bg-orange-500 px-6 py-3 text-sm font-semibold text-white transition hover:bg-orange-600">
-                    Start Market Challenge
-                  </Link>
-                  <Link to="/lessons" className="rounded-2xl border border-gray-300 bg-white px-6 py-3 text-sm font-semibold text-gray-900 transition hover:bg-gray-50">
-                    Lessons
-                  </Link>
-                </div>
-              </>
-            ) : (
-              <>
-                <h1 className="text-3xl font-black tracking-tight text-gray-900 sm:text-4xl">
-                  Start with learning
-                </h1>
-                <p className="mt-3 max-w-2xl text-base leading-7 text-gray-600">
-                  Finish your first lesson and score at least 80% to unlock the next step.
-                </p>
-                <div className="mt-3 text-sm font-semibold text-green-700">
-                  Passed lessons build your market cash before trading opens.
-                </div>
-                <div className="mt-6">
-                  <Link to="/lessons" className="inline-flex rounded-2xl bg-orange-500 px-6 py-3 text-sm font-semibold text-white transition hover:bg-orange-600">
-                    Start learning
-                  </Link>
-                </div>
-              </>
-            )}
+              <Link
+                to="/news"
+                className="inline-flex items-center gap-2 rounded-2xl border border-gray-300 bg-white px-5 py-3 text-sm font-semibold text-gray-900 transition hover:bg-gray-50"
+              >
+                Read finance news
+              </Link>
+            ) : null}
           </div>
 
-          <div className="rounded-[1.75rem] border border-gray-200 bg-white p-6">
-            <div className="text-sm font-semibold uppercase tracking-[0.18em] text-gray-500">
-              {marketUnlocked ? 'Account' : 'Progress'}
+          <div className="mt-7 grid gap-3 sm:grid-cols-3">
+            <div className="rounded-[1.25rem] bg-gray-50 px-4 py-4">
+              <div className="text-xs font-semibold uppercase tracking-[0.16em] text-gray-400">Lessons passed</div>
+              <div className="mt-2 text-2xl font-black text-gray-900">{passedLessons}/{totalLessons}</div>
             </div>
-            <div className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-1">
-              {marketUnlocked && (
-                <div className="flex items-center justify-between rounded-2xl bg-orange-50 px-4 py-3">
-                  <div className="flex items-center gap-2 text-sm text-gray-600">
-                    <TrendingUp className="h-4 w-4 text-orange-500" />
-                    Market access
-                  </div>
-                  <div className="font-bold text-gray-900">Open</div>
-                </div>
-              )}
-              {marketUnlocked && (
-                <>
-                  <div className="flex items-center justify-between rounded-2xl bg-orange-50 px-4 py-3">
-                    <div className="flex items-center gap-2 text-sm text-gray-600">
-                      <Newspaper className="h-4 w-4 text-orange-500" />
-                      Finance news
-                    </div>
-                    <div className="font-bold text-gray-900">Open</div>
-                  </div>
-                  <div className="flex items-center justify-between rounded-2xl bg-orange-50 px-4 py-3">
-                    <div className="flex items-center gap-2 text-sm text-gray-600">
-                      <TrendingUp className="h-4 w-4 text-orange-500" />
-                      Portfolio
-                    </div>
-                    <div className="font-bold text-gray-900">Open</div>
-                  </div>
-                </>
-              )}
-              {challengeUnlocked && (
-                <div className="flex items-center justify-between rounded-2xl bg-orange-50 px-4 py-3">
-                  <div className="flex items-center gap-2 text-sm text-gray-600">
-                    <Target className="h-4 w-4 text-orange-500" />
-                    Challenge progress
-                  </div>
-                  <div className="font-bold text-gray-900">{challengeProgress}%</div>
-                </div>
-              )}
-              <div className="flex items-center justify-between rounded-2xl bg-orange-50 px-4 py-3">
-                <div className="flex items-center gap-2 text-sm text-gray-600">
-                  <Target className="h-4 w-4 text-orange-500" />
-                  Overall progress
-                </div>
-                <div className="font-bold text-gray-900">{progressPercent}%</div>
+            <div className="rounded-[1.25rem] bg-gray-50 px-4 py-4">
+              <div className="text-xs font-semibold uppercase tracking-[0.16em] text-gray-400">Lesson cash earned</div>
+              <div className="mt-2 text-2xl font-black text-gray-900">{formatMoney(lessonCashEarned)}</div>
+            </div>
+            <div className="rounded-[1.25rem] bg-gray-50 px-4 py-4">
+              <div className="text-xs font-semibold uppercase tracking-[0.16em] text-gray-400">
+                {marketUnlocked ? 'Portfolio value' : 'Next lesson reward'}
               </div>
-              <div className="flex items-center justify-between rounded-2xl bg-gray-50 px-4 py-3">
-                <div className="flex items-center gap-2 text-sm text-gray-600">
-                  <Zap className="h-4 w-4 text-orange-500" />
-                  Level
-                </div>
-                <div className="font-bold text-gray-900">{level}</div>
+              <div className="mt-2 text-2xl font-black text-gray-900">
+                {marketUnlocked ? formatMoney(portfolioValue) : formatMoney(nextLessonCashReward)}
               </div>
-              <div className="flex items-center justify-between rounded-2xl bg-gray-50 px-4 py-3">
-                <div className="flex items-center gap-2 text-sm text-gray-600">
-                  <TrendingUp className="h-4 w-4 text-orange-500" />
-                  Cash balance
-                </div>
-                <div className="font-bold text-gray-900">${cash.toFixed(2)}</div>
+            </div>
+          </div>
+        </div>
+
+        <div className="rounded-[2rem] border border-gray-200 bg-white p-6">
+          <div className="flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.18em] text-orange-700">
+            <Wallet className="h-4 w-4" />
+            Student snapshot
+          </div>
+          <div className="mt-5 space-y-4">
+            <div>
+              <div className="flex items-center justify-between text-sm font-semibold text-gray-900">
+                <span>Overall learning progress</span>
+                <span>{progressPercent}%</span>
               </div>
-              <div className="flex items-center justify-between rounded-2xl bg-gray-50 px-4 py-3">
+              <div className="mt-2 h-2 overflow-hidden rounded-full bg-gray-100">
+                <div className="h-full rounded-full bg-orange-500" style={{ width: `${progressPercent}%` }} />
+              </div>
+            </div>
+
+            <div className="grid gap-3">
+              <div className="flex items-center justify-between rounded-[1.25rem] bg-gray-50 px-4 py-3">
                 <div className="flex items-center gap-2 text-sm text-gray-600">
                   <Flame className="h-4 w-4 text-orange-500" />
                   Streak
                 </div>
-                <div className="font-bold text-gray-900">{streakCount} days</div>
+                <div className="font-bold text-gray-900">{streakCount} day{streakCount === 1 ? '' : 's'}</div>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {marketUnlocked ? (
-        <div className="grid gap-4 xl:grid-cols-4">
-          <div className="rounded-[1.75rem] border border-gray-200 bg-white p-6 xl:col-span-1">
-            <div className="flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.18em] text-orange-700">
-              <BookOpen className="h-4 w-4" />
-              Lessons
-            </div>
-            <h2 className="mt-4 text-2xl font-bold text-gray-900">Review what you learned</h2>
-            <p className="mt-3 text-sm leading-6 text-gray-600">
-              Lessons stay available as quick references when a market decision feels fuzzy.
-            </p>
-            <div className="mt-5 h-2 overflow-hidden rounded-full bg-gray-100">
-              <div className="h-full rounded-full bg-orange-500" style={{ width: `${activeModuleProgress}%` }} />
-            </div>
-            <div className="mt-2 text-xs text-gray-500">
-              Module progress: {activeModule?.title} - {activeModuleProgress}% complete
-            </div>
-            <Link to="/lessons" className="mt-5 inline-flex rounded-2xl border border-gray-300 bg-white px-4 py-2.5 text-sm font-semibold text-gray-900 transition hover:bg-gray-50">
-              Review lessons
-            </Link>
-          </div>
-
-          <div className="rounded-[1.75rem] border border-gray-200 bg-white p-6 xl:col-span-1">
-            <div className="flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.18em] text-orange-700">
-              <TrendingUp className="h-4 w-4" />
-              Market
-            </div>
-            <h2 className="mt-4 text-2xl font-bold text-gray-900">Make your next move</h2>
-            <p className="mt-3 text-sm leading-6 text-gray-600">
-              {holdings.length > 0 ? `${holdings.length} holdings are active in your portfolio right now.` : 'No holdings yet. Your first careful move starts here.'}
-            </p>
-            <div className="mt-4 inline-flex rounded-full border border-gray-200 bg-gray-50 px-3 py-1 text-xs font-semibold text-gray-500">
-              Simulation only
-            </div>
-            <Link to="/trade" className="mt-5 inline-flex rounded-2xl bg-orange-500 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-orange-600">
-              Open market
-            </Link>
-          </div>
-
-          <div className="rounded-[1.75rem] border border-gray-200 bg-white p-6 xl:col-span-1">
-            <div className="flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.18em] text-orange-700">
-              <Newspaper className="h-4 w-4" />
-              Finance News
-            </div>
-            <h2 className="mt-4 text-2xl font-bold text-gray-900">Read finance news</h2>
-            <p className="mt-3 text-sm leading-6 text-gray-600">
-              See which headlines look important and how they may connect to stock movement.
-            </p>
-            <Link to="/news" className="mt-5 inline-flex rounded-2xl border border-gray-300 bg-white px-4 py-2.5 text-sm font-semibold text-gray-900 transition hover:bg-gray-50">
-              Read finance news
-            </Link>
-          </div>
-
-          <div className="rounded-[1.75rem] border border-gray-200 bg-white p-6 xl:col-span-1">
-            <div className="flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.18em] text-orange-700">
-              <TrendingUp className="h-4 w-4" />
-              Portfolio
-            </div>
-            <h2 className="mt-4 text-2xl font-bold text-gray-900">Check your results</h2>
-            <p className="mt-3 text-sm leading-6 text-gray-600">
-              Track money spent, current value, and how your positions are changing over time.
-            </p>
-            <Link to="/portfolio" className="mt-5 inline-flex rounded-2xl border border-gray-300 bg-white px-4 py-2.5 text-sm font-semibold text-gray-900 transition hover:bg-gray-50">
-              Open portfolio
-            </Link>
-          </div>
-        </div>
-      ) : (
-        <div className="grid gap-6 md:grid-cols-2">
-          <div className="rounded-[1.75rem] border border-gray-200 bg-white p-6">
-            <div className="flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.18em] text-orange-700">
-              <BookOpen className="h-4 w-4" />
-              Lessons
-            </div>
-            <h2 className="mt-4 text-2xl font-bold text-gray-900">
-              {nextLesson ? nextLesson.title : 'Review lessons'}
-            </h2>
-            <p className="mt-3 text-sm leading-6 text-gray-600">
-              {nextLesson
-                ? `Next lesson in ${activeModule?.title || 'your path'}.`
-                : 'Go back through any lesson you want to review.'}
-            </p>
-            <div className="mt-5 h-2 overflow-hidden rounded-full bg-gray-100">
-              <div className="h-full rounded-full bg-orange-500" style={{ width: `${activeModuleProgress}%` }} />
-            </div>
-            <div className="mt-2 text-xs text-gray-500">
-              Module progress: {activeModule?.title} - {activeModuleProgress}% complete
-            </div>
-          </div>
-
-          <div className="rounded-[1.75rem] border border-gray-200 bg-white p-6">
-            {challengeUnlocked ? (
-              <>
-                <div className="flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.18em] text-orange-700">
-                  <Target className="h-4 w-4" />
-                  Market Challenge
+              <div className="flex items-center justify-between rounded-[1.25rem] bg-gray-50 px-4 py-3">
+                <div className="flex items-center gap-2 text-sm text-gray-600">
+                  <GraduationCap className="h-4 w-4 text-orange-500" />
+                  Level
                 </div>
-                <h2 className="mt-4 text-2xl font-bold text-gray-900">
-                  Your next step is open
-                </h2>
-                <p className="mt-3 text-sm leading-6 text-gray-600">
-                  Use challenges to test decisions, then more tools will unlock later.
-                </p>
-                <div className="mt-5 flex items-center justify-between rounded-2xl bg-gray-50 px-4 py-4">
-                  <div>
-                    <div className="text-sm font-semibold text-gray-900">
-                      Start your first challenge
-                    </div>
-                    <div className="text-xs text-gray-500">
-                      Start spotting hype and managing risk before advanced features open.
-                    </div>
+                <div className="font-bold text-gray-900">{level}</div>
+              </div>
+              <div className="flex items-center justify-between rounded-[1.25rem] bg-gray-50 px-4 py-3">
+                <div className="flex items-center gap-2 text-sm text-gray-600">
+                  <Wallet className="h-4 w-4 text-orange-500" />
+                  Cash balance
+                </div>
+                <div className="font-bold text-gray-900">{formatMoney(cash)}</div>
+              </div>
+              {marketUnlocked ? (
+                <div className="flex items-center justify-between rounded-[1.25rem] bg-gray-50 px-4 py-3">
+                  <div className="flex items-center gap-2 text-sm text-gray-600">
+                    <BarChart3 className="h-4 w-4 text-orange-500" />
+                    Open positions
                   </div>
-                  <Link
-                    to="/challenge"
-                    className="inline-flex items-center gap-1 text-sm font-semibold text-orange-600 hover:text-orange-700"
-                  >
-                    Open challenge
-                    <ChevronRight className="h-4 w-4" />
-                  </Link>
+                  <div className="font-bold text-gray-900">{openPositions}</div>
                 </div>
-              </>
-            ) : (
-              <>
-                <div className="flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.18em] text-orange-700">
-                  <TrendingUp className="h-4 w-4" />
-                  Next unlock
-                </div>
-                <h2 className="mt-4 text-2xl font-bold text-gray-900">
-                  More opens after your first lesson
-                </h2>
-                <p className="mt-3 text-sm leading-6 text-gray-600">
-                  Complete one lesson with a strong score to unlock market challenges.
-                </p>
-                <div className="mt-5 flex items-center justify-between rounded-2xl bg-gray-50 px-4 py-4">
-                  <div>
-                    <div className="text-sm font-semibold text-gray-900">
-                      Unlock rule
-                    </div>
-                    <div className="text-xs text-gray-500">
-                      Score 80% or higher on your first lesson to open the next part of the app.
-                    </div>
-                  </div>
-                  <Link
-                    to="/lessons"
-                    className="inline-flex items-center gap-1 text-sm font-semibold text-orange-600 hover:text-orange-700"
-                  >
-                    Keep learning
-                    <ChevronRight className="h-4 w-4" />
-                  </Link>
-                </div>
-              </>
-            )}
+              ) : null}
+            </div>
           </div>
         </div>
-      )}
+      </section>
+
+      <section className="rounded-[2rem] border border-gray-200 bg-white p-6">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <div className="flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.18em] text-orange-700">
+              <Target className="h-4 w-4" />
+              Learning path
+            </div>
+            <h2 className="mt-3 text-2xl font-bold text-gray-900">What unlocks next</h2>
+          </div>
+          <div className="text-sm text-gray-500">
+            Built around lessons first, practice second, reflection always.
+          </div>
+        </div>
+
+        <div className="mt-5 grid gap-3 md:grid-cols-5">
+          {pathSteps.map((step, index) => {
+            const Icon = step.icon;
+            const isLocked = step.tone === 'locked';
+            const isCurrent = step.tone === 'current';
+            const isComplete = step.tone === 'complete';
+
+            return (
+              <div
+                key={step.label}
+                className={`rounded-[1.25rem] border p-4 ${
+                  isCurrent
+                    ? 'border-orange-300 bg-orange-50'
+                    : isLocked
+                    ? 'border-gray-200 bg-gray-50'
+                    : isComplete
+                    ? 'border-green-200 bg-green-50'
+                    : 'border-blue-200 bg-blue-50'
+                }`}
+              >
+                <div className="flex items-center justify-between gap-2">
+                  <div className={`flex h-10 w-10 items-center justify-center rounded-2xl ${
+                    isCurrent
+                      ? 'bg-white text-orange-600'
+                      : isLocked
+                      ? 'bg-white text-gray-400'
+                      : isComplete
+                      ? 'bg-white text-green-600'
+                      : 'bg-white text-blue-600'
+                  }`}>
+                    <Icon className="h-5 w-5" />
+                  </div>
+                  <span className={`text-xs font-bold ${
+                    isCurrent
+                      ? 'text-orange-700'
+                      : isLocked
+                      ? 'text-gray-400'
+                      : isComplete
+                      ? 'text-green-700'
+                      : 'text-blue-700'
+                  }`}>
+                    {step.status}
+                  </span>
+                </div>
+                <div className="mt-4 text-sm font-bold text-gray-900">{step.label}</div>
+                <div className="mt-1 text-xs leading-5 text-gray-500">{step.detail}</div>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      <section className="grid gap-5 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
+        <div className="rounded-[2rem] border border-gray-200 bg-white p-6">
+          <div className="flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.18em] text-orange-700">
+            <Clock3 className="h-4 w-4" />
+            Recent learning
+          </div>
+          {latestCompletedLesson ? (
+            <>
+              <h2 className="mt-4 text-2xl font-bold text-gray-900">{latestCompletedLesson.title}</h2>
+              <p className="mt-2 text-sm leading-6 text-gray-600">
+                Latest passed lesson in {latestCompletedLesson.moduleName}.
+              </p>
+              <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                <div className="rounded-[1.25rem] bg-gray-50 px-4 py-4">
+                  <div className="text-xs font-semibold uppercase tracking-[0.16em] text-gray-400">Score</div>
+                  <div className="mt-2 text-xl font-black text-gray-900">{latestCompletedLesson.result.score}%</div>
+                </div>
+                <div className="rounded-[1.25rem] bg-gray-50 px-4 py-4">
+                  <div className="text-xs font-semibold uppercase tracking-[0.16em] text-gray-400">Cash earned</div>
+                  <div className="mt-2 text-xl font-black text-gray-900">
+                    {formatMoney(latestCompletedLesson.result.cashEarned || 0)}
+                  </div>
+                </div>
+              </div>
+            </>
+          ) : (
+            <>
+              <h2 className="mt-4 text-2xl font-bold text-gray-900">No lesson passed yet</h2>
+              <p className="mt-2 text-sm leading-6 text-gray-600">
+                Pass your first lesson to start building cash and unlock the next part of the app.
+              </p>
+            </>
+          )}
+        </div>
+
+        <div className="grid gap-4 sm:grid-cols-2">
+          <DashboardAction
+            to={nextLesson ? `/lessons/${nextLesson.id}` : '/lessons'}
+            label={nextLesson ? 'Continue lesson' : 'Review lessons'}
+            description={nextLesson ? `${nextLesson.moduleName}: ${nextLesson.title}` : 'Revisit any completed concept.'}
+            icon={BookOpen}
+          />
+          <DashboardAction
+            to="/challenge"
+            label="Practice a decision"
+            description={challengeUnlocked ? 'Work through risk, evidence, and trade timing.' : 'Pass one lesson to unlock challenges.'}
+            icon={Target}
+            locked={!challengeUnlocked}
+          />
+          <DashboardAction
+            to="/trade"
+            label="Open market"
+            description={marketUnlocked ? 'Search, compare, and make practice trades.' : 'Pass the Module 1 quiz to unlock the market.'}
+            icon={TrendingUp}
+            locked={!marketUnlocked}
+          />
+          <DashboardAction
+            to="/portfolio"
+            label="Review portfolio"
+            description={
+              marketUnlocked
+                ? openPositions > 0
+                  ? 'Track live value, cash, and open positions.'
+                  : 'Your portfolio appears after your first trade.'
+                : 'Portfolio unlocks with the market.'
+            }
+            icon={CheckCircle2}
+            locked={!marketUnlocked}
+          />
+        </div>
+      </section>
     </div>
   );
 }

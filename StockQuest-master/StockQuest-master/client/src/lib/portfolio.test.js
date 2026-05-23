@@ -73,3 +73,26 @@ test('portfolio value series follows market history and ends at current portfoli
     )
   );
 });
+
+test('portfolio value series stops reacting to a stock after all shares are sold', () => {
+  const now = 30_000;
+  const pointIntervalMs = 5_000;
+  const transactions = [
+    { type: 'buy', symbol: 'FUNCO', shares: 2, price: 20, timestamp: 12_000 },
+    { type: 'sell', symbol: 'FUNCO', shares: 2, price: 25, timestamp: 22_000 },
+  ];
+  const market = [
+    { symbol: 'FUNCO', price: 35, priceHistory: [20, 22, 24, 25, 30, 35] },
+  ];
+
+  const series = buildPortfolioValueSeries({
+    startingCash: 100,
+    transactions,
+    market,
+    now,
+    pointIntervalMs,
+  });
+
+  assert.deepEqual(series.map((point) => point.value), [100, 100, 108, 110, 110, 110]);
+  assert.equal(series.at(-1).value, 110);
+});

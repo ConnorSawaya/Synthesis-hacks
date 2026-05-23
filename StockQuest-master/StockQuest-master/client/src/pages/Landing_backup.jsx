@@ -368,7 +368,7 @@ export default function Landing() {
       <section className="relative z-10 border-y border-slate-200/70 bg-white/50">
         <div className="max-w-5xl mx-auto px-6 py-5 flex flex-wrap gap-x-8 gap-y-2 items-center justify-center text-sm text-slate-500">
           <span className="flex items-center gap-1.5"><CheckCircle className="w-3.5 h-3.5 text-emerald-500 flex-shrink-0" /> No real money</span>
-          <span className="flex items-center gap-1.5"><CheckCircle className="w-3.5 h-3.5 text-emerald-500 flex-shrink-0" /> Designed for ages 8–18</span>
+          <span className="flex items-center gap-1.5"><CheckCircle className="w-3.5 h-3.5 text-emerald-500 flex-shrink-0" /> Designed for ages 8-18</span>
           <span className="flex items-center gap-1.5"><CheckCircle className="w-3.5 h-3.5 text-emerald-500 flex-shrink-0" /> Short lessons, not lectures</span>
           <span className="flex items-center gap-1.5"><CheckCircle className="w-3.5 h-3.5 text-emerald-500 flex-shrink-0" /> Works on any device</span>
         </div>
