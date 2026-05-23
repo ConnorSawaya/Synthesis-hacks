@@ -151,12 +151,13 @@ export const useStore = create((set, get) => ({
   // ── Lessons Progress ────────────────────────────────
   completedLessons: [],
   currentModule: 1,
+  setCurrentModule: (moduleIndex) => set({ currentModule: moduleIndex }),
 
-  completeLesson: (lessonId, score) =>
+  completeLesson: (lessonId, score, metadata = {}) =>
     set((s) => ({
       completedLessons: [
         ...s.completedLessons.filter((l) => l.lessonId !== lessonId),
-        { lessonId, score, completedAt: Date.now() },
+        { lessonId, score, completedAt: Date.now(), ...metadata },
       ],
     })),
 
@@ -179,7 +180,16 @@ export const useStore = create((set, get) => ({
   currentChallengeId: 'snackbot-hype',
   completedChallenges: [],
   challengeResponses: [],
+  reviewHeartRewardsClaimed: [],
   setCurrentChallenge: (challengeId) => set({ currentChallengeId: challengeId }),
+  claimReviewHeartReward: (lessonId) =>
+    set((s) => {
+      if (s.reviewHeartRewardsClaimed.includes(lessonId) || s.hearts >= MAX_HEARTS) return s;
+      return {
+        hearts: s.hearts + 1,
+        reviewHeartRewardsClaimed: [...s.reviewHeartRewardsClaimed, lessonId],
+      };
+    }),
   completeChallenge: (challengeId, payload) =>
     set((s) => {
       const today = new Date().toDateString();
@@ -216,5 +226,6 @@ export const useStore = create((set, get) => ({
   adminResetAll: () => set({
     xp: 0, hearts: 5, streakCount: 0, earnedBadges: [],
     completedLessons: [], cash: 10000, holdings: [], transactions: [],
+    reviewHeartRewardsClaimed: [],
   }),
 }));

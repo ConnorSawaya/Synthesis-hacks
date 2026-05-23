@@ -12,6 +12,7 @@ import Profile from './pages/Profile';
 import SettingsPage from './pages/SettingsPage';
 import ParentalDashboard from './pages/ParentalDashboard';
 import MarketChallenge from './pages/MarketChallenge';
+import { isChallengeUnlocked, isPracticeUnlocked } from './lib/progression';
 
 function AppLayout({ children }) {
   return (
@@ -31,8 +32,18 @@ function LevelGate({ minLevel, children }) {
   return children;
 }
 
+function FeatureGate({ allowed, redirectTo = '/', children }) {
+  const { adminMode } = useStore();
+
+  if (!allowed && !adminMode) return <Navigate to={redirectTo} replace />;
+
+  return children;
+}
+
 export default function App() {
-  const { user, tickHeartRefill } = useStore();
+  const { user, completedLessons, tickHeartRefill } = useStore();
+  const challengeUnlocked = isChallengeUnlocked(completedLessons);
+  const practiceUnlocked = isPracticeUnlocked(completedLessons);
 
   useEffect(() => {
     const id = setInterval(tickHeartRefill, 30_000);
@@ -54,16 +65,30 @@ export default function App() {
     <AppLayout>
       <Routes>
         <Route path="/" element={<Dashboard />} />
-        <Route path="/challenge" element={<MarketChallenge />} />
-        <Route path="/challenge/:challengeId" element={<MarketChallenge />} />
+        <Route
+          path="/challenge"
+          element={
+            <FeatureGate allowed={challengeUnlocked} redirectTo="/lessons">
+              <MarketChallenge />
+            </FeatureGate>
+          }
+        />
+        <Route
+          path="/challenge/:challengeId"
+          element={
+            <FeatureGate allowed={challengeUnlocked} redirectTo="/lessons">
+              <MarketChallenge />
+            </FeatureGate>
+          }
+        />
         <Route path="/lessons" element={<LessonsPage />} />
         <Route path="/lessons/:lessonId" element={<LessonScreen />} />
         <Route
           path="/trade"
           element={
-            <LevelGate minLevel={2}>
+            <FeatureGate allowed={practiceUnlocked} redirectTo={challengeUnlocked ? '/challenge' : '/lessons'}>
               <TradingSimulator />
-            </LevelGate>
+            </FeatureGate>
           }
         />
         <Route

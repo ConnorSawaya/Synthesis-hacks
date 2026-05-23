@@ -1,6 +1,12 @@
 import { LineChart, Line, AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 
-export function SparkLine({ data, color = '#F97316', height = 40, width = 120 }) {
+const CHART_UP = '#00C896';
+const CHART_DOWN = '#E24B4A';
+const CHART_AXIS = '#93A3AF';
+const CHART_SURFACE = '#101720';
+const CHART_BORDER = '#2A3848';
+
+export function SparkLine({ data, color = CHART_UP, height = 40, width = 120 }) {
   const chartData = data.map((value, index) => ({ index, value }));
   const isUp = data[data.length - 1] >= data[0];
 
@@ -10,7 +16,7 @@ export function SparkLine({ data, color = '#F97316', height = 40, width = 120 })
         <Line
           type="monotone"
           dataKey="value"
-          stroke={isUp ? '#10B981' : '#EF4444'}
+          stroke={isUp ? color : CHART_DOWN}
           strokeWidth={1.5}
           dot={false}
         />
@@ -25,26 +31,20 @@ export function StockLineChart({ data, height = 300 }) {
     price: value,
   }));
   const isUp = data[data.length - 1] >= data[0];
-  const color = isUp ? '#10B981' : '#EF4444';
+  const color = isUp ? CHART_UP : CHART_DOWN;
 
   return (
     <ResponsiveContainer width="100%" height={height}>
       <AreaChart data={chartData}>
-        <defs>
-          <linearGradient id="stockGrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor={color} stopOpacity={0.1} />
-            <stop offset="100%" stopColor={color} stopOpacity={0} />
-          </linearGradient>
-        </defs>
         <XAxis
           dataKey="day"
-          tick={{ fontSize: 12, fill: '#9CA3AF' }}
+          tick={{ fontSize: 12, fill: CHART_AXIS }}
           tickLine={false}
           axisLine={false}
         />
         <YAxis
           domain={['auto', 'auto']}
-          tick={{ fontSize: 12, fill: '#9CA3AF' }}
+          tick={{ fontSize: 12, fill: CHART_AXIS }}
           tickLine={false}
           axisLine={false}
           tickFormatter={(v) => `$${v}`}
@@ -52,11 +52,12 @@ export function StockLineChart({ data, height = 300 }) {
         />
         <Tooltip
           contentStyle={{
-            background: '#fff',
-            border: '1px solid #E5E7EB',
+            background: CHART_SURFACE,
+            border: `1px solid ${CHART_BORDER}`,
             borderRadius: '8px',
             boxShadow: 'none',
             fontSize: '13px',
+            color: '#EEF5F7',
           }}
           formatter={(value) => [`$${value.toFixed(2)}`, 'Price']}
           labelFormatter={(label) => `Day ${label}`}
@@ -66,7 +67,8 @@ export function StockLineChart({ data, height = 300 }) {
           dataKey="price"
           stroke={color}
           strokeWidth={2}
-          fill="url(#stockGrad)"
+          fill={color}
+          fillOpacity={0.08}
         />
       </AreaChart>
     </ResponsiveContainer>
@@ -77,15 +79,9 @@ export function PortfolioChart({ data, height = 250 }) {
   return (
     <ResponsiveContainer width="100%" height={height}>
       <AreaChart data={data}>
-        <defs>
-          <linearGradient id="portGrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#F97316" stopOpacity={0.1} />
-            <stop offset="100%" stopColor="#F97316" stopOpacity={0} />
-          </linearGradient>
-        </defs>
-        <XAxis dataKey="label" tick={{ fontSize: 11, fill: '#9CA3AF' }} tickLine={false} axisLine={false} />
+        <XAxis dataKey="label" tick={{ fontSize: 11, fill: CHART_AXIS }} tickLine={false} axisLine={false} />
         <YAxis
-          tick={{ fontSize: 11, fill: '#9CA3AF' }}
+          tick={{ fontSize: 11, fill: CHART_AXIS }}
           tickLine={false}
           axisLine={false}
           tickFormatter={(v) => `$${v}`}
@@ -93,15 +89,16 @@ export function PortfolioChart({ data, height = 250 }) {
         />
         <Tooltip
           contentStyle={{
-            background: '#fff',
-            border: '1px solid #E5E7EB',
+            background: CHART_SURFACE,
+            border: `1px solid ${CHART_BORDER}`,
             borderRadius: '8px',
             boxShadow: 'none',
             fontSize: '13px',
+            color: '#EEF5F7',
           }}
           formatter={(value) => [`$${Number(value).toFixed(2)}`, 'Value']}
         />
-        <Area type="monotone" dataKey="value" stroke="#F97316" strokeWidth={2} fill="url(#portGrad)" />
+        <Area type="monotone" dataKey="value" stroke={CHART_UP} strokeWidth={2} fill={CHART_UP} fillOpacity={0.08} />
       </AreaChart>
     </ResponsiveContainer>
   );

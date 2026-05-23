@@ -85,12 +85,12 @@ export default function SignIn() {
   const mode = searchParams.get('mode') === 'signup' ? 'signup' : 'login';
 
   const handleAuth = ({ name, email }) => {
-    setUser({ id: 1, name: name || email.split('@')[0], email });
+    setUser({ id: 1, name: name || email.split('@')[0], email, demoMode: false });
     navigate('/');
   };
 
   const handleQuickStart = () => {
-    setUser({ id: 1, name: 'Stock Trader', email: 'demo@stockquest.app' });
+    setUser({ id: 1, name: 'Demo Student', email: 'demo@stockquest.app', demoMode: true });
     navigate('/');
   };
 

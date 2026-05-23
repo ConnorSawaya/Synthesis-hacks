@@ -1,28 +1,50 @@
-import { useState, useCallback, useEffect } from 'react';
+﻿import { useState, useCallback, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useStore } from '../store/useStore';
-import { getLessonById, ALL_BADGES, isLessonAccessible } from '../data/lessons';
+import { getLessonById, ALL_BADGES, isLessonAccessible, MODULES } from '../data/lessons';
 import { HeartsDisplay } from '../components/Gamification';
 import {
   CorrectAnswerFeedback,
   WrongAnswerFeedback,
   LessonCompleteModal,
+  LessonFailedModal,
   BadgeUnlockModal,
   HeartLostAnimation,
   OutOfHeartsModal,
 } from '../components/Feedback';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, ChevronRight } from 'lucide-react';
+import { ArrowLeft, ChevronRight, Lock } from 'lucide-react';
+
+function stripEmoji(value = '') {
+  return value
+    .replace(/\p{Extended_Pictographic}/gu, '')
+    .replace(/[\uFE0F\u200D]/g, '')
+    .replace(/\s{2,}/g, ' ')
+    .trim();
+}
 
 export default function LessonScreen() {
   const { lessonId } = useParams();
   const navigate = useNavigate();
   const {
-    hearts, loseHeart, addXP, xp, completeLesson, completedLessons,
-    earnBadge, earnedBadges, recordStreak, hasHearts,
+    hearts, loseHeart, addXP, completeLesson, completedLessons,
+    earnBadge, earnedBadges, recordStreak, hasHearts, reviewHeartRewardsClaimed, claimReviewHeartReward,
   } = useStore();
 
   const lesson = getLessonById(lessonId);
+  const completedEntry = completedLessons.find((entry) => entry.lessonId === lessonId && entry.score >= 80);
+  const reviewMode = Boolean(completedEntry);
+  const passedLessonIds = new Set(
+    completedLessons.filter((entry) => entry.score >= 80).map((entry) => entry.lessonId)
+  );
+  const currentModule = MODULES.find((module) =>
+    module.lessons.some((moduleLesson) => !passedLessonIds.has(moduleLesson.id))
+  ) || MODULES[MODULES.length - 1];
+  const eligibleForReviewHeart =
+    reviewMode &&
+    lesson?.moduleId < currentModule.id &&
+    !reviewHeartRewardsClaimed.includes(lesson.id) &&
+    hearts < 5;
   const [stepIndex, setStepIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [showCorrect, setShowCorrect] = useState(false);
@@ -50,7 +72,9 @@ export default function LessonScreen() {
   if (!isLessonAccessible(lessonId, completedLessons)) {
     return (
       <div className="max-w-2xl mx-auto text-center py-20">
-        <div className="text-5xl mb-4">🔒</div>
+        <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-gray-100">
+          <Lock className="h-8 w-8 text-gray-500" />
+        </div>
         <h2 className="text-xl font-bold text-gray-900 mb-2">Lesson Locked</h2>
         <p className="text-gray-500 text-sm mb-6">Complete the previous lessons first to unlock this one.</p>
         <button onClick={() => navigate('/lessons')} className="btn-primary mt-4">
@@ -74,17 +98,19 @@ export default function LessonScreen() {
         if (optionIndex === step.correctIndex) {
           setCorrectCount((p) => p + 1);
           setShowCorrect(true);
-          addXP(10);
+          if (!reviewMode) addXP(10);
           setTimeout(() => setShowCorrect(false), 1500);
         } else {
           setShowWrong(true);
-          setWrongExplanation(step.explanation || '');
-          const wasLastHeart = hearts === 1;
-          loseHeart();
-          setShowHeartLoss(true);
+          setWrongExplanation(stripEmoji(step.explanation || ''));
+          const wasLastHeart = hearts === 1 && !reviewMode;
+          if (!reviewMode) {
+            loseHeart();
+            setShowHeartLoss(true);
+          }
           setTimeout(() => {
             setShowWrong(false);
-            setShowHeartLoss(false);
+            if (!reviewMode) setShowHeartLoss(false);
             if (wasLastHeart) {
               setShowOutOfHearts(true);
             }
@@ -92,12 +118,12 @@ export default function LessonScreen() {
         }
       }
     },
-    [answered, step, addXP, loseHeart, hearts]
+    [answered, step, addXP, loseHeart, hearts, reviewMode]
   );
 
   const handleNext = useCallback(() => {
     // Block finishing when out of hearts
-    if (!hasHearts()) return;
+    if (!hasHearts() && !reviewMode) return;
     if (stepIndex < lesson.content.length - 1) {
       setStepIndex((prev) => prev + 1);
       setSelectedAnswer(null);
@@ -105,10 +131,24 @@ export default function LessonScreen() {
       setShowCorrect(false);
       setShowWrong(false);
     } else {
+      if (reviewMode) {
+        if (eligibleForReviewHeart) {
+          claimReviewHeartReward(lesson.id);
+        }
+        navigate('/lessons');
+        return;
+      }
+
       // Lesson complete
       const score = totalQuestions > 0 ? Math.round((correctCount / totalQuestions) * 100) : 100;
       const passed = score >= 80;
-      completeLesson(lesson.id, score);
+      const quizXP = correctCount * 10;
+      const completionXP = passed ? lesson.xpReward : 0;
+      completeLesson(lesson.id, score, {
+        correctAnswers: correctCount,
+        totalQuestions,
+        xpEarned: quizXP + completionXP,
+      });
 
       if (passed) {
         addXP(lesson.xpReward);
@@ -141,6 +181,7 @@ export default function LessonScreen() {
   }, [
     stepIndex, lesson, totalQuestions, correctCount, completeLesson,
     addXP, recordStreak, completedLessons, earnBadge, earnedBadges, showBadge, hasHearts,
+    reviewMode, navigate, eligibleForReviewHeart, claimReviewHeartReward,
   ]);
 
   const noHearts = !hasHearts();
@@ -148,16 +189,29 @@ export default function LessonScreen() {
 
   // Show blocking modal when hearts hit 0 during a lesson
   useEffect(() => {
-    if (noHearts && step?.type === 'quiz' && !answered) {
+    if (!reviewMode && noHearts && step?.type === 'quiz' && !answered) {
       setShowOutOfHearts(true);
     }
-  }, [noHearts, step?.type, answered]);
+  }, [noHearts, step?.type, answered, reviewMode]);
+
+  const handleRetryLesson = useCallback(() => {
+    setShowComplete(false);
+    setStepIndex(0);
+    setSelectedAnswer(null);
+    setShowCorrect(false);
+    setShowWrong(false);
+    setWrongExplanation('');
+    setShowHeartLoss(false);
+    setCorrectCount(0);
+    setTotalQuestions(0);
+    setAnswered(false);
+  }, []);
 
   return (
     <div className="max-w-2xl mx-auto">
-      {/* Out of hearts — blocks lesson */}
+      {/* Out of hearts â€” blocks lesson */}
       <AnimatePresence>
-        {showOutOfHearts && noHearts && (
+        {showOutOfHearts && noHearts && !reviewMode && (
           <OutOfHeartsModal
             onGoBack={() => navigate('/lessons')}
             onGoHome={() => navigate('/')}
@@ -176,9 +230,14 @@ export default function LessonScreen() {
         </button>
 
         {/* Progress bar */}
-        <div className="flex-1 h-3 bg-gray-100 rounded-full overflow-hidden">
+        <div
+          className="flex-1 h-3 overflow-hidden rounded-full border"
+          style={{ backgroundColor: 'rgba(255, 255, 255, 0.16)', borderColor: 'var(--sq-border)' }}
+          aria-label={`Lesson progress ${Math.round(progress)}%`}
+        >
           <motion.div
-            className="h-full bg-green-500 rounded-full"
+            className="h-full rounded-full"
+            style={{ backgroundColor: 'var(--sq-accent)' }}
             animate={{ width: `${progress}%` }}
             transition={{ duration: 0.3 }}
           />
@@ -200,7 +259,7 @@ export default function LessonScreen() {
           {step.type === 'info' ? (
             <div>
               <div className="prose prose-sm max-w-none text-gray-700 leading-relaxed text-base">
-                {step.text.split('**').map((part, i) =>
+                {stripEmoji(step.text).split('**').map((part, i) =>
                   i % 2 === 1 ? (
                     <strong key={i} className="text-gray-900 font-semibold">
                       {part}
@@ -219,7 +278,7 @@ export default function LessonScreen() {
             </div>
           ) : step.type === 'quiz' ? (
             <div>
-              <h3 className="text-lg font-bold text-gray-900 mb-6">{step.question}</h3>
+              <h3 className="text-lg font-bold text-gray-900 mb-6">{stripEmoji(step.question)}</h3>
               <div className="space-y-3">
                 {step.options.map((option, i) => {
                   let optionStyle = 'border-gray-200 hover:border-green-300 hover:bg-green-50';
@@ -240,22 +299,28 @@ export default function LessonScreen() {
                       key={i}
                       whileHover={!answered ? { scale: 1.01 } : {}}
                       whileTap={!answered ? { scale: 0.99 } : {}}
-                      onClick={() => !noHearts && handleAnswer(i)}
-                      disabled={answered || noHearts}
-                      className={`w-full text-left p-4 rounded-xl border-2 transition-colors font-medium ${noHearts && !answered ? 'opacity-50 cursor-not-allowed' : ''} ${optionStyle}`}
+                      onClick={() => (noHearts && !reviewMode ? null : handleAnswer(i))}
+                      disabled={answered || (noHearts && !reviewMode)}
+                      className={`w-full text-left p-4 rounded-xl border-2 transition-colors font-medium ${noHearts && !answered && !reviewMode ? 'opacity-50 cursor-not-allowed' : ''} ${optionStyle}`}
                     >
-                      <span className="text-sm">{option}</span>
+                      <span className="text-sm">{stripEmoji(option)}</span>
                     </motion.button>
                   );
                 })}
               </div>
 
-              {answered && !noHearts && (
+              {answered && (!noHearts || reviewMode) && (
                 <button
                   onClick={handleNext}
                   className="btn-primary mt-6 w-full flex items-center justify-center gap-2"
                 >
-                  {stepIndex < lesson.content.length - 1 ? 'Continue' : 'Finish Lesson'}{' '}
+                  {stepIndex < lesson.content.length - 1
+                    ? 'Continue'
+                    : reviewMode
+                    ? eligibleForReviewHeart
+                      ? 'Finish Review +1 Heart'
+                      : 'Finish Review'
+                    : 'Finish Lesson'}{' '}
                   <ChevronRight className="w-4 h-4" />
                 </button>
               )}
@@ -274,9 +339,13 @@ export default function LessonScreen() {
         const score = totalQuestions > 0 ? Math.round((correctCount / totalQuestions) * 100) : 100;
         const passed = score >= 80;
         if (!passed) {
-          // Failed - navigate back to lessons without showing modal
-          setTimeout(() => navigate('/lessons'), 100);
-          return null;
+          return (
+            <LessonFailedModal
+              score={score}
+              onRetry={handleRetryLesson}
+              onBack={() => navigate('/lessons')}
+            />
+          );
         }
         return (
           <LessonCompleteModal
@@ -300,3 +369,5 @@ export default function LessonScreen() {
     </div>
   );
 }
+
+

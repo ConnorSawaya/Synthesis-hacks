@@ -4,6 +4,9 @@ export const MARKET_CHALLENGES = [
     title: 'SnackBot Hype Wave',
     company: 'SnackBot Foods',
     ticker: 'SNKB',
+    tickerChange: '+12.4%',
+    mascot: '🍿',
+    term: 'hype',
     fakeNews:
       'Influencers are calling SnackBot "the next billion-dollar snack brand" after one viral weekend.',
     context:
@@ -14,6 +17,8 @@ export const MARKET_CHALLENGES = [
       {
         id: 'buy-a-lot',
         label: 'Buy a lot',
+        amount: '$4,000',
+        subLabel: 'Go in heavy right away',
         consequenceSummary: 'The hype cools off fast and the price falls once attention moves on.',
         riskScore: 82,
         decisionScore: 25,
@@ -22,6 +27,8 @@ export const MARKET_CHALLENGES = [
       {
         id: 'buy-a-little',
         label: 'Buy a little',
+        amount: '$800',
+        subLabel: 'Test it with a small move',
         consequenceSummary: 'You limit the damage, but you still acted before checking whether the story was real.',
         riskScore: 58,
         decisionScore: 52,
@@ -30,6 +37,8 @@ export const MARKET_CHALLENGES = [
       {
         id: 'research-first',
         label: 'Research first',
+        amount: '$0',
+        subLabel: 'Pause and check the facts',
         consequenceSummary: 'You notice the story is mostly influencer buzz, not strong company proof.',
         riskScore: 22,
         decisionScore: 92,
@@ -38,6 +47,8 @@ export const MARKET_CHALLENGES = [
       {
         id: 'avoid',
         label: 'Avoid',
+        amount: '$0',
+        subLabel: 'Sit this one out',
         consequenceSummary: 'You stay safe from a hype spike that turns out to be unstable.',
         riskScore: 18,
         decisionScore: 82,
@@ -56,6 +67,9 @@ export const MARKET_CHALLENGES = [
     title: 'RocketLoop Rumor Storm',
     company: 'RocketLoop Space',
     ticker: 'RCKT',
+    tickerChange: '+9.8%',
+    mascot: '🚀',
+    term: 'rumor',
     fakeNews:
       'A rumor says RocketLoop might land a giant contract, and message boards are exploding.',
     context:
@@ -66,6 +80,8 @@ export const MARKET_CHALLENGES = [
       {
         id: 'jump-in',
         label: 'Buy before everyone else',
+        amount: '$3,500',
+        subLabel: 'Race in before proof exists',
         consequenceSummary: 'The rumor turns out false and the stock falls as panic selling starts.',
         riskScore: 88,
         decisionScore: 18,
@@ -74,6 +90,8 @@ export const MARKET_CHALLENGES = [
       {
         id: 'small-speculation',
         label: 'Try a tiny speculative buy',
+        amount: '$500',
+        subLabel: 'Make a small bet anyway',
         consequenceSummary: 'You reduce the damage, but you still treated a rumor like real evidence.',
         riskScore: 62,
         decisionScore: 46,
@@ -82,6 +100,8 @@ export const MARKET_CHALLENGES = [
       {
         id: 'verify-first',
         label: 'Check whether the source is real',
+        amount: '$0',
+        subLabel: 'Verify before acting',
         consequenceSummary: 'You discover the rumor is weak and avoid a messy reversal.',
         riskScore: 20,
         decisionScore: 94,
@@ -90,6 +110,8 @@ export const MARKET_CHALLENGES = [
       {
         id: 'sit-out',
         label: 'Wait for confirmation',
+        amount: '$0',
+        subLabel: 'Hold off until it is real',
         consequenceSummary: 'You miss the rush, but you also avoid being pulled into rumor chaos.',
         riskScore: 16,
         decisionScore: 84,
@@ -108,6 +130,9 @@ export const MARKET_CHALLENGES = [
     title: 'PetPal Panic Drop',
     company: 'PetPal Services',
     ticker: 'PETP',
+    tickerChange: '-18.0%',
+    mascot: '🐶',
+    term: 'panic',
     fakeNews:
       'PetPal drops 18% in a day after a disappointing quarter, and people online are shouting that it is over.',
     context:
@@ -118,6 +143,8 @@ export const MARKET_CHALLENGES = [
       {
         id: 'panic-sell',
         label: 'Sell instantly because it is falling',
+        amount: '$0',
+        subLabel: 'React to the red candle',
         consequenceSummary: 'You lock in the fear-driven move before understanding what caused the drop.',
         riskScore: 76,
         decisionScore: 24,
@@ -126,6 +153,8 @@ export const MARKET_CHALLENGES = [
       {
         id: 'buy-the-drop',
         label: 'Buy aggressively because it is cheaper',
+        amount: '$3,000',
+        subLabel: 'Assume cheap means safe',
         consequenceSummary: 'You act fast, but the company might keep sliding if the problem is deeper.',
         riskScore: 72,
         decisionScore: 38,
@@ -134,6 +163,8 @@ export const MARKET_CHALLENGES = [
       {
         id: 'review-why',
         label: 'Review what actually caused the drop',
+        amount: '$0',
+        subLabel: 'Look for the real reason',
         consequenceSummary: 'You slow down, compare the news, and avoid reacting only to the chart.',
         riskScore: 24,
         decisionScore: 90,
@@ -142,6 +173,8 @@ export const MARKET_CHALLENGES = [
       {
         id: 'wait-watch',
         label: 'Wait and watch another day',
+        amount: '$0',
+        subLabel: 'Give it one more day',
         consequenceSummary: 'You avoid panic and give yourself more information before acting.',
         riskScore: 20,
         decisionScore: 82,
@@ -160,6 +193,9 @@ export const MARKET_CHALLENGES = [
     title: 'GreenN Scam Alert',
     company: 'GreenN Energy',
     ticker: 'GRNN',
+    tickerChange: '+21.6%',
+    mascot: '⚠️',
+    term: 'scam',
     fakeNews:
       'A flashy account promises GreenN will "guarantee 3x returns by Friday" if people buy now.',
     context:
@@ -170,6 +206,8 @@ export const MARKET_CHALLENGES = [
       {
         id: 'trust-post',
         label: 'Trust the post and buy fast',
+        amount: '$4,500',
+        subLabel: 'Believe the promise',
         consequenceSummary: 'You follow a classic scam pattern: urgency, certainty, and zero proof.',
         riskScore: 95,
         decisionScore: 10,
@@ -178,6 +216,8 @@ export const MARKET_CHALLENGES = [
       {
         id: 'small-test',
         label: 'Buy a tiny amount just in case',
+        amount: '$300',
+        subLabel: 'Try a tiny risk anyway',
         consequenceSummary: 'You still reward the scam setup, even if you reduce the size.',
         riskScore: 72,
         decisionScore: 34,
@@ -186,6 +226,8 @@ export const MARKET_CHALLENGES = [
       {
         id: 'report-check',
         label: 'Treat it like a scam and verify',
+        amount: '$0',
+        subLabel: 'Check the red flags first',
         consequenceSummary: 'You spot the red flags and avoid a trap designed to rush you.',
         riskScore: 12,
         decisionScore: 97,
@@ -194,6 +236,8 @@ export const MARKET_CHALLENGES = [
       {
         id: 'walk-away',
         label: 'Ignore it and move on',
+        amount: '$0',
+        subLabel: 'Do not engage with it',
         consequenceSummary: 'You do not give the scam your money or your attention.',
         riskScore: 10,
         decisionScore: 88,
@@ -212,6 +256,9 @@ export const MARKET_CHALLENGES = [
     title: 'Edufy Slow and Steady',
     company: 'Edufy Learning',
     ticker: 'EDFY',
+    tickerChange: '+2.1%',
+    mascot: '📚',
+    term: 'steady',
     fakeNews:
       'Edufy quietly reports steady growth, but it is getting almost no social media attention.',
     context:
@@ -222,6 +269,8 @@ export const MARKET_CHALLENGES = [
       {
         id: 'ignore-boring',
         label: 'Ignore it because it is boring',
+        amount: '$0',
+        subLabel: 'Write it off too early',
         consequenceSummary: 'You miss the difference between low drama and low quality.',
         riskScore: 46,
         decisionScore: 42,
@@ -230,6 +279,8 @@ export const MARKET_CHALLENGES = [
       {
         id: 'buy-hype-instead',
         label: 'Skip it and chase a louder stock',
+        amount: '$2,000',
+        subLabel: 'Choose noise over evidence',
         consequenceSummary: 'You choose noise over stability without comparing the actual evidence.',
         riskScore: 68,
         decisionScore: 28,
@@ -238,6 +289,8 @@ export const MARKET_CHALLENGES = [
       {
         id: 'research-quiet',
         label: 'Research whether the steady growth is real',
+        amount: '$0',
+        subLabel: 'Check the boring details',
         consequenceSummary: 'You notice that boring can sometimes mean stable and lower risk.',
         riskScore: 18,
         decisionScore: 90,
@@ -246,6 +299,8 @@ export const MARKET_CHALLENGES = [
       {
         id: 'small-careful-buy',
         label: 'Make a careful small move',
+        amount: '$700',
+        subLabel: 'Stay measured',
         consequenceSummary: 'You stay measured and avoid turning a quiet signal into a reckless one.',
         riskScore: 28,
         decisionScore: 78,
@@ -264,6 +319,9 @@ export const MARKET_CHALLENGES = [
     title: 'GameZone Streamer Surge',
     company: 'GameZone Studios',
     ticker: 'GAME',
+    tickerChange: '+15.7%',
+    mascot: '🎮',
+    term: 'fad',
     fakeNews:
       'A giant streamer boosts GameZone overnight, and the stock rockets before the company says anything.',
     context:
@@ -274,6 +332,8 @@ export const MARKET_CHALLENGES = [
       {
         id: 'all-in-surge',
         label: 'Go all in on the surge',
+        amount: '$5,000',
+        subLabel: 'Chase the spike hard',
         consequenceSummary: 'The spike cools once the internet moves to the next trend.',
         riskScore: 84,
         decisionScore: 20,
@@ -282,6 +342,8 @@ export const MARKET_CHALLENGES = [
       {
         id: 'tiny-position',
         label: 'Take a tiny position and watch',
+        amount: '$400',
+        subLabel: 'Stay curious, stay small',
         consequenceSummary: 'You stay involved without letting the hype control your whole decision.',
         riskScore: 40,
         decisionScore: 70,
@@ -290,6 +352,8 @@ export const MARKET_CHALLENGES = [
       {
         id: 'wait-for-proof',
         label: 'Wait to see whether the attention lasts',
+        amount: '$0',
+        subLabel: 'Let the story settle',
         consequenceSummary: 'You avoid confusing a trend spike with a stronger business signal.',
         riskScore: 16,
         decisionScore: 92,
@@ -298,6 +362,8 @@ export const MARKET_CHALLENGES = [
       {
         id: 'skip-fad',
         label: 'Skip it because it looks like a fad',
+        amount: '$0',
+        subLabel: 'Do not chase a trend',
         consequenceSummary: 'You stay safe, though you might miss a small short-term pop.',
         riskScore: 14,
         decisionScore: 80,

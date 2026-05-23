@@ -43,3 +43,261 @@
 [2m11:06:02 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx, /src/index.css[22m
 [2m11:06:02 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/SignIn.jsx, /src/index.css[22m
 [2m11:06:48 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/ParentalDashboard.jsx, /src/index.css[22m
+[2m11:14:19 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/MarketChallenge.jsx, /src/index.css[22m
+[2m11:14:50 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css, /src/pages/Dashboard.jsx, /src/pages/MarketChallenge.jsx[22m
+[2m11:19:39 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx, /src/index.css[22m
+[2m11:19:39 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx, /src/index.css[22m
+[2m11:19:49 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/Navbar.jsx, /src/index.css[22m
+[2m11:20:33 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/Navbar.jsx, /src/index.css[22m
+[2m11:24:05 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx, /src/index.css[22m
+[2m11:24:21 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/Navbar.jsx, /src/index.css[22m
+[2m11:25:14 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx, /src/index.css[22m
+[2m11:25:27 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/Navbar.jsx, /src/index.css[22m
+[2m11:25:38 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/Navbar.jsx, /src/index.css[22m
+[2m11:27:46 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/LessonsPage.jsx, /src/index.css[22m
+[2m11:29:42 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/LessonsPage.jsx, /src/index.css[22m
+[2m11:31:14 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/LessonsPage.jsx, /src/index.css[22m
+[2m11:31:40 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/LessonsPage.jsx, /src/index.css[22m
+[2m11:32:46 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/LessonsPage.jsx, /src/index.css[22m
+[2m11:38:46 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/LessonsPage.jsx, /src/index.css[22m
+[2m11:39:11 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/LessonScreen.jsx, /src/index.css[22m
+[2m11:44:07 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx, /src/index.css, /src/components/AdminPanel.jsx, /src/pages/LessonsPage.jsx, /src/pages/LessonScreen.jsx, /src/pages/Dashboard.jsx, /src/pages/Landing.jsx, /src/pages/Profile.jsx, /src/pages/SettingsPage.jsx, /src/pages/ParentalDashboard.jsx, /src/components/Navbar.jsx, /src/pages/SignIn.jsx, /src/pages/TradingSimulator.jsx, /src/pages/MarketChallenge.jsx[22m
+[2m11:44:22 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/LessonScreen.jsx, /src/index.css[22m
+[2m11:44:41 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/LessonsPage.jsx, /src/index.css[22m
+[2m11:44:54 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/LessonsPage.jsx, /src/index.css[22m
+[2m11:46:34 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/Feedback.jsx, /src/index.css[22m
+[2m11:46:34 AM[22m [36m[1m[vite][22m[39m [33mhmr invalidate [39m[2m/src/components/Feedback.jsx[22m Could not Fast Refresh (new export)
+[2m11:46:34 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css, /src/pages/LessonsPage.jsx, /src/pages/LessonScreen.jsx, /src/pages/TradingSimulator.jsx[22m
+[2m11:46:44 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/LessonScreen.jsx, /src/index.css[22m
+[2m11:49:58 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/Feedback.jsx, /src/index.css[22m
+[2m11:50:46 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/Gamification.jsx, /src/index.css[22m
+[2m11:51:06 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/Feedback.jsx, /src/index.css[22m
+[2m11:51:12 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/LessonsPage.jsx, /src/index.css[22m
+[2m11:52:04 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/MarketChallenge.jsx, /src/index.css[22m
+[2m11:53:44 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Leaderboard.jsx, /src/index.css[22m
+[2m11:54:09 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/LessonScreen.jsx, /src/index.css[22m
+[2m11:54:09 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/MarketChallenge.jsx, /src/index.css[22m
+[2m11:54:09 AM[22m [31m[1m[vite][22m[39m [31mInternal server error: C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\src\pages\MarketChallenge.jsx: Identifier 'mascotLabel' has already been declared. (115:8)
+
+[0m [90m 113 |[31m     [33m.[31mjoin([32m''[31m)
+ [90m 114 |[31m     [33m.[31mtoUpperCase()[33m;[31m
+[31m[1m>[22m[31m[90m 115 |[31m   [36mconst[31m mascotLabel [33m=[31m challenge[33m.[31mcompany
+ [90m     |[31m         [31m[1m^[22m[31m
+ [90m 116 |[31m     [33m.[31msplit([32m' '[31m)
+ [90m 117 |[31m     [33m.[31mslice([35m0[31m[33m,[31m [35m2[31m)
+ [90m 118 |[31m     [33m.[31mmap((part) [33m=>[31m part[[35m0[31m])[0m[39m
+  Plugin: [35mvite:react-babel[39m
+  File: [36mC:/Users/Connor.Sawaya29/OneDrive - Bellarmine College Preparatory/Documents/Vscode Python/HACKATHON/Synthesis hacks/StockQuest-master/StockQuest-master/client/src/pages/MarketChallenge.jsx[39m:115:8
+[33m  113|      .join('')
+  114|      .toUpperCase();
+  115|    const mascotLabel = challenge.company
+     |                ^
+  116|      .split(' ')
+  117|      .slice(0, 2)[39m
+      at constructor (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:365:19)
+      at JSXParserMixin.raise (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:6599:19)
+      at ScopeHandler.checkRedeclarationInScope (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:1619:19)
+      at ScopeHandler.declareName (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:1585:12)
+      at JSXParserMixin.declareNameFromIdentifier (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:7567:16)
+      at JSXParserMixin.checkIdentifier (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:7563:12)
+      at JSXParserMixin.checkLVal (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:7500:12)
+      at JSXParserMixin.parseVarId (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:13412:10)
+      at JSXParserMixin.parseVar (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:13383:12)
+      at JSXParserMixin.parseVarStatement (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:13230:10)
+      at JSXParserMixin.parseStatementContent (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:12851:23)
+      at JSXParserMixin.parseStatementLike (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:12767:17)
+      at JSXParserMixin.parseStatementListItem (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:12747:17)
+      at JSXParserMixin.parseBlockOrModuleBlockBody (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:13316:61)
+      at JSXParserMixin.parseBlockBody (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:13309:10)
+      at JSXParserMixin.parseBlock (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:13297:10)
+      at JSXParserMixin.parseFunctionBody (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:12100:24)
+      at JSXParserMixin.parseFunctionBodyAndFinish (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:12086:10)
+      at C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:13445:12
+      at JSXParserMixin.withSmartMixTopicForbiddingContext (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:12403:14)
+      at JSXParserMixin.parseFunction (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:13444:10)
+      at JSXParserMixin.parseExportDefaultExpression (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:13907:19)
+      at JSXParserMixin.parseExport (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:13828:25)
+      at JSXParserMixin.parseStatementContent (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:12878:27)
+      at JSXParserMixin.parseStatementLike (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:12767:17)
+      at JSXParserMixin.parseModuleItem (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:12744:17)
+      at JSXParserMixin.parseBlockOrModuleBlockBody (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:13316:36)
+      at JSXParserMixin.parseBlockBody (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:13309:10)
+      at JSXParserMixin.parseProgram (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:12622:10)
+      at JSXParserMixin.parseTopLevel (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:12612:25)
+      at JSXParserMixin.parse (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:14488:25)
+      at parse (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:14522:38)
+      at parser (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\core\lib\parser\index.js:41:34)
+      at parser.next (<anonymous>)
+      at normalizeFile (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\core\lib\transformation\normalize-file.js:64:37)
+      at normalizeFile.next (<anonymous>)
+      at run (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\core\lib\transformation\index.js:22:50)
+      at run.next (<anonymous>)
+      at transform (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\core\lib\transform.js:22:33)
+      at transform.next (<anonymous>)
+      at step (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\gensync\index.js:261:32)
+      at C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\gensync\index.js:273:13
+      at async.call.result.err.err (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\gensync\index.js:223:11)
+      at C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\gensync\index.js:189:28
+      at C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\core\lib\gensync-utils\async.js:67:7
+      at C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\gensync\index.js:113:33
+      at step (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\gensync\index.js:287:14)
+      at C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\gensync\index.js:273:13
+      at async.call.result.err.err (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\gensync\index.js:223:11)
+[2m11:54:26 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/LessonScreen.jsx, /src/index.css[22m
+[2m11:54:26 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/MarketChallenge.jsx, /src/index.css[22m
+[2m11:54:26 AM[22m [31m[1m[vite][22m[39m [31mInternal server error: C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\src\pages\MarketChallenge.jsx: Identifier 'mascotLabel' has already been declared. (115:8)
+
+[0m [90m 113 |[31m     [33m.[31mjoin([32m''[31m)
+ [90m 114 |[31m     [33m.[31mtoUpperCase()[33m;[31m
+[31m[1m>[22m[31m[90m 115 |[31m   [36mconst[31m mascotLabel [33m=[31m challenge[33m.[31mcompany
+ [90m     |[31m         [31m[1m^[22m[31m
+ [90m 116 |[31m     [33m.[31msplit([32m' '[31m)
+ [90m 117 |[31m     [33m.[31mslice([35m0[31m[33m,[31m [35m2[31m)
+ [90m 118 |[31m     [33m.[31mmap((part) [33m=>[31m part[[35m0[31m])[0m[39m
+  Plugin: [35mvite:react-babel[39m
+  File: [36mC:/Users/Connor.Sawaya29/OneDrive - Bellarmine College Preparatory/Documents/Vscode Python/HACKATHON/Synthesis hacks/StockQuest-master/StockQuest-master/client/src/pages/MarketChallenge.jsx[39m:115:8
+[33m  113|      .join('')
+  114|      .toUpperCase();
+  115|    const mascotLabel = challenge.company
+     |           ^
+  116|      .split(' ')
+  117|      .slice(0, 2)[39m
+      at constructor (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:365:19)
+      at JSXParserMixin.raise (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:6599:19)
+      at ScopeHandler.checkRedeclarationInScope (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:1619:19)
+      at ScopeHandler.declareName (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:1585:12)
+      at JSXParserMixin.declareNameFromIdentifier (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:7567:16)
+      at JSXParserMixin.checkIdentifier (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:7563:12)
+      at JSXParserMixin.checkLVal (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:7500:12)
+      at JSXParserMixin.parseVarId (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:13412:10)
+      at JSXParserMixin.parseVar (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:13383:12)
+      at JSXParserMixin.parseVarStatement (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:13230:10)
+      at JSXParserMixin.parseStatementContent (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:12851:23)
+      at JSXParserMixin.parseStatementLike (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:12767:17)
+      at JSXParserMixin.parseStatementListItem (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:12747:17)
+      at JSXParserMixin.parseBlockOrModuleBlockBody (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:13316:61)
+      at JSXParserMixin.parseBlockBody (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:13309:10)
+      at JSXParserMixin.parseBlock (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:13297:10)
+      at JSXParserMixin.parseFunctionBody (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:12100:24)
+      at JSXParserMixin.parseFunctionBodyAndFinish (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:12086:10)
+      at C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:13445:12
+      at JSXParserMixin.withSmartMixTopicForbiddingContext (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:12403:14)
+      at JSXParserMixin.parseFunction (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:13444:10)
+      at JSXParserMixin.parseExportDefaultExpression (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:13907:19)
+      at JSXParserMixin.parseExport (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:13828:25)
+      at JSXParserMixin.parseStatementContent (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:12878:27)
+      at JSXParserMixin.parseStatementLike (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:12767:17)
+      at JSXParserMixin.parseModuleItem (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:12744:17)
+      at JSXParserMixin.parseBlockOrModuleBlockBody (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:13316:36)
+      at JSXParserMixin.parseBlockBody (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:13309:10)
+      at JSXParserMixin.parseProgram (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:12622:10)
+      at JSXParserMixin.parseTopLevel (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:12612:25)
+      at JSXParserMixin.parse (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:14488:25)
+      at parse (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:14522:38)
+      at parser (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\core\lib\parser\index.js:41:34)
+      at parser.next (<anonymous>)
+      at normalizeFile (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\core\lib\transformation\normalize-file.js:64:37)
+      at normalizeFile.next (<anonymous>)
+      at run (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\core\lib\transformation\index.js:22:50)
+      at run.next (<anonymous>)
+      at transform (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\core\lib\transform.js:22:33)
+      at transform.next (<anonymous>)
+      at step (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\gensync\index.js:261:32)
+      at C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\gensync\index.js:273:13
+      at async.call.result.err.err (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\gensync\index.js:223:11)
+      at C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\gensync\index.js:189:28
+      at C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\core\lib\gensync-utils\async.js:67:7
+      at C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\gensync\index.js:113:33
+      at step (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\gensync\index.js:287:14)
+      at C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\gensync\index.js:273:13
+      at async.call.result.err.err (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\gensync\index.js:223:11)
+[2m11:54:56 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/LessonScreen.jsx, /src/index.css[22m
+[2m11:55:03 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/MarketChallenge.jsx, /src/index.css[22m
+[2m11:55:03 AM[22m [31m[1m[vite][22m[39m [31mInternal server error: C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\src\pages\MarketChallenge.jsx: Identifier 'mascotLabel' has already been declared. (115:8)
+
+[0m [90m 113 |[31m     [33m.[31mjoin([32m''[31m)
+ [90m 114 |[31m     [33m.[31mtoUpperCase()[33m;[31m
+[31m[1m>[22m[31m[90m 115 |[31m   [36mconst[31m mascotLabel [33m=[31m challenge[33m.[31mcompany
+ [90m     |[31m         [31m[1m^[22m[31m
+ [90m 116 |[31m     [33m.[31msplit([32m' '[31m)
+ [90m 117 |[31m     [33m.[31mslice([35m0[31m[33m,[31m [35m2[31m)
+ [90m 118 |[31m     [33m.[31mmap((part) [33m=>[31m part[[35m0[31m])[0m[39m
+  Plugin: [35mvite:react-babel[39m
+  File: [36mC:/Users/Connor.Sawaya29/OneDrive - Bellarmine College Preparatory/Documents/Vscode Python/HACKATHON/Synthesis hacks/StockQuest-master/StockQuest-master/client/src/pages/MarketChallenge.jsx[39m:115:8
+[33m  113|      .join('')
+  114|      .toUpperCase();
+  115|    const mascotLabel = challenge.company
+     |           ^
+  116|      .split(' ')
+  117|      .slice(0, 2)[39m
+      at constructor (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:365:19)
+      at JSXParserMixin.raise (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:6599:19)
+      at ScopeHandler.checkRedeclarationInScope (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:1619:19)
+      at ScopeHandler.declareName (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:1585:12)
+      at JSXParserMixin.declareNameFromIdentifier (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:7567:16)
+      at JSXParserMixin.checkIdentifier (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:7563:12)
+      at JSXParserMixin.checkLVal (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:7500:12)
+      at JSXParserMixin.parseVarId (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:13412:10)
+      at JSXParserMixin.parseVar (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:13383:12)
+      at JSXParserMixin.parseVarStatement (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:13230:10)
+      at JSXParserMixin.parseStatementContent (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:12851:23)
+      at JSXParserMixin.parseStatementLike (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:12767:17)
+      at JSXParserMixin.parseStatementListItem (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:12747:17)
+      at JSXParserMixin.parseBlockOrModuleBlockBody (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:13316:61)
+      at JSXParserMixin.parseBlockBody (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:13309:10)
+      at JSXParserMixin.parseBlock (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:13297:10)
+      at JSXParserMixin.parseFunctionBody (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:12100:24)
+      at JSXParserMixin.parseFunctionBodyAndFinish (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:12086:10)
+      at C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:13445:12
+      at JSXParserMixin.withSmartMixTopicForbiddingContext (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:12403:14)
+      at JSXParserMixin.parseFunction (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:13444:10)
+      at JSXParserMixin.parseExportDefaultExpression (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:13907:19)
+      at JSXParserMixin.parseExport (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:13828:25)
+      at JSXParserMixin.parseStatementContent (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:12878:27)
+      at JSXParserMixin.parseStatementLike (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:12767:17)
+      at JSXParserMixin.parseModuleItem (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:12744:17)
+      at JSXParserMixin.parseBlockOrModuleBlockBody (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:13316:36)
+      at JSXParserMixin.parseBlockBody (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:13309:10)
+      at JSXParserMixin.parseProgram (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:12622:10)
+      at JSXParserMixin.parseTopLevel (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:12612:25)
+      at JSXParserMixin.parse (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:14488:25)
+      at parse (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\parser\lib\index.js:14522:38)
+      at parser (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\core\lib\parser\index.js:41:34)
+      at parser.next (<anonymous>)
+      at normalizeFile (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\core\lib\transformation\normalize-file.js:64:37)
+      at normalizeFile.next (<anonymous>)
+      at run (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\core\lib\transformation\index.js:22:50)
+      at run.next (<anonymous>)
+      at transform (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\core\lib\transform.js:22:33)
+      at transform.next (<anonymous>)
+      at step (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\gensync\index.js:261:32)
+      at C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\gensync\index.js:273:13
+      at async.call.result.err.err (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\gensync\index.js:223:11)
+      at C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\gensync\index.js:189:28
+      at C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\@babel\core\lib\gensync-utils\async.js:67:7
+      at C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\gensync\index.js:113:33
+      at step (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\gensync\index.js:287:14)
+      at C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\gensync\index.js:273:13
+      at async.call.result.err.err (C:\Users\Connor.Sawaya29\OneDrive - Bellarmine College Preparatory\Documents\Vscode Python\HACKATHON\Synthesis hacks\StockQuest-master\StockQuest-master\client\node_modules\gensync\index.js:223:11)
+[2m11:55:31 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/MarketChallenge.jsx, /src/index.css[22m
+[2m11:57:51 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css[22m
+[2m11:58:07 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/Gamification.jsx, /src/index.css[22m
+[2m11:58:15 AM[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2mtailwind.config.js[22m
+[2m11:59:08 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/Charts.jsx, /src/index.css[22m
+[2m12:03:03 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx, /src/index.css, /src/components/AdminPanel.jsx, /src/pages/LessonsPage.jsx, /src/pages/LessonScreen.jsx, /src/pages/Dashboard.jsx, /src/pages/Landing.jsx, /src/pages/Profile.jsx, /src/pages/SettingsPage.jsx, /src/pages/ParentalDashboard.jsx, /src/components/Navbar.jsx, /src/pages/SignIn.jsx, /src/pages/TradingSimulator.jsx, /src/pages/MarketChallenge.jsx[22m
+[2m12:03:19 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/LessonScreen.jsx, /src/index.css[22m
+[2m12:03:44 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/LessonsPage.jsx, /src/index.css[22m
+[2m12:12:35 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css, /src/App.jsx, /src/components/Navbar.jsx, /src/pages/Dashboard.jsx[22m
+[2m12:12:35 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx, /src/index.css[22m
+[2m12:12:35 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/Navbar.jsx, /src/index.css[22m
+[2m12:12:35 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/SignIn.jsx, /src/index.css[22m
+[2m12:12:54 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx, /src/index.css[22m
+[2m12:13:34 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/LessonsPage.jsx, /src/index.css[22m
+[2m12:14:20 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/TradingSimulator.jsx, /src/index.css[22m
+[2m12:14:38 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.jsx, /src/index.css[22m
+[2m12:14:47 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/Navbar.jsx, /src/index.css[22m
+[2m12:15:39 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/TradingSimulator.jsx, /src/index.css[22m
+[2m12:30:12 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx, /src/index.css, /src/components/AdminPanel.jsx, /src/pages/LessonsPage.jsx, /src/pages/LessonScreen.jsx, /src/pages/Dashboard.jsx, /src/pages/Landing.jsx, /src/pages/Profile.jsx, /src/pages/SettingsPage.jsx, /src/pages/ParentalDashboard.jsx, /src/components/Navbar.jsx, /src/pages/SignIn.jsx, /src/pages/TradingSimulator.jsx, /src/pages/MarketChallenge.jsx[22m
+[2m12:30:12 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/LessonsPage.jsx, /src/index.css[22m
+[2m12:30:25 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/LessonsPage.jsx, /src/index.css[22m
+[2m12:31:10 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/LessonScreen.jsx, /src/index.css[22m

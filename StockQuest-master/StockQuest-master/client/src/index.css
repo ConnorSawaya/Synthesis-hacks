@@ -3,48 +3,243 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    color-scheme: dark;
+    --sq-bg: #070b12;
+    --sq-surface: #101720;
+    --sq-surface-2: #151e29;
+    --sq-surface-3: #1c2836;
+    --sq-border: #2a3848;
+    --sq-text: #eef5f7;
+    --sq-text-soft: #c5d1da;
+    --sq-muted: #93a3af;
+    --sq-faint: #667887;
+    --sq-accent: #00c896;
+    --sq-accent-strong: #12dfae;
+    --sq-accent-soft: rgba(0, 200, 150, 0.13);
+    --sq-blue: #378add;
+    --sq-blue-soft: rgba(55, 138, 221, 0.16);
+    --sq-danger: #e24b4a;
+    --sq-danger-soft: rgba(226, 75, 74, 0.13);
+    --sq-success: #00c896;
+    --sq-success-soft: rgba(0, 200, 150, 0.13);
+    --sq-warning: #e5b84b;
+    --sq-warning-soft: rgba(229, 184, 75, 0.15);
+  }
+
+  html,
+  body,
+  #root {
+    min-height: 100%;
+    background: var(--sq-bg);
+  }
+
   body {
-    @apply bg-white text-gray-900;
+    @apply text-gray-100;
   }
 }
 
 @layer components {
   .btn-primary {
-    @apply bg-orange-500 text-white font-semibold py-3 px-6 rounded-lg
-      hover:bg-orange-600 active:bg-orange-700 transition-colors
+    @apply text-white font-semibold py-3 px-6 rounded-lg transition-colors
       disabled:opacity-50 disabled:cursor-not-allowed;
+    background-color: var(--sq-accent);
   }
 
   .btn-secondary {
-    @apply bg-gray-100 text-gray-700 font-semibold py-3 px-6 rounded-lg
-      hover:bg-gray-200 active:bg-gray-300 transition-colors border border-gray-200;
+    @apply font-semibold py-3 px-6 rounded-lg transition-colors border;
+    background-color: var(--sq-surface-2);
+    border-color: var(--sq-border);
+    color: var(--sq-text-soft);
   }
 
   .btn-success {
-    @apply bg-success-500 text-white font-semibold py-3 px-6 rounded-lg
-      hover:bg-success-600 transition-colors;
+    @apply text-white font-semibold py-3 px-6 rounded-lg transition-colors;
+    background-color: var(--sq-success);
   }
 
   .btn-danger {
-    @apply bg-danger-500 text-white font-semibold py-3 px-6 rounded-lg
-      hover:bg-danger-600 transition-colors;
+    @apply text-white font-semibold py-3 px-6 rounded-lg transition-colors;
+    background-color: var(--sq-danger);
   }
 
   .card {
-    @apply bg-white border border-gray-200 rounded-xl p-6;
+    @apply border rounded-xl p-6;
+    background-color: var(--sq-surface);
+    border-color: var(--sq-border);
   }
 
   .card-hover {
-    @apply card hover:border-orange-300 transition-colors cursor-pointer;
+    @apply card transition-colors cursor-pointer;
   }
 
   .input-field {
-    @apply w-full px-4 py-3 border border-gray-200 rounded-lg
-      focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent
+    @apply w-full px-4 py-3 border rounded-lg
+      focus:outline-none focus:ring-2 focus:border-transparent
       placeholder:text-gray-400 transition-all;
+    background-color: var(--sq-surface-2);
+    border-color: var(--sq-border);
+    color: var(--sq-text);
+    --tw-ring-color: var(--sq-accent);
   }
 
   .badge-pill {
     @apply inline-flex items-center px-3 py-1 rounded-full text-sm font-medium;
+  }
+}
+
+@layer utilities {
+  [class*="bg-gradient-to-"] {
+    background-image: none !important;
+    background-color: var(--sq-surface) !important;
+  }
+
+  .bg-white,
+  .bg-slate-50,
+  .bg-slate-100,
+  .bg-gray-50,
+  .bg-gray-100,
+  .bg-gray-200,
+  [class*="bg-white/"],
+  [class*="bg-slate-50/"],
+  [class*="bg-gray-50/"] {
+    background-color: var(--sq-surface) !important;
+  }
+
+  .bg-slate-200,
+  .bg-gray-300,
+  [class*="bg-slate-100/"],
+  [class*="bg-gray-100/"] {
+    background-color: var(--sq-surface-2) !important;
+  }
+
+  [class*="bg-orange-50"],
+  [class*="bg-orange-100"],
+  [class*="bg-yellow-50"],
+  [class*="bg-amber-50"],
+  [class*="bg-warning-50"],
+  [class*="bg-[#F8FBFC]"],
+  [class*="bg-[#ECF5FF]"] {
+    background-color: var(--sq-accent-soft) !important;
+  }
+
+  [class*="bg-orange-500"],
+  [class*="bg-orange-600"],
+  [class*="bg-orange-700"],
+  [class*="bg-yellow-400"],
+  [class*="bg-amber-600"],
+  [class*="bg-warning-500"],
+  [class*="bg-[#00c896]"] {
+    background-color: var(--sq-accent) !important;
+  }
+
+  [class*="bg-green-50"],
+  [class*="bg-success-50"],
+  [class*="bg-[#E9FBF5]"] {
+    background-color: var(--sq-success-soft) !important;
+  }
+
+  [class*="bg-green-500"],
+  [class*="bg-green-600"],
+  [class*="bg-success-500"],
+  [class*="bg-success-600"] {
+    background-color: var(--sq-success) !important;
+  }
+
+  [class*="bg-red-50"],
+  [class*="bg-red-100"],
+  [class*="bg-danger-50"],
+  [class*="bg-[#FDEEEE]"] {
+    background-color: var(--sq-danger-soft) !important;
+  }
+
+  [class*="bg-red-500"],
+  [class*="bg-red-600"],
+  [class*="bg-danger-500"],
+  [class*="bg-danger-600"],
+  [class*="bg-[#E24B4A]"] {
+    background-color: var(--sq-danger) !important;
+  }
+
+  .text-gray-900,
+  .text-gray-800,
+  .text-slate-900,
+  .text-slate-800,
+  .text-slate-700 {
+    color: var(--sq-text) !important;
+  }
+
+  .text-gray-700,
+  .text-gray-600,
+  .text-slate-600,
+  .text-slate-500 {
+    color: var(--sq-text-soft) !important;
+  }
+
+  .text-gray-500,
+  .text-gray-400,
+  .text-slate-400,
+  .text-orange-700,
+  .text-orange-600,
+  .text-orange-500,
+  .text-yellow-500,
+  .text-amber-600,
+  .text-warning-500,
+  .text-warning-600,
+  [class*="text-[#378ADD]"],
+  [class*="text-[#066B58]"] {
+    color: var(--sq-accent) !important;
+  }
+
+  .text-green-700,
+  .text-green-600,
+  .text-green-500,
+  .text-success-500,
+  .text-success-600,
+  [class*="text-[#00c896]"] {
+    color: var(--sq-success) !important;
+  }
+
+  .text-red-700,
+  .text-red-600,
+  .text-red-500,
+  .text-red-400,
+  .text-danger-500,
+  .text-danger-600,
+  [class*="text-[#E24B4A]"],
+  [class*="text-[#A73736]"] {
+    color: var(--sq-danger) !important;
+  }
+
+  .border-gray-100,
+  .border-gray-200,
+  .border-gray-300,
+  .border-slate-100,
+  .border-slate-200,
+  .border-slate-300,
+  .ring-gray-200,
+  .ring-slate-200,
+  [class*="border-orange-"],
+  [class*="ring-orange-"],
+  [class*="border-[#00c896]"],
+  [class*="border-[#E24B4A]"] {
+    border-color: var(--sq-border) !important;
+    --tw-ring-color: var(--sq-border) !important;
+  }
+
+  [class*="focus:ring-orange"],
+  [class*="focus:border-orange"] {
+    --tw-ring-color: var(--sq-accent) !important;
+    border-color: var(--sq-accent) !important;
+  }
+
+  .shadow-sm,
+  .shadow,
+  .shadow-lg,
+  .shadow-xl,
+  .shadow-2xl {
+    --tw-shadow: none !important;
+    --tw-shadow-colored: none !important;
+    box-shadow: none !important;
   }
 }

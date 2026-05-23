@@ -1,12 +1,12 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useStore } from '../store/useStore';
-import { BookOpen, BarChart3, User, Home, TrendingUp, Lock, Flame, Zap } from 'lucide-react';
+import { BookOpen, BarChart3, User, Home, TrendingUp, Lock } from 'lucide-react';
+import { isPracticeUnlocked } from '../lib/progression';
 
 const NAV_ITEMS = [
   { path: '/', label: 'Home', icon: Home, minLevel: 1, hint: 'Continue your journey' },
   { path: '/lessons', label: 'Learn', icon: BookOpen, minLevel: 1, hint: 'Start the next lesson' },
-  { path: '/trade', label: 'Practice', icon: TrendingUp, minLevel: 2, hint: 'Practice what you learned' },
-  { path: '/profile', label: 'Profile', icon: User, minLevel: 1, hint: 'Progress and settings' },
+  { path: '/trade', label: 'Practice', icon: TrendingUp, minLevel: 1, hint: 'Practice what you learned' },
 ];
 
 function DesktopItem({ item, active, locked }) {
@@ -50,47 +50,19 @@ function DesktopItem({ item, active, locked }) {
 }
 
 export default function Navbar() {
-  const { xp, streakCount } = useStore();
+  const { xp, streakCount, completedLessons } = useStore();
   const location = useLocation();
   const level = Math.floor(xp / 100) + 1;
+  const practiceUnlocked = isPracticeUnlocked(completedLessons);
+  const desktopNavItems = NAV_ITEMS.filter((item) => item.path !== '/trade' || practiceUnlocked);
+  const mobileNavItems = [...NAV_ITEMS, { path: '/profile', label: 'Profile', icon: User, minLevel: 1, hint: 'Progress and settings' }]
+    .filter((item) => item.path !== '/trade' || practiceUnlocked);
 
   return (
     <>
       <nav className="fixed left-0 top-0 bottom-0 z-40 hidden w-72 flex-col border-r border-gray-200 bg-white md:flex">
-        <div className="border-b border-gray-200 p-6">
-          <Link to="/" className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-orange-500 text-white">
-              <BarChart3 className="h-5 w-5" />
-            </div>
-            <div>
-              <div className="text-lg font-bold text-gray-900">StockQuest</div>
-              <div className="text-sm text-gray-500">Learn investing one step at a time</div>
-            </div>
-          </Link>
-        </div>
-
-        <div className="border-b border-gray-200 bg-orange-50/60 px-6 py-4">
-          <div className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-orange-700">Your momentum</div>
-          <div className="grid grid-cols-2 gap-3">
-            <div className="rounded-2xl bg-white px-4 py-3">
-              <div className="flex items-center gap-2 text-sm text-gray-500">
-                <Zap className="h-4 w-4 text-orange-500" />
-                Level
-              </div>
-              <div className="mt-1 text-2xl font-bold text-gray-900">{level}</div>
-            </div>
-            <div className="rounded-2xl bg-white px-4 py-3">
-              <div className="flex items-center gap-2 text-sm text-gray-500">
-                <Flame className="h-4 w-4 text-orange-500" />
-                Streak
-              </div>
-              <div className="mt-1 text-2xl font-bold text-gray-900">{streakCount}d</div>
-            </div>
-          </div>
-        </div>
-
         <div className="flex-1 space-y-2 overflow-y-auto p-4">
-          {NAV_ITEMS.map((item) => (
+          {desktopNavItems.map((item) => (
             <DesktopItem
               key={item.path}
               item={item}
@@ -99,12 +71,12 @@ export default function Navbar() {
             />
           ))}
         </div>
-
         <div className="border-t border-gray-200 p-4">
-          <div className="rounded-2xl bg-gray-50 px-4 py-3 text-sm text-gray-600">
-            <div className="font-semibold text-gray-900">Next step</div>
-            <div className="mt-1">Finish lessons to unlock guided trading practice.</div>
-          </div>
+          <DesktopItem
+            item={{ path: '/profile', label: 'Profile', icon: User, minLevel: 1, hint: 'Progress and settings' }}
+            active={location.pathname === '/profile'}
+            locked={false}
+          />
         </div>
       </nav>
 
@@ -127,8 +99,8 @@ export default function Navbar() {
       </div>
 
       <div className="fixed inset-x-0 bottom-0 z-40 border-t border-gray-200 bg-white md:hidden">
-        <div className="grid grid-cols-4 px-2 py-2">
-          {NAV_ITEMS.map((item) => {
+        <div className="grid px-2 py-2" style={{ gridTemplateColumns: `repeat(${mobileNavItems.length}, minmax(0, 1fr))` }}>
+          {mobileNavItems.map((item) => {
             const Icon = item.icon;
             const active = location.pathname === item.path;
             const locked = level < item.minLevel;

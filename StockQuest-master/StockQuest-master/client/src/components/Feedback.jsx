@@ -1,6 +1,15 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { CheckCircle, XCircle, Award, Flame, Heart, Clock } from 'lucide-react';
 
+function getBadgeLabel(badge) {
+  return badge?.name
+    ?.split(' ')
+    .slice(0, 2)
+    .map((part) => part[0])
+    .join('')
+    .toUpperCase() || 'BD';
+}
+
 export function CorrectAnswerFeedback({ visible, xpEarned = 10 }) {
   return (
     <AnimatePresence>
@@ -69,9 +78,9 @@ export function BadgeUnlockModal({ badge, onClose }) {
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ delay: 0.2, type: 'spring' }}
-          className="text-7xl mb-4"
+          className="mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-orange-50 text-2xl font-bold text-orange-700 mx-auto"
         >
-          {badge.icon}
+          {getBadgeLabel(badge)}
         </motion.div>
         <div className="flex items-center justify-center gap-2 mb-2">
           <Award className="w-5 h-5 text-warning-500" />
@@ -120,15 +129,60 @@ export function LessonCompleteModal({ xpEarned, onContinue }) {
   );
 }
 
+export function LessonFailedModal({ score, passingScore = 80, onRetry, onBack }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      className="fixed inset-0 bg-black/30 flex items-center justify-center z-50 p-4"
+    >
+      <motion.div
+        initial={{ scale: 0.8, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+        className="bg-white rounded-2xl p-8 max-w-sm w-full text-center"
+      >
+        <motion.div
+          initial={{ y: -20 }}
+          animate={{ y: 0 }}
+          transition={{ delay: 0.1, type: 'spring' }}
+          className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4"
+        >
+          <XCircle className="w-10 h-10 text-red-500" />
+        </motion.div>
+        <h3 className="text-2xl font-bold text-gray-900 mb-2">Not passed yet</h3>
+        <p className="text-sm text-gray-500 mb-2">
+          You scored {score}%. You need {passingScore}% to pass this lesson.
+        </p>
+        <p className="text-sm text-gray-500 mb-6">
+          Review the lesson and try again when you&apos;re ready.
+        </p>
+        <button
+          onClick={onRetry}
+          className="w-full py-3 rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-bold text-base transition-colors mb-3"
+        >
+          Retry Lesson
+        </button>
+        <button
+          onClick={onBack}
+          className="w-full py-3 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold text-sm transition-colors"
+        >
+          Back to Lessons
+        </button>
+      </motion.div>
+    </motion.div>
+  );
+}
+
 export function HeartLostAnimation() {
   return (
     <motion.div
       initial={{ opacity: 1, scale: 1 }}
       animate={{ opacity: 0, scale: 2, y: -30 }}
       transition={{ duration: 0.6 }}
-      className="fixed top-20 right-8 text-3xl z-50 pointer-events-none"
+      className="fixed top-20 right-8 z-50 pointer-events-none rounded-full bg-red-100 px-3 py-1 text-sm font-bold text-red-500"
     >
-      💔
+      -1 Heart
     </motion.div>
   );
 }
@@ -148,7 +202,7 @@ export function StreakCelebration({ count }) {
         className="bg-white rounded-2xl p-8 max-w-sm w-full text-center"
       >
         <Flame className="w-16 h-16 text-warning-500 mx-auto mb-4" />
-        <h3 className="text-2xl font-bold text-gray-900 mb-2">{count} Day Streak! 🔥</h3>
+        <h3 className="text-2xl font-bold text-gray-900 mb-2">{count} Day Streak</h3>
         <p className="text-gray-500 mb-6">You're on fire! Keep learning every day!</p>
         <div className="text-orange-600 font-bold mb-4">
           +{count >= 30 ? 200 : count >= 7 ? 50 : 20} Bonus XP
@@ -187,9 +241,9 @@ export function OutOfHeartsModal({ onGoBack, onGoHome }) {
             initial={{ rotate: 0 }}
             animate={{ rotate: [0, -10, 10, -5, 0] }}
             transition={{ delay: 0.4, duration: 0.5 }}
-            className="absolute -top-1 -right-1 text-2xl"
+            className="absolute -top-1 -right-1 rounded-full bg-red-500 px-2 py-0.5 text-[10px] font-bold text-white"
           >
-            💔
+            LOW
           </motion.div>
         </motion.div>
 
