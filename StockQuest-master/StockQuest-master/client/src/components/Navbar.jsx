@@ -1,12 +1,14 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useStore } from '../store/useStore';
-import { BookOpen, BarChart3, User, Home, TrendingUp, Lock } from 'lucide-react';
-import { isPracticeUnlocked } from '../lib/progression';
+import { BookOpen, BarChart3, User, Home, TrendingUp, Lock, Newspaper, Briefcase } from 'lucide-react';
+import { isMarketUnlocked } from '../lib/progression';
 
 const NAV_ITEMS = [
   { path: '/', label: 'Home', icon: Home, minLevel: 1, hint: 'Continue your journey' },
   { path: '/lessons', label: 'Learn', icon: BookOpen, minLevel: 1, hint: 'Start the next lesson' },
-  { path: '/trade', label: 'Practice', icon: TrendingUp, minLevel: 1, hint: 'Practice what you learned' },
+  { path: '/trade', label: 'Market', icon: TrendingUp, minLevel: 1, hint: 'Follow the market' },
+  { path: '/news', label: 'News', icon: Newspaper, minLevel: 1, hint: 'Connect headlines to prices' },
+  { path: '/portfolio', label: 'Portfolio', icon: Briefcase, minLevel: 1, hint: 'Track your holdings' },
 ];
 
 function DesktopItem({ item, active, locked }) {
@@ -53,10 +55,10 @@ export default function Navbar() {
   const { xp, streakCount, completedLessons } = useStore();
   const location = useLocation();
   const level = Math.floor(xp / 100) + 1;
-  const practiceUnlocked = isPracticeUnlocked(completedLessons);
-  const desktopNavItems = NAV_ITEMS.filter((item) => item.path !== '/trade' || practiceUnlocked);
+  const marketUnlocked = isMarketUnlocked(completedLessons);
+  const desktopNavItems = NAV_ITEMS.filter((item) => !['/trade', '/news', '/portfolio'].includes(item.path) || marketUnlocked);
   const mobileNavItems = [...NAV_ITEMS, { path: '/profile', label: 'Profile', icon: User, minLevel: 1, hint: 'Progress and settings' }]
-    .filter((item) => item.path !== '/trade' || practiceUnlocked);
+    .filter((item) => !['/trade', '/news', '/portfolio'].includes(item.path) || marketUnlocked);
 
   return (
     <>
@@ -87,8 +89,8 @@ export default function Navbar() {
               <BarChart3 className="h-4 w-4" />
             </div>
             <div>
-              <div className="text-sm font-bold text-gray-900">StockQuest</div>
-              <div className="text-[11px] text-gray-500">Learn. Practice. Repeat.</div>
+              <div className="text-sm font-bold text-gray-900">StockPilot</div>
+              <div className="text-[11px] text-gray-500">Learn. Track. Grow.</div>
             </div>
           </Link>
           <div className="text-right">

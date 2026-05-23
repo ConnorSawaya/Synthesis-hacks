@@ -61,7 +61,7 @@ export default function Profile() {
         <div className="rounded-[1.5rem] border border-gray-200 bg-white p-5">
           <div className="flex items-center gap-2 text-sm text-gray-500">
             <TrendingUp className="h-4 w-4 text-orange-500" />
-            Practice trades
+            Market trades
           </div>
           <div className="mt-3 text-2xl font-bold text-gray-900">{transactions.length}</div>
           <div className="text-sm text-gray-500">{holdings.length} active holdings</div>

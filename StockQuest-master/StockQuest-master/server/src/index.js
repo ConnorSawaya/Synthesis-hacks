@@ -5,6 +5,7 @@ import authRoutes from './routes/auth.js';
 import lessonRoutes from './routes/lessons.js';
 import tradingRoutes from './routes/trading.js';
 import gamificationRoutes from './routes/gamification.js';
+import newsRoutes from './routes/news.js';
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -19,6 +20,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api', lessonRoutes);
 app.use('/api', tradingRoutes);
 app.use('/api', gamificationRoutes);
+app.use('/api', newsRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {
@@ -26,5 +28,5 @@ app.get('/api/health', (req, res) => {
 });
 
 app.listen(PORT, HOST, () => {
-  console.log(`StockQuest API running on http://${HOST}:${PORT}`);
+  console.log(`StockPilot API running on http://${HOST}:${PORT}`);
 });

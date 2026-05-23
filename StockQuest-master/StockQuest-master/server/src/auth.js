@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'stockquest-dev-secret';
+const JWT_SECRET = process.env.JWT_SECRET || 'stockpilot-dev-secret';
 
 export function generateToken(userId) {
   return jwt.sign({ userId }, JWT_SECRET, { expiresIn: '7d' });

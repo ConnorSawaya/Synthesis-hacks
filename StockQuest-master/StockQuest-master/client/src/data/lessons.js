@@ -36,7 +36,7 @@ export const MODULES = [
             question: 'Why do companies sell stocks?',
             options: ['Because they have too many', 'To raise money to grow', 'To pay their employees', 'Because the government requires it'],
             correctIndex: 1,
-            explanation: 'Companies sell stocks to raise capital — money they can use to expand, build new products, or hire more people.',
+            explanation: 'Companies sell stocks to raise capital - money they can use to expand, build new products, or hire more people.',
           },
         ],
       },
@@ -52,7 +52,7 @@ export const MODULES = [
           },
           {
             type: 'info',
-            text: 'Stock prices go up when more people want to BUY (demand) and go down when more people want to SELL (supply). It\'s just like trading cards — rare ones cost more!',
+            text: 'Stock prices go up when more people want to BUY (demand) and go down when more people want to SELL (supply). It\'s just like trading cards - rare ones cost more!',
           },
           {
             type: 'quiz',
@@ -108,7 +108,7 @@ export const MODULES = [
         content: [
           {
             type: 'info',
-            text: 'Every stock has a **ticker symbol** — a short code like AAPL for Apple or TSLA for Tesla. It\'s like a nickname for the company on the market.',
+            text: 'Every stock has a **ticker symbol** - a short code like AAPL for Apple or TSLA for Tesla. It\'s like a nickname for the company on the market.',
           },
           {
             type: 'info',
@@ -219,7 +219,7 @@ export const MODULES = [
           },
           {
             type: 'info',
-            text: 'A good portfolio is **diversified** — that means you own stocks from different types of companies. Don\'t put all your eggs in one basket! 🥚🧺',
+            text: 'A good portfolio is **diversified** - that means you own stocks from different types of companies. Don\'t put all your eggs in one basket! 🥚🧺',
           },
           {
             type: 'quiz',
@@ -306,7 +306,7 @@ export const MODULES = [
           },
           {
             type: 'info',
-            text: 'A stock that dropped 20% might be a good deal — or it might keep dropping. That\'s why we study **trends** and **patterns** before buying.',
+            text: 'A stock that dropped 20% might be a good deal - or it might keep dropping. That\'s why we study **trends** and **patterns** before buying.',
           },
           {
             type: 'quiz',
@@ -394,7 +394,7 @@ export const MODULES = [
             question: 'A line going up from left to right shows:',
             options: ['A downtrend', 'An uptrend', 'No trend', 'A broken chart'],
             correctIndex: 1,
-            explanation: 'A rising line from left to right means prices have been increasing — that\'s an uptrend!',
+            explanation: 'A rising line from left to right means prices have been increasing - that\'s an uptrend!',
           },
         ],
       },
@@ -468,7 +468,7 @@ export const MODULES = [
           },
           {
             type: 'info',
-            text: 'Smart traders try to **anticipate** events and position themselves before the news hits. But be careful — sometimes good news is already "priced in"!',
+            text: 'Smart traders try to **anticipate** events and position themselves before the news hits. But be careful - sometimes good news is already "priced in"!',
           },
           {
             type: 'quiz',
@@ -491,7 +491,7 @@ export const MODULES = [
           },
           {
             type: 'info',
-            text: 'A **breakout** happens when a stock breaks through resistance with high volume — often leading to big price gains. Traders watch for this classic high-probability pattern.',
+            text: 'A **breakout** happens when a stock breaks through resistance with high volume - often leading to big price gains. Traders watch for this classic high-probability pattern.',
           },
           {
             type: 'info',
@@ -598,6 +598,16 @@ export const ALL_BADGES = [
   { id: 'xp-500', name: 'XP Hunter', description: 'Earn 500 XP', icon: '⭐', criteria: 'total_xp', value: 500 },
   { id: 'xp-2000', name: 'XP Master', description: 'Earn 2000 XP', icon: '🌟', criteria: 'total_xp', value: 2000 },
 ];
+
+export function getLessonCashReward(lesson, marketUnlocked = false) {
+  if (!lesson) return 0;
+
+  if (!marketUnlocked) {
+    return lesson.type === 'quiz' ? 500 : 125;
+  }
+
+  return lesson.type === 'quiz' ? 150 : 60;
+}
 
 export function getLessonById(id) {
   for (const mod of MODULES) {

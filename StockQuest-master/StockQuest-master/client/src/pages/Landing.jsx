@@ -5,12 +5,12 @@ import { BarChart3, BookOpen, ShieldAlert, Sparkles } from 'lucide-react';
 const BENEFITS = [
   {
     title: 'Spot hype',
-    description: 'Read fake market stories and figure out whether the buzz is signal, noise, or a trap.',
+    description: 'Read simulated market stories and figure out whether the buzz is signal, noise, or a trap.',
     icon: BookOpen,
   },
   {
     title: 'Manage risk',
-    description: 'Practice safer money decisions and see consequences without using any real money.',
+    description: 'Make safer money decisions and see consequences without using any real money.',
     icon: ShieldAlert,
   },
   {
@@ -25,7 +25,7 @@ export default function Landing() {
   const { setUser } = useStore();
 
   const handleQuickStart = () => {
-    setUser({ id: 1, name: 'Stock Trader', email: 'demo@stockquest.app' });
+    setUser({ id: 1, name: 'Stock Trader', email: 'demo@stockpilot.app' });
     navigate('/');
   };
 
@@ -37,8 +37,8 @@ export default function Landing() {
             <BarChart3 className="h-5 w-5" />
           </div>
           <div>
-            <div className="text-lg font-bold">StockQuest</div>
-            <div className="text-sm text-slate-500">A fake-market decision game for safer money thinking</div>
+            <div className="text-lg font-bold">StockPilot</div>
+            <div className="text-sm text-slate-500">A market-simulation game for safer money thinking</div>
           </div>
         </div>
         <button
@@ -54,14 +54,14 @@ export default function Landing() {
           <div className="space-y-8">
             <div className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-semibold text-orange-700 shadow-sm ring-1 ring-orange-100">
               <Sparkles className="h-4 w-4" />
-              Practice money decisions safely
+              Learn market decisions safely
             </div>
             <div className="space-y-4">
               <h1 className="max-w-3xl text-5xl font-black tracking-tight sm:text-6xl">
                 Spot hype, manage risk, and learn from fake-market consequences.
               </h1>
               <p className="max-w-2xl text-lg leading-8 text-slate-600">
-                StockQuest gives students fast money-decision challenges first, then uses short lessons to explain what happened. No real money. No pressure to chase profits.
+                StockPilot gives students fast money-decision challenges first, then uses short lessons to explain what happened. No real money. No pressure to chase profits.
               </p>
             </div>
             <div className="flex flex-wrap gap-4">

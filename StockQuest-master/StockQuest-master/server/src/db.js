@@ -2,7 +2,7 @@ import initSqlJs from 'sql.js';
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs';
 import { dirname } from 'path';
 
-const DB_PATH = process.env.DB_PATH || './data/stockquest.db';
+const DB_PATH = process.env.DB_PATH || './data/stockpilot.db';
 
 // Ensure data directory exists
 mkdirSync(dirname(DB_PATH), { recursive: true });
@@ -18,7 +18,7 @@ if (existsSync(DB_PATH)) {
   rawDb = new SQL.Database();
 }
 
-// Save helper – writes current DB state to disk
+// Save helper â€“ writes current DB state to disk
 function saveToDisk() {
   const data = rawDb.export();
   writeFileSync(DB_PATH, Buffer.from(data));
@@ -104,7 +104,7 @@ db.exec(`
     email TEXT UNIQUE NOT NULL,
     password_hash TEXT NOT NULL,
     display_name TEXT NOT NULL DEFAULT 'Trader',
-    avatar TEXT DEFAULT '🧑‍💼',
+    avatar TEXT DEFAULT 'ðŸ§‘â€ðŸ’¼',
     role TEXT NOT NULL DEFAULT 'student' CHECK(role IN ('student', 'parent')),
     difficulty TEXT NOT NULL DEFAULT 'beginner' CHECK(difficulty IN ('beginner', 'intermediate', 'advanced')),
     parent_id INTEGER REFERENCES users(id),

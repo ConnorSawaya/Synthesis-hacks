@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { generateMarket } from '../lib/stockEngine';
 
 const INITIAL_HEARTS = 5;
 const MAX_HEARTS = 5;
@@ -94,9 +95,16 @@ export const useStore = create((set, get) => ({
     }),
 
   // ── Portfolio ───────────────────────────────────────
-  cash: 10000,
+  cash: 0,
   holdings: [], // [{ stockId, symbol, shares, avgPrice }]
   transactions: [],
+  marketSimulation: generateMarket(90),
+  addCash: (amount) => set((s) => ({ cash: s.cash + amount })),
+  updateMarketSimulation: (updater) =>
+    set((state) => ({
+      marketSimulation:
+        typeof updater === 'function' ? updater(state.marketSimulation) : updater,
+    })),
 
   buyStock: (stock, shares) => {
     const { cash, holdings, transactions } = get();
@@ -225,7 +233,7 @@ export const useStore = create((set, get) => ({
   adminAddCash: (amount) => set((s) => ({ cash: s.cash + amount })),
   adminResetAll: () => set({
     xp: 0, hearts: 5, streakCount: 0, earnedBadges: [],
-    completedLessons: [], cash: 10000, holdings: [], transactions: [],
+    completedLessons: [], cash: 0, holdings: [], transactions: [], marketSimulation: generateMarket(90),
     reviewHeartRewardsClaimed: [],
   }),
 }));

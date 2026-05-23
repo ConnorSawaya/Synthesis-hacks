@@ -2,15 +2,15 @@ import 'dotenv/config';
 import db from './db.js';
 import { STOCK_DEFS } from './stockEngine.js';
 
-console.log('Seeding StockQuest database...');
+console.log('Seeding StockPilot database...');
 
-// ── Seed Modules ────────────────────────────────────────────────────────
+// â”€â”€ Seed Modules â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const modules = [
-  { id: 1, title: 'Stock Basics', description: 'Learn what stocks are and how the market works', icon: '📚', order_index: 1, required_score: 0 },
-  { id: 2, title: 'Your First Trade', description: 'Learn how to buy, sell, and manage a portfolio', icon: '💰', order_index: 2, required_score: 80 },
-  { id: 3, title: 'Trading Strategies', description: 'Learn smart approaches to buying and selling', icon: '🧠', order_index: 3, required_score: 80 },
-  { id: 4, title: 'Reading Charts', description: 'Learn to read and understand stock charts', icon: '📈', order_index: 4, required_score: 80 },
-  { id: 5, title: 'Advanced Trading', description: 'Master market events, sectors, and advanced strategies', icon: '🚀', order_index: 5, required_score: 80 },
+  { id: 1, title: 'Stock Basics', description: 'Learn what stocks are and how the market works', icon: 'ðŸ“š', order_index: 1, required_score: 0 },
+  { id: 2, title: 'Your First Trade', description: 'Learn how to buy, sell, and manage a portfolio', icon: 'ðŸ’°', order_index: 2, required_score: 80 },
+  { id: 3, title: 'Trading Strategies', description: 'Learn smart approaches to buying and selling', icon: 'ðŸ§ ', order_index: 3, required_score: 80 },
+  { id: 4, title: 'Reading Charts', description: 'Learn to read and understand stock charts', icon: 'ðŸ“ˆ', order_index: 4, required_score: 80 },
+  { id: 5, title: 'Advanced Trading', description: 'Master market events, sectors, and advanced strategies', icon: 'ðŸš€', order_index: 5, required_score: 80 },
 ];
 
 const insertModule = db.prepare(
@@ -20,9 +20,9 @@ const insertModule = db.prepare(
 for (const m of modules) {
   insertModule.run(m.id, m.title, m.description, m.icon, m.order_index, m.required_score);
 }
-console.log(`  ✓ ${modules.length} modules seeded`);
+console.log(`  âœ“ ${modules.length} modules seeded`);
 
-// ── Seed Lessons ────────────────────────────────────────────────────────
+// â”€â”€ Seed Lessons â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const lessons = [
   // Module 1
   { id: 'L1-1', module_id: 1, title: 'What is a Stock?', type: 'lesson', order_index: 1, xp_reward: 25 },
@@ -55,25 +55,25 @@ const insertLesson = db.prepare(
 for (const l of lessons) {
   insertLesson.run(l.id, l.module_id, l.title, l.type, l.order_index, l.xp_reward, '[]');
 }
-console.log(`  ✓ ${lessons.length} lessons seeded`);
+console.log(`  âœ“ ${lessons.length} lessons seeded`);
 
-// ── Seed Badges ─────────────────────────────────────────────────────────
+// â”€â”€ Seed Badges â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const badges = [
-  { id: 'first-steps', name: 'First Steps', description: 'Complete your first lesson', icon: '🎓', criteria_type: 'complete_lesson', criteria_value: 1 },
-  { id: 'first-trade', name: 'First Trade', description: 'Make your first stock trade', icon: '💹', criteria_type: 'trade_count', criteria_value: 1 },
-  { id: 'first-profit', name: 'Money Maker', description: 'Make your first profit', icon: '💰', criteria_type: 'first_profit', criteria_value: 1 },
-  { id: 'streak-3', name: 'On Fire', description: '3-day streak', icon: '🔥', criteria_type: 'streak', criteria_value: 3 },
-  { id: 'streak-7', name: 'Unstoppable', description: '7-day streak', icon: '⚡', criteria_type: 'streak', criteria_value: 7 },
-  { id: 'streak-30', name: 'Legend', description: '30-day streak', icon: '👑', criteria_type: 'streak', criteria_value: 30 },
-  { id: 'module-1', name: 'Stock Scholar', description: 'Complete Module 1', icon: '📚', criteria_type: 'module_complete', criteria_value: 1 },
-  { id: 'module-2', name: 'Trader Trainee', description: 'Complete Module 2', icon: '📊', criteria_type: 'module_complete', criteria_value: 2 },
-  { id: 'module-3', name: 'Strategy Star', description: 'Complete Module 3', icon: '🧠', criteria_type: 'module_complete', criteria_value: 3 },
-  { id: 'module-4', name: 'Chart Champion', description: 'Complete Module 4', icon: '📈', criteria_type: 'module_complete', criteria_value: 4 },
-  { id: 'module-5', name: 'Market Master', description: 'Complete Module 5', icon: '🚀', criteria_type: 'module_complete', criteria_value: 5 },
-  { id: 'diversifier', name: 'Diversifier', description: 'Own 5 different stocks', icon: '🌈', criteria_type: 'unique_stocks', criteria_value: 5 },
-  { id: 'safe-trader', name: 'Safe Trader', description: '10 profitable trades in a row', icon: '🛡️', criteria_type: 'profit_streak', criteria_value: 10 },
-  { id: 'xp-500', name: 'XP Hunter', description: 'Earn 500 XP', icon: '⭐', criteria_type: 'total_xp', criteria_value: 500 },
-  { id: 'xp-2000', name: 'XP Master', description: 'Earn 2000 XP', icon: '🌟', criteria_type: 'total_xp', criteria_value: 2000 },
+  { id: 'first-steps', name: 'First Steps', description: 'Complete your first lesson', icon: 'ðŸŽ“', criteria_type: 'complete_lesson', criteria_value: 1 },
+  { id: 'first-trade', name: 'First Trade', description: 'Make your first stock trade', icon: 'ðŸ’¹', criteria_type: 'trade_count', criteria_value: 1 },
+  { id: 'first-profit', name: 'Money Maker', description: 'Make your first profit', icon: 'ðŸ’°', criteria_type: 'first_profit', criteria_value: 1 },
+  { id: 'streak-3', name: 'On Fire', description: '3-day streak', icon: 'ðŸ”¥', criteria_type: 'streak', criteria_value: 3 },
+  { id: 'streak-7', name: 'Unstoppable', description: '7-day streak', icon: 'âš¡', criteria_type: 'streak', criteria_value: 7 },
+  { id: 'streak-30', name: 'Legend', description: '30-day streak', icon: 'ðŸ‘‘', criteria_type: 'streak', criteria_value: 30 },
+  { id: 'module-1', name: 'Stock Scholar', description: 'Complete Module 1', icon: 'ðŸ“š', criteria_type: 'module_complete', criteria_value: 1 },
+  { id: 'module-2', name: 'Trader Trainee', description: 'Complete Module 2', icon: 'ðŸ“Š', criteria_type: 'module_complete', criteria_value: 2 },
+  { id: 'module-3', name: 'Strategy Star', description: 'Complete Module 3', icon: 'ðŸ§ ', criteria_type: 'module_complete', criteria_value: 3 },
+  { id: 'module-4', name: 'Chart Champion', description: 'Complete Module 4', icon: 'ðŸ“ˆ', criteria_type: 'module_complete', criteria_value: 4 },
+  { id: 'module-5', name: 'Market Master', description: 'Complete Module 5', icon: 'ðŸš€', criteria_type: 'module_complete', criteria_value: 5 },
+  { id: 'diversifier', name: 'Diversifier', description: 'Own 5 different stocks', icon: 'ðŸŒˆ', criteria_type: 'unique_stocks', criteria_value: 5 },
+  { id: 'safe-trader', name: 'Safe Trader', description: '10 profitable trades in a row', icon: 'ðŸ›¡ï¸', criteria_type: 'profit_streak', criteria_value: 10 },
+  { id: 'xp-500', name: 'XP Hunter', description: 'Earn 500 XP', icon: 'â­', criteria_type: 'total_xp', criteria_value: 500 },
+  { id: 'xp-2000', name: 'XP Master', description: 'Earn 2000 XP', icon: 'ðŸŒŸ', criteria_type: 'total_xp', criteria_value: 2000 },
 ];
 
 const insertBadge = db.prepare(
@@ -83,9 +83,9 @@ const insertBadge = db.prepare(
 for (const b of badges) {
   insertBadge.run(b.id, b.name, b.description, b.icon, b.criteria_type, b.criteria_value);
 }
-console.log(`  ✓ ${badges.length} badges seeded`);
+console.log(`  âœ“ ${badges.length} badges seeded`);
 
-// ── Seed Stocks ─────────────────────────────────────────────────────────
+// â”€â”€ Seed Stocks â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const insertStock = db.prepare(
   'INSERT OR REPLACE INTO stocks (symbol, name, sector, base_price, volatility, trend) VALUES (?, ?, ?, ?, ?, ?)'
 );
@@ -93,7 +93,7 @@ const insertStock = db.prepare(
 for (const s of STOCK_DEFS) {
   insertStock.run(s.symbol, s.name, s.sector, s.base, s.vol, s.trend);
 }
-console.log(`  ✓ ${STOCK_DEFS.length} stocks seeded`);
+console.log(`  âœ“ ${STOCK_DEFS.length} stocks seeded`);
 
-console.log('\n✅ Database seeded successfully!');
+console.log('\nâœ… Database seeded successfully!');
 process.exit(0);

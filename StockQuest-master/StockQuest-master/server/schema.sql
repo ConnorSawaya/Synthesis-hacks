@@ -1,6 +1,6 @@
--- ═══════════════════════════════════════════════════════════════════════
--- StockQuest Database Schema (PostgreSQL version for production)
--- ═══════════════════════════════════════════════════════════════════════
+-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+-- StockPilot Database Schema (PostgreSQL version for production)
+-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
 -- Users
 CREATE TABLE IF NOT EXISTS users (
@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS users (
   email         VARCHAR(255) UNIQUE NOT NULL,
   password_hash VARCHAR(255) NOT NULL,
   display_name  VARCHAR(100) NOT NULL DEFAULT 'Trader',
-  avatar        VARCHAR(50)  DEFAULT '🧑‍💼',
+  avatar        VARCHAR(50)  DEFAULT 'ðŸ§‘â€ðŸ’¼',
   role          VARCHAR(20)  NOT NULL DEFAULT 'student' CHECK(role IN ('student', 'parent')),
   difficulty    VARCHAR(20)  NOT NULL DEFAULT 'beginner' CHECK(difficulty IN ('beginner', 'intermediate', 'advanced')),
   parent_id     INTEGER      REFERENCES users(id) ON DELETE SET NULL,

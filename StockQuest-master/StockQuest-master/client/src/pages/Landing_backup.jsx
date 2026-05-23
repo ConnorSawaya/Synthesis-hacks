@@ -1,4 +1,4 @@
-﻿import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useStore } from '../store/useStore';
 import { BarChart3, TrendingUp, TrendingDown } from 'lucide-react';
@@ -101,7 +101,7 @@ function AppPreview() {
           <div className="w-6 h-6 bg-emerald-500 rounded-lg flex items-center justify-center flex-shrink-0">
             <BarChart3 className="w-3.5 h-3.5 text-white" />
           </div>
-          <span className="font-bold text-sm text-slate-700 tracking-tight">StockQuest</span>
+          <span className="font-bold text-sm text-slate-700 tracking-tight">StockPilot</span>
           <div className="ml-auto flex items-center gap-1.5">
             <span className="text-[10px] font-bold bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full">
               Level 2
@@ -209,7 +209,7 @@ function AuthForm({ mode, onSubmit, onSwitch, onBack }) {
           <h1 className="text-xl font-extrabold text-slate-800">
             {mode === 'login' ? 'Welcome back' : 'Create an account'}
           </h1>
-          <p className="text-sm text-slate-400 mt-1">StockQuest</p>
+          <p className="text-sm text-slate-400 mt-1">StockPilot</p>
         </div>
         <form onSubmit={handleSubmit} className="space-y-4">
           {mode === 'signup' && (
@@ -273,7 +273,7 @@ export default function Landing() {
   };
 
   const handleQuickStart = () => {
-    setUser({ id: 1, name: 'Stock Trader', email: 'demo@stockquest.app' });
+    setUser({ id: 1, name: 'Stock Trader', email: 'demo@stockpilot.app' });
     navigate('/');
   };
 
@@ -297,7 +297,7 @@ export default function Landing() {
           <div className="w-8 h-8 bg-emerald-500 rounded-xl flex items-center justify-center">
             <BarChart3 className="w-4.5 h-4.5 text-white" />
           </div>
-          <span className="font-extrabold text-base text-slate-800 tracking-tight">StockQuest</span>
+          <span className="font-extrabold text-base text-slate-800 tracking-tight">StockPilot</span>
         </div>
         <div className="flex items-center gap-3">
           <button
@@ -330,8 +330,8 @@ export default function Landing() {
               <span className="text-emerald-500">kids actually enjoy.</span>
             </h1>
             <p className="text-lg text-slate-500 leading-relaxed mb-8 max-w-[420px]">
-              StockQuest teaches stock market basics through short lessons and a
-              virtual trading simulator. No real money, no jargon — just a clear,
+              StockPilot teaches stock market basics through short lessons and a
+              virtual trading simulator. No real money, no jargon - just a clear,
               hands-on way to understand how investing works.
             </p>
             <div className="flex flex-wrap gap-3 mb-6">
@@ -357,7 +357,7 @@ export default function Landing() {
             </p>
           </motion.div>
 
-          {/* Right — app preview */}
+          {/* Right - app preview */}
           <div className="hidden lg:block">
             <AppPreview />
           </div>
@@ -385,7 +385,7 @@ export default function Landing() {
               num: '01',
               icon: <BookOpen className="w-5 h-5" />,
               title: 'Pick a lesson',
-              body: 'Each lesson covers one idea — what a stock is, how supply and demand moves prices, what a P/E ratio means. Tap through, answer a question, move on.',
+              body: 'Each lesson covers one idea - what a stock is, how supply and demand moves prices, what a P/E ratio means. Tap through, answer a question, move on.',
               accent: 'border-blue-200 bg-blue-50/60',
               iconColor: 'text-blue-500 bg-blue-100',
             },
@@ -393,7 +393,7 @@ export default function Landing() {
               num: '02',
               icon: <TrendingUp className="w-5 h-5" />,
               title: 'Open the simulator',
-              body: 'Trade with $10,000 in virtual cash using real ticker symbols. Watch positions go up and down. Understand why before you ever risk real money.',
+              body: 'Trade with virtual cash you earn through learning and market decisions. Watch positions go up and down. Understand why before you ever risk real money.',
               accent: 'border-emerald-200 bg-emerald-50/60',
               iconColor: 'text-emerald-600 bg-emerald-100',
             },
@@ -401,7 +401,7 @@ export default function Landing() {
               num: '03',
               icon: <Trophy className="w-5 h-5" />,
               title: 'Level up',
-              body: 'Earn XP for completed lessons. Unlock new topics as you progress. The leaderboard is optional — but you\'ll probably check it.',
+              body: 'Earn XP for completed lessons. Unlock new topics as you progress. The leaderboard is optional - but you\'ll probably check it.',
               accent: 'border-amber-200 bg-amber-50/60',
               iconColor: 'text-amber-600 bg-amber-100',
             },
@@ -521,7 +521,7 @@ export default function Landing() {
             <div className="w-5 h-5 bg-emerald-500 rounded-md flex items-center justify-center">
               <BarChart3 className="w-3 h-3 text-white" />
             </div>
-            <span className="font-semibold text-slate-500">StockQuest</span>
+            <span className="font-semibold text-slate-500">StockPilot</span>
             <span>&copy; 2026</span>
           </div>
           <span>Not financial advice. Built for learning.</span>

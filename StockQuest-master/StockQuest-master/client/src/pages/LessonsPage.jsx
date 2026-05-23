@@ -1,9 +1,10 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useStore } from '../store/useStore';
-import { ALL_BADGES, MODULES, isLessonAccessible } from '../data/lessons';
+import { ALL_BADGES, MODULES, getLessonCashReward, isLessonAccessible } from '../data/lessons';
 import { OutOfHeartsModal } from '../components/Feedback';
 import { CheckCircle2, ChevronRight, Lock, PlayCircle, SkipForward } from 'lucide-react';
 import { useMemo, useState } from 'react';
+import { isMarketUnlocked } from '../lib/progression';
 
 const MODULE_EXPLAINERS = {
   1: 'You are building the language of investing so later choices make sense.',
@@ -71,14 +72,16 @@ export default function LessonsPage() {
     user,
     completeLesson,
     addXP,
+    addCash,
     earnBadge,
     earnedBadges,
     recordStreak,
     setCurrentModule,
+    cash,
   } = useStore();
   const navigate = useNavigate();
   const [showOutOfHearts, setShowOutOfHearts] = useState(false);
-  const demoMode = Boolean(user?.demoMode || user?.email === 'demo@stockquest.app');
+  const demoMode = Boolean(user?.demoMode || user?.email === 'demo@stockpilot.app');
 
   const moduleRows = useMemo(() => {
     return MODULES.map((mod) => {
@@ -128,15 +131,28 @@ export default function LessonsPage() {
     );
     const newlyCompletedLessons = lessonsToComplete.filter((lesson) => !passedBefore.has(lesson.id));
     const earnedBadgeIds = new Set(earnedBadges.map((badge) => badge.id));
+    let demoUnlockedSoFar = isMarketUnlocked(completedLessons);
 
     const xpToAdd = newlyCompletedLessons.reduce((sum, lesson) => {
       const existing = completedLessons.find((entry) => entry.lessonId === lesson.id);
       const alreadyEarned = getLessonEarnedXP({ ...lesson, result: existing });
       return sum + Math.max(0, getLessonMaxXP(lesson) - alreadyEarned);
     }, 0);
+    let unlockedSoFar = isMarketUnlocked(completedLessons);
+    const cashToAdd = newlyCompletedLessons.reduce((sum, lesson) => {
+      const reward = getLessonCashReward(lesson, unlockedSoFar);
+      if (lesson.id === 'module-1-quiz') {
+        unlockedSoFar = true;
+      }
+      return sum + reward;
+    }, 0);
 
     newlyCompletedLessons.forEach((lesson, index) => {
-      completeLesson(lesson.id, 100, getDemoCompletionMetadata(lesson));
+      const cashEarned = getLessonCashReward(lesson, demoUnlockedSoFar);
+      completeLesson(lesson.id, 100, { ...getDemoCompletionMetadata(lesson), cashEarned });
+      if (lesson.id === 'module-1-quiz') {
+        demoUnlockedSoFar = true;
+      }
 
       if (passedBefore.size === 0 && index === 0 && !earnedBadgeIds.has('first-steps')) {
         const badge = ALL_BADGES.find((entry) => entry.id === 'first-steps');
@@ -157,6 +173,7 @@ export default function LessonsPage() {
     });
 
     if (xpToAdd > 0) addXP(xpToAdd);
+    if (cashToAdd > 0) addCash(cashToAdd);
     if (newlyCompletedLessons.length > 0) recordStreak();
     setCurrentModule(moduleId);
     navigate(`/lessons/${targetModule.lessons[0].id}`);
@@ -178,6 +195,14 @@ export default function LessonsPage() {
         <p className="mt-3 max-w-2xl text-base leading-7 text-gray-600">
           Start with the next available lesson, pass the checkpoint, and unlock the lesson after that.
         </p>
+        <div className="mt-3 flex flex-wrap items-center gap-3 text-sm">
+          <div className="inline-flex rounded-full border border-green-200 bg-green-50 px-3 py-1 font-semibold text-green-700">
+            Passed lessons add market cash
+          </div>
+          <div className="font-semibold text-gray-600">
+            Current cash: <span className="text-gray-900">${cash.toFixed(2)}</span>
+          </div>
+        </div>
         {firstAvailable && (
           <Link
             to={`/lessons/${firstAvailable.id}`}
@@ -223,8 +248,8 @@ export default function LessonsPage() {
               </div>
 
               <div className="min-w-[220px] rounded-2xl bg-gray-50 px-4 py-4">
-                <div className="flex items-center justify-between text-sm">
-                  <span className="font-semibold text-gray-900">XP</span>
+              <div className="flex items-center justify-between text-sm">
+                <span className="font-semibold text-gray-900">XP</span>
                   <span className="text-xs text-gray-500">
                     {mod.earnedXP}/{mod.totalXP}
                     <span className="ml-2 text-[11px] font-semibold text-orange-700">{mod.xpProgress}%</span>
@@ -321,6 +346,9 @@ export default function LessonsPage() {
                             {!lesson.done && isNextStep ? 'This is the next lesson in your path.' : null}
                             {!lesson.accessible && mod.unlocked ? 'Complete the earlier lessons in order to open this one.' : null}
                             {!mod.unlocked ? `Locked until Module ${mod.id - 1} is passed.` : null}
+                          </div>
+                          <div className="mt-2 text-xs font-semibold text-green-700">
+                            Pass reward: +${getLessonCashReward(lesson, isMarketUnlocked(completedLessons))} market cash
                           </div>
 
                           <div className="mt-4">

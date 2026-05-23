@@ -47,7 +47,7 @@ export default function AdminPanel() {
     },
     {
       label: 'Unlock All (Lv 10)',
-      note: 'Bypasses all level gates — normally you must earn this',
+      note: 'Bypasses all level gates - normally you must earn this',
       action: () => adminAddXP(900),
       color: 'bg-purple-500 hover:bg-purple-600',
     },

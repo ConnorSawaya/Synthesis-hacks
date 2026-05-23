@@ -7,12 +7,14 @@ import Dashboard from './pages/Dashboard';
 import LessonsPage from './pages/LessonsPage';
 import LessonScreen from './pages/LessonScreen';
 import TradingSimulator from './pages/TradingSimulator';
+import FinanceNewsPage from './pages/FinanceNewsPage';
+import PortfolioPage from './pages/PortfolioPage';
 import Leaderboard from './pages/Leaderboard';
 import Profile from './pages/Profile';
 import SettingsPage from './pages/SettingsPage';
 import ParentalDashboard from './pages/ParentalDashboard';
 import MarketChallenge from './pages/MarketChallenge';
-import { isChallengeUnlocked, isPracticeUnlocked } from './lib/progression';
+import { isChallengeUnlocked, isMarketUnlocked } from './lib/progression';
 
 function AppLayout({ children }) {
   return (
@@ -43,7 +45,7 @@ function FeatureGate({ allowed, redirectTo = '/', children }) {
 export default function App() {
   const { user, completedLessons, tickHeartRefill } = useStore();
   const challengeUnlocked = isChallengeUnlocked(completedLessons);
-  const practiceUnlocked = isPracticeUnlocked(completedLessons);
+  const marketUnlocked = isMarketUnlocked(completedLessons);
 
   useEffect(() => {
     const id = setInterval(tickHeartRefill, 30_000);
@@ -86,8 +88,24 @@ export default function App() {
         <Route
           path="/trade"
           element={
-            <FeatureGate allowed={practiceUnlocked} redirectTo={challengeUnlocked ? '/challenge' : '/lessons'}>
+            <FeatureGate allowed={marketUnlocked} redirectTo={challengeUnlocked ? '/challenge' : '/lessons'}>
               <TradingSimulator />
+            </FeatureGate>
+          }
+        />
+        <Route
+          path="/news"
+          element={
+            <FeatureGate allowed={marketUnlocked} redirectTo={challengeUnlocked ? '/challenge' : '/lessons'}>
+              <FinanceNewsPage />
+            </FeatureGate>
+          }
+        />
+        <Route
+          path="/portfolio"
+          element={
+            <FeatureGate allowed={marketUnlocked} redirectTo={challengeUnlocked ? '/challenge' : '/lessons'}>
+              <PortfolioPage />
             </FeatureGate>
           }
         />

@@ -1,4 +1,4 @@
-﻿import { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import { useStore } from '../store/useStore';
 import { getChallengeById, getNextChallengeId, MARKET_CHALLENGES } from '../data/challenges';

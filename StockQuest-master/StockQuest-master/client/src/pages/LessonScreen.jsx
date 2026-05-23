@@ -1,7 +1,7 @@
-﻿import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useStore } from '../store/useStore';
-import { getLessonById, ALL_BADGES, isLessonAccessible, MODULES } from '../data/lessons';
+import { getLessonById, ALL_BADGES, isLessonAccessible, MODULES, getLessonCashReward } from '../data/lessons';
 import { HeartsDisplay } from '../components/Gamification';
 import {
   CorrectAnswerFeedback,
@@ -14,6 +14,7 @@ import {
 } from '../components/Feedback';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, ChevronRight, Lock } from 'lucide-react';
+import { isMarketUnlocked } from '../lib/progression';
 
 function stripEmoji(value = '') {
   return value
@@ -27,13 +28,15 @@ export default function LessonScreen() {
   const { lessonId } = useParams();
   const navigate = useNavigate();
   const {
-    hearts, loseHeart, addXP, completeLesson, completedLessons,
+    hearts, loseHeart, addXP, addCash, completeLesson, completedLessons,
     earnBadge, earnedBadges, recordStreak, hasHearts, reviewHeartRewardsClaimed, claimReviewHeartReward,
   } = useStore();
 
   const lesson = getLessonById(lessonId);
   const completedEntry = completedLessons.find((entry) => entry.lessonId === lessonId && entry.score >= 80);
   const reviewMode = Boolean(completedEntry);
+  const marketUnlocked = isMarketUnlocked(completedLessons);
+  const visibleLessonCashReward = getLessonCashReward(lesson, marketUnlocked);
   const passedLessonIds = new Set(
     completedLessons.filter((entry) => entry.score >= 80).map((entry) => entry.lessonId)
   );
@@ -144,14 +147,17 @@ export default function LessonScreen() {
       const passed = score >= 80;
       const quizXP = correctCount * 10;
       const completionXP = passed ? lesson.xpReward : 0;
+      const lessonCashReward = passed ? getLessonCashReward(lesson, marketUnlocked) : 0;
       completeLesson(lesson.id, score, {
         correctAnswers: correctCount,
         totalQuestions,
         xpEarned: quizXP + completionXP,
+        cashEarned: lessonCashReward,
       });
 
       if (passed) {
         addXP(lesson.xpReward);
+        addCash(lessonCashReward);
         recordStreak();
 
         // Check for badge awards
@@ -180,8 +186,9 @@ export default function LessonScreen() {
     }
   }, [
     stepIndex, lesson, totalQuestions, correctCount, completeLesson,
-    addXP, recordStreak, completedLessons, earnBadge, earnedBadges, showBadge, hasHearts,
+    addXP, addCash, recordStreak, completedLessons, earnBadge, earnedBadges, showBadge, hasHearts,
     reviewMode, navigate, eligibleForReviewHeart, claimReviewHeartReward,
+    marketUnlocked,
   ]);
 
   const noHearts = !hasHearts();
@@ -349,7 +356,8 @@ export default function LessonScreen() {
         }
         return (
           <LessonCompleteModal
-            xpEarned={lesson.xpReward}
+            xpEarned={completedEntry?.xpEarned || lesson.xpReward}
+            cashEarned={completedEntry?.cashEarned || visibleLessonCashReward}
             onContinue={() => navigate('/lessons')}
           />
         );

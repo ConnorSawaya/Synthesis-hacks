@@ -90,7 +90,7 @@ export default function SignIn() {
   };
 
   const handleQuickStart = () => {
-    setUser({ id: 1, name: 'Demo Student', email: 'demo@stockquest.app', demoMode: true });
+    setUser({ id: 1, name: 'Demo Student', email: 'demo@stockpilot.app', demoMode: true });
     navigate('/');
   };
 
@@ -103,8 +103,8 @@ export default function SignIn() {
               <BarChart3 className="h-4 w-4" />
             </div>
             <div>
-              <div className="text-sm font-bold text-slate-900">StockQuest</div>
-              <div className="text-xs text-slate-500">Practice with fake-market challenges</div>
+              <div className="text-sm font-bold text-slate-900">StockPilot</div>
+              <div className="text-xs text-slate-500">Learn with market-simulation challenges</div>
             </div>
           </div>
         </div>

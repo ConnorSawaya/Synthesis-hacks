@@ -1,12 +1,16 @@
-// ── Fake Stock Generator ─────────────────────────────────────────────────
+import { MARKET_WATCHLIST_SYMBOLS, getStockProfile } from '../data/stockProfiles';
+
 // Generates realistic-looking stock price history using random walk with
 // drift, occasional market events, and sector-based correlation.
-
 function gaussianRandom(mean = 0, stdev = 1) {
   const u = 1 - Math.random();
   const v = Math.random();
   const z = Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
   return z * stdev + mean;
+}
+
+function clamp(value, min, max) {
+  return Math.min(max, Math.max(min, value));
 }
 
 export function generatePriceHistory(basePrice, volatility, trend, days = 90) {
@@ -16,7 +20,7 @@ export function generatePriceHistory(basePrice, volatility, trend, days = 90) {
     const trendBias = trend * 0.001;
     let eventMultiplier = 1.0;
     if (Math.random() > 0.95) {
-      eventMultiplier = 1 + gaussianRandom(0, 0.05); // ±5% event
+      eventMultiplier = 1 + gaussianRandom(0, 0.035);
     }
     const prev = prices[i - 1];
     let next = prev * (1 + noise + trendBias) * eventMultiplier;
@@ -43,51 +47,113 @@ export function generateOHLC(prices) {
   });
 }
 
-// ── Predefined fake stocks ───────────────────────────────────────────────
-const STOCK_DEFS = [
-  { id: 1, symbol: 'FUNCO', name: 'FunCo Entertainment', sector: 'Entertainment', base: 25, vol: 0.03, trend: 0.5 },
-  { id: 2, symbol: 'SNKBX', name: 'SnackBox Foods', sector: 'Consumer Goods', base: 42, vol: 0.02, trend: 0.3 },
-  { id: 3, symbol: 'TECHX', name: 'TechX Innovations', sector: 'Technology', base: 78, vol: 0.05, trend: 0.8 },
-  { id: 4, symbol: 'GRENN', name: 'GreenN Energy', sector: 'Energy', base: 35, vol: 0.04, trend: 0.2 },
-  { id: 5, symbol: 'PETPL', name: 'PetPal Services', sector: 'Services', base: 18, vol: 0.06, trend: -0.1 },
-  { id: 6, symbol: 'SAFEX', name: 'SafeX Financial', sector: 'Finance', base: 55, vol: 0.015, trend: 0.15 },
-  { id: 7, symbol: 'RKETY', name: 'Rockety Space', sector: 'Aerospace', base: 12, vol: 0.10, trend: 1.2 },
-  { id: 8, symbol: 'GAMEZ', name: 'GameZone Studios', sector: 'Gaming', base: 30, vol: 0.07, trend: 0.6 },
-  { id: 9, symbol: 'HLTHY', name: 'HealthyLife Corp', sector: 'Healthcare', base: 65, vol: 0.025, trend: 0.4 },
-  { id: 10, symbol: 'EDUFY', name: 'Edufy Learning', sector: 'Education', base: 22, vol: 0.035, trend: 0.3 },
-];
+export function createMarketStock(profile, days = 90) {
+  const priceHistory = generatePriceHistory(profile.basePrice, profile.volatility, profile.trend, days);
+  const price = priceHistory[priceHistory.length - 1];
+  const prevPrice = priceHistory[priceHistory.length - 2];
+  const change = price - prevPrice;
+  const changePercent = (change / prevPrice) * 100;
 
-export function generateMarket(days = 90) {
-  return STOCK_DEFS.map((def) => {
-    const priceHistory = generatePriceHistory(def.base, def.vol, def.trend, days);
-    const price = priceHistory[priceHistory.length - 1];
-    const prevPrice = priceHistory[priceHistory.length - 2];
-    const change = price - prevPrice;
-    const changePercent = (change / prevPrice) * 100;
-    return {
-      id: def.id,
-      symbol: def.symbol,
-      name: def.name,
-      sector: def.sector,
-      price,
-      change: Math.round(change * 100) / 100,
-      changePercent: Math.round(changePercent * 100) / 100,
-      priceHistory,
-      ohlc: generateOHLC(priceHistory),
-    };
-  });
+  return {
+    id: profile.id,
+    symbol: profile.ticker,
+    name: profile.companyName,
+    sector: profile.sector,
+    market: profile.market,
+    exchange: profile.exchange,
+    description: profile.description,
+    volatility: profile.volatility,
+    trend: profile.trend,
+    price,
+    change: Math.round(change * 100) / 100,
+    changePercent: Math.round(changePercent * 100) / 100,
+    priceHistory,
+    ohlc: generateOHLC(priceHistory),
+  };
 }
 
-// ── Market Events (for mini-challenges) ──────────────────────────────────
+export function generateMarket(days = 90) {
+  return MARKET_WATCHLIST_SYMBOLS.map((symbol) => getStockProfile(symbol))
+    .filter(Boolean)
+    .map((profile) => createMarketStock(profile, days));
+}
+
+export function simulateNextPrice(stock, { newsPressure = 0, marketPressure = 0 } = {}) {
+  const volatility = stock.volatility || 0.025;
+  const randomNoise = gaussianRandom(0, Math.min(volatility * 0.22, 0.008));
+  const trendBias = (stock.trend || 0) * 0.00025;
+  const combinedPressure = clamp(newsPressure + marketPressure, -0.009, 0.009);
+  const movePercent = clamp(randomNoise + trendBias + combinedPressure, -0.025, 0.025);
+  const newPrice = Math.max(0.01, stock.price * (1 + movePercent));
+  const roundedPrice = Math.round(newPrice * 100) / 100;
+  const change = roundedPrice - stock.price;
+
+  return {
+    ...stock,
+    price: roundedPrice,
+    change: Math.round(change * 100) / 100,
+    changePercent: Math.round((change / stock.price) * 10000) / 100,
+    priceHistory: [...stock.priceHistory.slice(-89), roundedPrice],
+  };
+}
+
 export const MARKET_EVENTS = [
-  { id: 1, title: 'Earnings Beat!', description: 'A company reported better-than-expected earnings. Stock surges!', effect: 'up', magnitude: 0.08 },
-  { id: 2, title: 'Product Recall', description: 'A major product was recalled. Stock drops.', effect: 'down', magnitude: 0.06 },
-  { id: 3, title: 'New Partnership', description: 'Two companies announced a partnership!', effect: 'up', magnitude: 0.04 },
-  { id: 4, title: 'Market Correction', description: 'The whole market is pulling back today.', effect: 'down', magnitude: 0.03 },
-  { id: 5, title: 'Viral Product', description: 'A product went viral on social media!', effect: 'up', magnitude: 0.10 },
-  { id: 6, title: 'CEO Resigns', description: 'The CEO unexpectedly resigned. Uncertainty rises.', effect: 'down', magnitude: 0.07 },
-  { id: 7, title: 'Government Grant', description: 'The company received a large government grant.', effect: 'up', magnitude: 0.05 },
-  { id: 8, title: 'Supply Shortage', description: 'Supply chain issues are affecting production.', effect: 'down', magnitude: 0.04 },
+  {
+    id: 1,
+    title: 'Earnings Beat!',
+    description: 'A company reported better-than-expected earnings. Price interest rises a little.',
+    effect: 'up',
+    magnitude: 0.018,
+  },
+  {
+    id: 2,
+    title: 'Product Recall',
+    description: 'A product was recalled. Some investors become more cautious.',
+    effect: 'down',
+    magnitude: 0.016,
+  },
+  {
+    id: 3,
+    title: 'New Partnership',
+    description: 'Two companies announced a partnership.',
+    effect: 'up',
+    magnitude: 0.014,
+  },
+  {
+    id: 4,
+    title: 'Market Pullback',
+    description: 'The whole market is a little lower today.',
+    effect: 'down',
+    magnitude: 0.012,
+  },
+  {
+    id: 5,
+    title: 'Viral Product',
+    description: 'A product got extra attention on social media.',
+    effect: 'up',
+    magnitude: 0.02,
+  },
+  {
+    id: 6,
+    title: 'Leadership Change',
+    description: 'A leader is leaving the company, so investors watch for what comes next.',
+    effect: 'down',
+    magnitude: 0.017,
+  },
+  {
+    id: 7,
+    title: 'Government Grant',
+    description: 'The company received a grant that may help future projects.',
+    effect: 'up',
+    magnitude: 0.015,
+  },
+  {
+    id: 8,
+    title: 'Supply Shortage',
+    description: 'Supply chain issues may slow production for a short time.',
+    effect: 'down',
+    magnitude: 0.014,
+  },
 ];
 
 export function getRandomEvent() {
@@ -95,11 +161,16 @@ export function getRandomEvent() {
 }
 
 export function applyEvent(stock, event) {
-  const multiplier = event.effect === 'up' ? 1 + event.magnitude : 1 - event.magnitude;
+  const cappedMagnitude = clamp(event.magnitude, 0, 0.025);
+  const multiplier = event.effect === 'up' ? 1 + cappedMagnitude : 1 - cappedMagnitude;
+  const price = Math.round(stock.price * multiplier * 100) / 100;
+  const change = price - stock.price;
+
   return {
     ...stock,
-    price: Math.round(stock.price * multiplier * 100) / 100,
-    change: Math.round(stock.price * (multiplier - 1) * 100) / 100,
-    changePercent: Math.round((multiplier - 1) * 10000) / 100,
+    price,
+    change: Math.round(change * 100) / 100,
+    changePercent: Math.round((change / stock.price) * 10000) / 100,
+    priceHistory: [...stock.priceHistory.slice(-89), price],
   };
 }

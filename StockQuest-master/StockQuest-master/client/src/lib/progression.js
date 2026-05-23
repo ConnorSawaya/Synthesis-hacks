@@ -14,6 +14,6 @@ export function isChallengeUnlocked(completedLessons) {
   return getPassedLessonCount(completedLessons) >= 1;
 }
 
-export function isPracticeUnlocked(completedLessons) {
+export function isMarketUnlocked(completedLessons) {
   return hasPassedLesson(completedLessons, 'module-1-quiz');
 }
