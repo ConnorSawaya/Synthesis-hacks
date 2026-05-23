@@ -104,7 +104,7 @@ export default function SignIn() {
             </div>
             <div>
               <div className="text-sm font-bold text-slate-900">StockPilot</div>
-              <div className="text-xs text-slate-500">Learn with market-simulation challenges</div>
+              <div className="text-xs text-slate-500">Learn with lessons, practice trades, and simple market news</div>
             </div>
           </div>
         </div>
@@ -115,6 +115,9 @@ export default function SignIn() {
             <h1 className="mt-3 text-3xl font-bold text-slate-900">
               {mode === 'signup' ? 'Start here' : 'Welcome back'}
             </h1>
+            <p className="mt-3 text-sm leading-6 text-slate-500">
+              This is a practice build, so sign-in is quick and your progress now stays on this device.
+            </p>
 
             <div className="mt-8">
               <AuthForm mode={mode} onSubmit={handleAuth} onToggleMode={(next) => setSearchParams({ mode: next })} />
@@ -125,7 +128,7 @@ export default function SignIn() {
                 onClick={handleQuickStart}
                 className="w-full rounded-3xl border border-orange-200 bg-orange-50 px-4 py-3 text-sm font-semibold text-orange-700 transition hover:bg-orange-100"
               >
-                Continue in demo mode
+                Jump into demo mode
               </button>
             </div>
           </div>

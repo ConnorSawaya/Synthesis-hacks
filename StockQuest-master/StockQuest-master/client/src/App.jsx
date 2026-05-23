@@ -13,8 +13,7 @@ import Leaderboard from './pages/Leaderboard';
 import Profile from './pages/Profile';
 import SettingsPage from './pages/SettingsPage';
 import ParentalDashboard from './pages/ParentalDashboard';
-import MarketChallenge from './pages/MarketChallenge';
-import { isChallengeUnlocked, isMarketUnlocked } from './lib/progression';
+import { isMarketUnlocked } from './lib/progression';
 
 function AppLayout({ children }) {
   return (
@@ -44,7 +43,6 @@ function FeatureGate({ allowed, redirectTo = '/', children }) {
 
 export default function App() {
   const { user, completedLessons, tickHeartRefill } = useStore();
-  const challengeUnlocked = isChallengeUnlocked(completedLessons);
   const marketUnlocked = isMarketUnlocked(completedLessons);
 
   useEffect(() => {
@@ -67,28 +65,12 @@ export default function App() {
     <AppLayout>
       <Routes>
         <Route path="/" element={<Dashboard />} />
-        <Route
-          path="/challenge"
-          element={
-            <FeatureGate allowed={challengeUnlocked} redirectTo="/lessons">
-              <MarketChallenge />
-            </FeatureGate>
-          }
-        />
-        <Route
-          path="/challenge/:challengeId"
-          element={
-            <FeatureGate allowed={challengeUnlocked} redirectTo="/lessons">
-              <MarketChallenge />
-            </FeatureGate>
-          }
-        />
         <Route path="/lessons" element={<LessonsPage />} />
         <Route path="/lessons/:lessonId" element={<LessonScreen />} />
         <Route
           path="/trade"
           element={
-            <FeatureGate allowed={marketUnlocked} redirectTo={challengeUnlocked ? '/challenge' : '/lessons'}>
+            <FeatureGate allowed={marketUnlocked} redirectTo="/lessons">
               <TradingSimulator />
             </FeatureGate>
           }
@@ -96,7 +78,7 @@ export default function App() {
         <Route
           path="/news"
           element={
-            <FeatureGate allowed={marketUnlocked} redirectTo={challengeUnlocked ? '/challenge' : '/lessons'}>
+            <FeatureGate allowed={marketUnlocked} redirectTo="/lessons">
               <FinanceNewsPage />
             </FeatureGate>
           }
@@ -104,7 +86,7 @@ export default function App() {
         <Route
           path="/portfolio"
           element={
-            <FeatureGate allowed={marketUnlocked} redirectTo={challengeUnlocked ? '/challenge' : '/lessons'}>
+            <FeatureGate allowed={marketUnlocked} redirectTo="/lessons">
               <PortfolioPage />
             </FeatureGate>
           }

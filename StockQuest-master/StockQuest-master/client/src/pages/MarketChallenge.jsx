@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import { useStore } from '../store/useStore';
 import { getChallengeById, getNextChallengeId, MARKET_CHALLENGES } from '../data/challenges';
+import { getLessonById } from '../data/lessons';
 import {
   CheckCircle2,
   ChevronRight,
@@ -105,6 +106,7 @@ export default function MarketChallenge() {
   };
 
   const nextChallengeId = getNextChallengeId(resolvedChallengeId);
+  const relatedLesson = getLessonById(challenge.relatedLessonId);
   const progressSegments = [0, 1, 2];
   const mascotLabel = challenge.company
     .split(' ')
@@ -372,11 +374,11 @@ export default function MarketChallenge() {
               to={`/lessons/${challenge.relatedLessonId}`}
               className="font-medium text-[#378ADD] hover:underline"
             >
-              Related lesson: {challenge.relatedLessonId}
+              Related lesson: {relatedLesson?.title || challenge.relatedLessonId}
             </Link>
           ) : (
             <span>
-              {challenge.title} Â· Step {stage + 1} of 3
+              {challenge.title} - Step {stage + 1} of 3
             </span>
           )}
         </div>
@@ -386,7 +388,7 @@ export default function MarketChallenge() {
             className="rounded-xl border border-slate-200 px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50"
             style={{ borderWidth: '0.5px' }}
           >
-            {showResult ? 'Next' : 'Skip'}
+            {showResult ? 'Next challenge' : 'Back to lessons'}
           </button>
           {!showResult ? (
             <button

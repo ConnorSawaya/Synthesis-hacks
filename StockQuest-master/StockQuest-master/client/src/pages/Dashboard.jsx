@@ -9,14 +9,12 @@ import {
   GraduationCap,
   Lock,
   Newspaper,
-  Target,
   TrendingUp,
   Wallet,
 } from 'lucide-react';
 import { useStore } from '../store/useStore';
 import { MODULES, getLessonById, getLessonCashReward, getModuleProgress } from '../data/lessons';
-import { MARKET_CHALLENGES } from '../data/challenges';
-import { getPassedLessonCount, isChallengeUnlocked, isMarketUnlocked } from '../lib/progression';
+import { getPassedLessonCount, isMarketUnlocked } from '../lib/progression';
 import { getTotalPortfolioValue } from '../lib/portfolio';
 
 function formatMoney(value) {
@@ -75,7 +73,6 @@ export default function Dashboard() {
     completedLessons,
     holdings,
     transactions,
-    completedChallenges,
     cash,
     marketSimulation,
   } = useStore();
@@ -84,16 +81,12 @@ export default function Dashboard() {
   const totalLessons = MODULES.reduce((sum, mod) => sum + mod.lessons.length, 0);
   const passedLessons = getPassedLessonCount(completedLessons);
   const progressPercent = Math.round((passedLessons / totalLessons) * 100);
-  const challengeProgress = MARKET_CHALLENGES.length
-    ? Math.round((completedChallenges.length / MARKET_CHALLENGES.length) * 100)
-    : 0;
   const nextLesson = getNextLesson(completedLessons);
   const latestCompletedLesson = getLatestCompletedLesson(completedLessons);
   const activeModule = nextLesson
     ? MODULES.find((mod) => mod.id === nextLesson.moduleId)
     : MODULES[MODULES.length - 1];
   const activeModuleProgress = activeModule ? getModuleProgress(activeModule.id, completedLessons) : 100;
-  const challengeUnlocked = isChallengeUnlocked(completedLessons);
   const marketUnlocked = isMarketUnlocked(completedLessons);
   const lessonCashEarned = completedLessons.reduce(
     (sum, lesson) => sum + Number(lesson.cashEarned || 0),
@@ -107,31 +100,21 @@ export default function Dashboard() {
     : cash;
   const openPositions = holdings.filter((holding) => holding.shares > 0).length;
   const nextAction = (() => {
-    if (!challengeUnlocked && nextLesson) {
+    if (!marketUnlocked && nextLesson) {
       return {
-        eyebrow: 'Today\'s next step',
+        eyebrow: 'Next up',
         title: `Continue: ${nextLesson.title}`,
-        body: `You are working through ${nextLesson.moduleName}. Pass with 80% or higher to keep the path moving.`,
+        body: `Finish this lesson, earn more practice cash, and keep your path moving.`,
         to: `/lessons/${nextLesson.id}`,
-        label: 'Continue lesson',
-      };
-    }
-
-    if (challengeUnlocked && !marketUnlocked) {
-      return {
-        eyebrow: 'Today\'s next step',
-        title: 'Practice one market decision',
-        body: 'Use a challenge to slow down, check the evidence, and explain why a trade might be risky.',
-        to: '/challenge',
-        label: 'Open challenge',
+        label: 'Start next lesson',
       };
     }
 
     if (marketUnlocked && openPositions === 0) {
       return {
-        eyebrow: 'Today\'s next step',
-        title: 'Use your lesson cash carefully',
-        body: 'Search a company, compare it with another stock, and make a small practice trade only if the reason makes sense.',
+        eyebrow: 'Next up',
+        title: 'Make your first practice trade',
+        body: 'Pick a company, check the chart, and use your lesson cash carefully.',
         to: '/trade',
         label: 'Open market',
       };
@@ -139,18 +122,18 @@ export default function Dashboard() {
 
     if (marketUnlocked) {
       return {
-        eyebrow: 'Today\'s next step',
-        title: 'Review what changed in your portfolio',
-        body: 'Your holdings now move with the market. Check whether the change came from price movement, buying, or selling.',
+        eyebrow: 'Next up',
+        title: 'Check what changed today',
+        body: 'See whether your portfolio moved because of prices, buying, or selling.',
         to: '/portfolio',
         label: 'Review portfolio',
       };
     }
 
     return {
-      eyebrow: 'Today\'s next step',
-      title: 'Review lessons',
-      body: 'You have completed the main lesson path. Keep practicing so the ideas stay fresh.',
+      eyebrow: 'Next up',
+      title: 'Keep practicing',
+      body: 'You finished the main path. Replay lessons or check the market to stay sharp.',
       to: '/lessons',
       label: 'Review lessons',
     };
@@ -165,13 +148,6 @@ export default function Dashboard() {
       icon: BookOpen,
     },
     {
-      label: 'Challenge',
-      detail: challengeUnlocked ? `${challengeProgress}% complete` : 'Pass 1 lesson',
-      status: !challengeUnlocked ? 'Locked' : marketUnlocked ? 'Complete' : 'Current',
-      tone: !challengeUnlocked ? 'locked' : marketUnlocked ? 'complete' : 'current',
-      icon: Target,
-    },
-    {
       label: 'Market',
       detail: marketUnlocked ? `${transactions.length} trades made` : 'Pass Module 1 quiz',
       status: !marketUnlocked ? 'Locked' : transactions.length > 0 ? 'In use' : 'Ready',
@@ -180,14 +156,14 @@ export default function Dashboard() {
     },
     {
       label: 'Portfolio',
-      detail: marketUnlocked ? `${openPositions} open positions` : 'Unlocks with market',
+      detail: marketUnlocked ? `${openPositions} holdings live` : 'Unlocks with market',
       status: !marketUnlocked ? 'Locked' : openPositions > 0 ? 'In use' : 'Ready',
       tone: !marketUnlocked ? 'locked' : openPositions > 0 ? 'current' : 'ready',
       icon: BarChart3,
     },
     {
       label: 'News',
-      detail: marketUnlocked ? 'Connect headlines to prices' : 'Unlocks with market',
+      detail: marketUnlocked ? 'See how news can move prices' : 'Unlocks with market',
       status: marketUnlocked ? 'Ready' : 'Locked',
       tone: marketUnlocked ? 'ready' : 'locked',
       icon: Newspaper,
@@ -217,18 +193,12 @@ export default function Dashboard() {
               {nextAction.label}
               <ChevronRight className="h-4 w-4" />
             </Link>
-            <Link
-              to="/lessons"
-              className="inline-flex items-center gap-2 rounded-2xl border border-gray-300 bg-white px-5 py-3 text-sm font-semibold text-gray-900 transition hover:bg-gray-50"
-            >
-              Review lessons
-            </Link>
             {marketUnlocked ? (
               <Link
                 to="/news"
                 className="inline-flex items-center gap-2 rounded-2xl border border-gray-300 bg-white px-5 py-3 text-sm font-semibold text-gray-900 transition hover:bg-gray-50"
               >
-                Read finance news
+                Read market news
               </Link>
             ) : null}
           </div>
@@ -239,7 +209,7 @@ export default function Dashboard() {
               <div className="mt-2 text-2xl font-black text-gray-900">{passedLessons}/{totalLessons}</div>
             </div>
             <div className="rounded-[1.25rem] bg-gray-50 px-4 py-4">
-              <div className="text-xs font-semibold uppercase tracking-[0.16em] text-gray-400">Lesson cash earned</div>
+              <div className="text-xs font-semibold uppercase tracking-[0.16em] text-gray-400">Cash earned</div>
               <div className="mt-2 text-2xl font-black text-gray-900">{formatMoney(lessonCashEarned)}</div>
             </div>
             <div className="rounded-[1.25rem] bg-gray-50 px-4 py-4">
@@ -256,12 +226,12 @@ export default function Dashboard() {
         <div className="rounded-[2rem] border border-gray-200 bg-white p-6">
           <div className="flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.18em] text-orange-700">
             <Wallet className="h-4 w-4" />
-            Student snapshot
+            Right now
           </div>
           <div className="mt-5 space-y-4">
             <div>
               <div className="flex items-center justify-between text-sm font-semibold text-gray-900">
-                <span>Overall learning progress</span>
+                <span>Path progress</span>
                 <span>{progressPercent}%</span>
               </div>
               <div className="mt-2 h-2 overflow-hidden rounded-full bg-gray-100">
@@ -309,17 +279,15 @@ export default function Dashboard() {
         <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <div className="flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.18em] text-orange-700">
-              <Target className="h-4 w-4" />
+              <BookOpen className="h-4 w-4" />
               Learning path
             </div>
             <h2 className="mt-3 text-2xl font-bold text-gray-900">What unlocks next</h2>
           </div>
-          <div className="text-sm text-gray-500">
-            Built around lessons first, practice second, reflection always.
-          </div>
+          <div className="text-sm text-gray-500">Learn first. Practice next. Trade when ready.</div>
         </div>
 
-        <div className="mt-5 grid gap-3 md:grid-cols-5">
+        <div className="mt-5 grid gap-3 md:grid-cols-4">
           {pathSteps.map((step, index) => {
             const Icon = step.icon;
             const isLocked = step.tone === 'locked';
@@ -379,10 +347,10 @@ export default function Dashboard() {
           </div>
           {latestCompletedLesson ? (
             <>
-              <h2 className="mt-4 text-2xl font-bold text-gray-900">{latestCompletedLesson.title}</h2>
-              <p className="mt-2 text-sm leading-6 text-gray-600">
-                Latest passed lesson in {latestCompletedLesson.moduleName}.
-              </p>
+            <h2 className="mt-4 text-2xl font-bold text-gray-900">{latestCompletedLesson.title}</h2>
+            <p className="mt-2 text-sm leading-6 text-gray-600">
+                Last win from {latestCompletedLesson.moduleName}.
+            </p>
               <div className="mt-5 grid gap-3 sm:grid-cols-2">
                 <div className="rounded-[1.25rem] bg-gray-50 px-4 py-4">
                   <div className="text-xs font-semibold uppercase tracking-[0.16em] text-gray-400">Score</div>
@@ -398,9 +366,9 @@ export default function Dashboard() {
             </>
           ) : (
             <>
-              <h2 className="mt-4 text-2xl font-bold text-gray-900">No lesson passed yet</h2>
+              <h2 className="mt-4 text-2xl font-bold text-gray-900">No lesson win yet</h2>
               <p className="mt-2 text-sm leading-6 text-gray-600">
-                Pass your first lesson to start building cash and unlock the next part of the app.
+                Pass your first lesson to earn cash and unlock what comes next.
               </p>
             </>
           )}
@@ -414,28 +382,21 @@ export default function Dashboard() {
             icon={BookOpen}
           />
           <DashboardAction
-            to="/challenge"
-            label="Practice a decision"
-            description={challengeUnlocked ? 'Work through risk, evidence, and trade timing.' : 'Pass one lesson to unlock challenges.'}
-            icon={Target}
-            locked={!challengeUnlocked}
-          />
-          <DashboardAction
             to="/trade"
-            label="Open market"
-            description={marketUnlocked ? 'Search, compare, and make practice trades.' : 'Pass the Module 1 quiz to unlock the market.'}
+            label="Market"
+            description={marketUnlocked ? 'Check a stock and try a trade.' : 'Pass Module 1 quiz to unlock.'}
             icon={TrendingUp}
             locked={!marketUnlocked}
           />
           <DashboardAction
             to="/portfolio"
-            label="Review portfolio"
+            label="Portfolio"
             description={
               marketUnlocked
                 ? openPositions > 0
-                  ? 'Track live value, cash, and open positions.'
-                  : 'Your portfolio appears after your first trade.'
-                : 'Portfolio unlocks with the market.'
+                  ? 'See what you own and how it changed.'
+                  : 'Shows up after your first trade.'
+                : 'Unlocks with Market.'
             }
             icon={CheckCircle2}
             locked={!marketUnlocked}

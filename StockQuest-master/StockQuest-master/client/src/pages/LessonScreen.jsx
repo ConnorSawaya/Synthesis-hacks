@@ -59,6 +59,7 @@ export default function LessonScreen() {
   const [correctCount, setCorrectCount] = useState(0);
   const [totalQuestions, setTotalQuestions] = useState(0);
   const [answered, setAnswered] = useState(false);
+  const [completionSummary, setCompletionSummary] = useState(null);
 
   if (!lesson) {
     return (
@@ -79,7 +80,7 @@ export default function LessonScreen() {
           <Lock className="h-8 w-8 text-gray-500" />
         </div>
         <h2 className="text-xl font-bold text-gray-900 mb-2">Lesson Locked</h2>
-        <p className="text-gray-500 text-sm mb-6">Complete the previous lessons first to unlock this one.</p>
+        <p className="text-gray-500 text-sm mb-6">Finish the lessons before this one, then come back here.</p>
         <button onClick={() => navigate('/lessons')} className="btn-primary mt-4">
           Back to Lessons
         </button>
@@ -148,10 +149,17 @@ export default function LessonScreen() {
       const quizXP = correctCount * 10;
       const completionXP = passed ? lesson.xpReward : 0;
       const lessonCashReward = passed ? getLessonCashReward(lesson, marketUnlocked) : 0;
+      const xpEarned = quizXP + completionXP;
       completeLesson(lesson.id, score, {
         correctAnswers: correctCount,
         totalQuestions,
-        xpEarned: quizXP + completionXP,
+        xpEarned,
+        cashEarned: lessonCashReward,
+      });
+      setCompletionSummary({
+        score,
+        passed,
+        xpEarned,
         cashEarned: lessonCashReward,
       });
 
@@ -212,6 +220,7 @@ export default function LessonScreen() {
     setCorrectCount(0);
     setTotalQuestions(0);
     setAnswered(false);
+    setCompletionSummary(null);
   }, []);
 
   return (
@@ -251,6 +260,25 @@ export default function LessonScreen() {
         </div>
 
         <HeartsDisplay hearts={hearts} />
+      </div>
+
+      <div className="mb-4 rounded-2xl border border-gray-200 bg-white px-4 py-3">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <div className="text-xs font-semibold uppercase tracking-[0.16em] text-gray-400">
+              {lesson.moduleName}
+            </div>
+            <div className="mt-1 text-lg font-bold text-gray-900">{lesson.title}</div>
+          </div>
+          {!reviewMode ? (
+            <div className="text-sm font-semibold text-gray-500">
+              Pass to earn <span className="text-gray-900">+{lesson.xpReward} XP</span>
+              {' '}and <span className="text-gray-900">${visibleLessonCashReward}</span>
+            </div>
+          ) : (
+            <div className="text-sm font-semibold text-gray-500">Review mode</div>
+          )}
+        </div>
       </div>
 
       {/* Content */}
@@ -343,8 +371,8 @@ export default function LessonScreen() {
 
       {/* Completion modals */}
       {showComplete && (() => {
-        const score = totalQuestions > 0 ? Math.round((correctCount / totalQuestions) * 100) : 100;
-        const passed = score >= 80;
+        const score = completionSummary?.score ?? (totalQuestions > 0 ? Math.round((correctCount / totalQuestions) * 100) : 100);
+        const passed = completionSummary?.passed ?? score >= 80;
         if (!passed) {
           return (
             <LessonFailedModal
@@ -356,8 +384,8 @@ export default function LessonScreen() {
         }
         return (
           <LessonCompleteModal
-            xpEarned={completedEntry?.xpEarned || lesson.xpReward}
-            cashEarned={completedEntry?.cashEarned || visibleLessonCashReward}
+            xpEarned={completionSummary?.xpEarned ?? lesson.xpReward}
+            cashEarned={completionSummary?.cashEarned ?? visibleLessonCashReward}
             onContinue={() => navigate('/lessons')}
           />
         );

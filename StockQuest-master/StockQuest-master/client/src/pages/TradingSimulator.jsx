@@ -577,9 +577,6 @@ export default function TradingSimulator() {
                       })}
                     </div>
                   </div>
-
-                  <p className="mt-3 text-sm leading-6 text-gray-600">{companyInfo?.description}</p>
-
                   <div className="mt-4 rounded-2xl border border-gray-200 bg-gray-50 p-2">
                     <StockLineChart
                       primaryLabel={selectedStock.symbol}

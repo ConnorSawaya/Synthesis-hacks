@@ -57,10 +57,10 @@ export default function PortfolioPage() {
               Portfolio
             </div>
             <h1 className="mt-4 text-3xl font-black tracking-tight text-gray-900 sm:text-4xl">
-              Your market holdings
+              Your portfolio
             </h1>
             <p className="mt-3 max-w-2xl text-base leading-7 text-gray-600">
-              See what you bought, how much you spent, and how your portfolio is doing over time.
+              See what you own, what you paid, and whether your practice trades are up or down.
             </p>
           </div>
 
@@ -76,7 +76,7 @@ export default function PortfolioPage() {
               to="/news"
               className="inline-flex items-center gap-2 rounded-2xl border border-gray-300 bg-white px-5 py-3 text-sm font-semibold text-gray-900 transition hover:bg-gray-50"
             >
-              Open news
+              News
             </Link>
           </div>
         </div>
@@ -86,10 +86,10 @@ export default function PortfolioPage() {
         <div className="rounded-[1.5rem] border border-gray-200 bg-white p-5">
           <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-gray-400">
             <Briefcase className="h-4 w-4" />
-            Total portfolio
+            Total value
           </div>
           <div className="mt-3 text-3xl font-black text-gray-900">${totalPortfolioValue.toFixed(2)}</div>
-          <div className="mt-2 text-sm text-gray-500">Cash plus the latest value of your current holdings.</div>
+          <div className="mt-2 text-sm text-gray-500">Cash plus what your current shares are worth right now.</div>
         </div>
 
         <div className="rounded-[1.5rem] border border-gray-200 bg-white p-5">
@@ -98,22 +98,22 @@ export default function PortfolioPage() {
             Cash left
           </div>
           <div className="mt-3 text-3xl font-black text-gray-900">${cash.toFixed(2)}</div>
-          <div className="mt-2 text-sm text-gray-500">Cash you still have ready for another market move.</div>
+          <div className="mt-2 text-sm text-gray-500">Money you can still use for another trade.</div>
         </div>
 
         <div className="rounded-[1.5rem] border border-gray-200 bg-white p-5">
           <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-gray-400">
             <DollarSign className="h-4 w-4" />
-            Money spent
+            Bought so far
           </div>
           <div className="mt-3 text-3xl font-black text-gray-900">${totalSpent.toFixed(2)}</div>
-          <div className="mt-2 text-sm text-gray-500">Total dollars you have used on market buy orders.</div>
+          <div className="mt-2 text-sm text-gray-500">Total money you have spent on buy orders.</div>
         </div>
 
         <div className="rounded-[1.5rem] border border-gray-200 bg-white p-5">
           <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-gray-400">
             <LineChart className="h-4 w-4" />
-            Net gain/loss
+            Up or down
           </div>
           <div className={`mt-3 text-3xl font-black ${lifetimeNet >= 0 ? 'text-green-600' : 'text-red-500'}`}>
             {lifetimeNet >= 0 ? '+' : ''}${lifetimeNet.toFixed(2)}
@@ -122,7 +122,7 @@ export default function PortfolioPage() {
             {learningCashEarned > 0 ? (
               <>
                 {returnPercent >= 0 ? '+' : ''}
-                {returnPercent.toFixed(2)}% versus the cash you earned from lessons.
+                {returnPercent.toFixed(2)}% compared with the cash you earned in lessons.
               </>
             ) : (
               'You start at $0 and build this balance from lesson rewards and trading results.'
@@ -135,7 +135,7 @@ export default function PortfolioPage() {
         <div className="rounded-[1.75rem] border border-gray-200 bg-white p-6">
           <div className="flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.18em] text-orange-700">
             <Briefcase className="h-4 w-4" />
-            Holdings
+            What you own
           </div>
 
           {portfolioHoldings.length > 0 ? (
@@ -155,11 +155,11 @@ export default function PortfolioPage() {
 
                     <div className="grid gap-3 sm:grid-cols-3">
                       <div className="rounded-2xl bg-white px-4 py-3">
-                        <div className="text-xs font-semibold uppercase tracking-[0.16em] text-gray-400">Current value</div>
+                        <div className="text-xs font-semibold uppercase tracking-[0.16em] text-gray-400">Worth now</div>
                         <div className="mt-2 text-lg font-bold text-gray-900">${holding.currentValue.toFixed(2)}</div>
                       </div>
                       <div className="rounded-2xl bg-white px-4 py-3">
-                        <div className="text-xs font-semibold uppercase tracking-[0.16em] text-gray-400">Money spent</div>
+                        <div className="text-xs font-semibold uppercase tracking-[0.16em] text-gray-400">Bought for</div>
                         <div className="mt-2 text-lg font-bold text-gray-900">${holding.spent.toFixed(2)}</div>
                       </div>
                       <div className="rounded-2xl bg-white px-4 py-3">
@@ -172,7 +172,7 @@ export default function PortfolioPage() {
                   <div className="mt-4 flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
                     <div className={`inline-flex items-center gap-2 text-sm font-semibold ${holding.gain >= 0 ? 'text-green-600' : 'text-red-500'}`}>
                       {holding.gain >= 0 ? <TrendingUp className="h-4 w-4" /> : <TrendingDown className="h-4 w-4" />}
-                      {holding.gain >= 0 ? '+' : ''}${holding.gain.toFixed(2)} on this holding
+                      {holding.gain >= 0 ? '+' : ''}${holding.gain.toFixed(2)} on this stock
                     </div>
 
                     <div className="grid gap-2 sm:grid-cols-2">
@@ -197,16 +197,16 @@ export default function PortfolioPage() {
             </div>
           ) : (
             <div className="mt-5 rounded-[1.5rem] bg-gray-50 px-5 py-6 text-sm leading-6 text-gray-600">
-              You have not bought any stocks yet. Start in Market, make your first trade, and your portfolio will show up here.
+              You have not bought any stocks yet. Make your first trade in Market and this page will fill in automatically.
             </div>
           )}
 
           <div className="mt-6 rounded-[1.5rem] border border-gray-200 bg-gray-50 p-5">
             <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
               <div>
-                <div className="text-sm font-semibold uppercase tracking-[0.18em] text-orange-700">Portfolio value graph</div>
+                <div className="text-sm font-semibold uppercase tracking-[0.18em] text-orange-700">Value over time</div>
                 <p className="mt-2 max-w-2xl text-sm leading-6 text-gray-600">
-                  This graph follows your cash plus the live value of any shares you still own.
+                  This graph tracks your cash plus the live value of any shares you still own.
                 </p>
               </div>
               <div className="text-sm font-semibold text-gray-500">
@@ -221,7 +221,7 @@ export default function PortfolioPage() {
 
         <div className="space-y-4">
           <div className="rounded-[1.5rem] border border-gray-200 bg-white p-5">
-            <div className="text-sm font-semibold uppercase tracking-[0.18em] text-orange-700">Portfolio details</div>
+            <div className="text-sm font-semibold uppercase tracking-[0.18em] text-orange-700">Quick facts</div>
             <div className="mt-4 space-y-3">
               <div className="rounded-2xl bg-gray-50 px-4 py-3">
                 <div className="text-xs font-semibold uppercase tracking-[0.16em] text-gray-400">Holdings value</div>
@@ -245,9 +245,9 @@ export default function PortfolioPage() {
           </div>
 
           <div className="rounded-[1.5rem] border border-gray-200 bg-white p-5">
-            <div className="text-sm font-semibold uppercase tracking-[0.18em] text-orange-700">Learning note</div>
+            <div className="text-sm font-semibold uppercase tracking-[0.18em] text-orange-700">What this means</div>
             <p className="mt-3 text-sm leading-6 text-gray-600">
-              This portfolio is part of a simulation. Prices can go up or down, and the goal is to learn how your choices change the results over time.
+              This is a simulation. Prices can go up or down, and the goal is to learn how your decisions change the result over time.
             </p>
           </div>
         </div>

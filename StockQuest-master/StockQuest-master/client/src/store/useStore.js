@@ -1,14 +1,19 @@
 import { create } from 'zustand';
+import { createJSONStorage, persist } from 'zustand/middleware';
 import { generateMarket } from '../lib/stockEngine';
 
 const INITIAL_HEARTS = 5;
 const MAX_HEARTS = 5;
 const HEART_REFILL_MS = 15 * 60 * 1000; // 15 minutes
 
-export const useStore = create((set, get) => ({
+function buildFreshMarket() {
+  return generateMarket(90);
+}
+
+export const useStore = create(persist((set, get) => ({
   // ── Auth ────────────────────────────────────────────
   user: null,
-  token: localStorage.getItem('sq_token'),
+  token: null,
 
   setUser: (user) => set({ user }),
   setToken: (token) => {
@@ -98,7 +103,7 @@ export const useStore = create((set, get) => ({
   cash: 0,
   holdings: [], // [{ stockId, symbol, shares, avgPrice }]
   transactions: [],
-  marketSimulation: generateMarket(90),
+  marketSimulation: buildFreshMarket(),
   addCash: (amount) => set((s) => ({ cash: s.cash + amount })),
   updateMarketSimulation: (updater) =>
     set((state) => ({
@@ -232,8 +237,47 @@ export const useStore = create((set, get) => ({
   adminFillHearts: () => set({ hearts: 5 }),
   adminAddCash: (amount) => set((s) => ({ cash: s.cash + amount })),
   adminResetAll: () => set({
-    xp: 0, hearts: 5, streakCount: 0, earnedBadges: [],
-    completedLessons: [], cash: 0, holdings: [], transactions: [], marketSimulation: generateMarket(90),
+    xp: 0,
+    hearts: 5,
+    lastHeartLoss: null,
+    streakCount: 0,
+    streakLastDate: null,
+    earnedBadges: [],
+    completedLessons: [],
+    cash: 0,
+    holdings: [],
+    transactions: [],
+    marketSimulation: buildFreshMarket(),
+    currentChallengeId: 'snackbot-hype',
+    completedChallenges: [],
+    challengeResponses: [],
     reviewHeartRewardsClaimed: [],
+  }),
+}), {
+  name: 'sq-store',
+  storage: createJSONStorage(() => localStorage),
+  partialize: (state) => ({
+    user: state.user,
+    token: state.token,
+    hearts: state.hearts,
+    lastHeartLoss: state.lastHeartLoss,
+    xp: state.xp,
+    streakCount: state.streakCount,
+    streakLastDate: state.streakLastDate,
+    streakFreezeAvailable: state.streakFreezeAvailable,
+    earnedBadges: state.earnedBadges,
+    cash: state.cash,
+    holdings: state.holdings,
+    transactions: state.transactions,
+    marketSimulation: state.marketSimulation,
+    completedLessons: state.completedLessons,
+    currentModule: state.currentModule,
+    difficulty: state.difficulty,
+    notifications: state.notifications,
+    currentChallengeId: state.currentChallengeId,
+    completedChallenges: state.completedChallenges,
+    challengeResponses: state.challengeResponses,
+    reviewHeartRewardsClaimed: state.reviewHeartRewardsClaimed,
+    adminMode: state.adminMode,
   }),
 }));

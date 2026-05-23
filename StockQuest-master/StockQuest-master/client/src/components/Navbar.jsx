@@ -1,31 +1,34 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useStore } from '../store/useStore';
-import { BookOpen, BarChart3, User, Home, TrendingUp, Lock, Newspaper, Briefcase } from 'lucide-react';
+import { BookOpen, BarChart3, User, Home, TrendingUp, Lock, Briefcase } from 'lucide-react';
 import { isMarketUnlocked } from '../lib/progression';
 
 const NAV_ITEMS = [
-  { path: '/', label: 'Home', icon: Home, minLevel: 1, hint: 'Continue your journey' },
-  { path: '/lessons', label: 'Learn', icon: BookOpen, minLevel: 1, hint: 'Start the next lesson' },
-  { path: '/trade', label: 'Market', icon: TrendingUp, minLevel: 1, hint: 'Follow the market' },
-  { path: '/news', label: 'News', icon: Newspaper, minLevel: 1, hint: 'Connect headlines to prices' },
-  { path: '/portfolio', label: 'Portfolio', icon: Briefcase, minLevel: 1, hint: 'Track your holdings' },
+  { path: '/', label: 'Home', icon: Home, minLevel: 1, hint: 'Pick your next move' },
+  { path: '/lessons', label: 'Learn', icon: BookOpen, minLevel: 1, hint: 'Do the next lesson' },
+  { path: '/trade', label: 'Market', icon: TrendingUp, minLevel: 1, hint: 'Try a practice trade' },
+  { path: '/portfolio', label: 'Portfolio', icon: Briefcase, minLevel: 1, hint: 'Check what you own' },
 ];
 
 function DesktopItem({ item, active, locked }) {
   const Icon = item.icon;
 
   if (locked) {
+    const lockedCopy = item.path === '/trade' || item.path === '/portfolio'
+      ? 'Pass Module 1 quiz to unlock'
+      : `Unlocks at Level ${item.minLevel}`;
+
     return (
       <div
         className="flex items-center gap-3 rounded-2xl px-4 py-3 text-sm text-gray-400"
-        title={`Reach Level ${item.minLevel} to unlock`}
+        title={lockedCopy}
       >
         <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gray-100">
           <Lock className="h-4 w-4" />
         </div>
         <div className="min-w-0 flex-1">
           <div className="font-semibold text-gray-500">{item.label}</div>
-          <div className="text-xs text-gray-400">Unlocks at Level {item.minLevel}</div>
+          <div className="text-xs text-gray-400">{lockedCopy}</div>
         </div>
       </div>
     );
@@ -56,9 +59,11 @@ export default function Navbar() {
   const location = useLocation();
   const level = Math.floor(xp / 100) + 1;
   const marketUnlocked = isMarketUnlocked(completedLessons);
-  const desktopNavItems = NAV_ITEMS.filter((item) => !['/trade', '/news', '/portfolio'].includes(item.path) || marketUnlocked);
-  const mobileNavItems = [...NAV_ITEMS, { path: '/profile', label: 'Profile', icon: User, minLevel: 1, hint: 'Progress and settings' }]
-    .filter((item) => !['/trade', '/news', '/portfolio'].includes(item.path) || marketUnlocked);
+  const desktopNavItems = NAV_ITEMS.map((item) => ({
+    ...item,
+    gated: item.path === '/trade' || item.path === '/portfolio' ? !marketUnlocked : false,
+  }));
+  const mobileNavItems = [...desktopNavItems, { path: '/profile', label: 'Profile', icon: User, minLevel: 1, hint: 'Badges and progress', gated: false }];
 
   return (
     <>
@@ -69,7 +74,7 @@ export default function Navbar() {
               key={item.path}
               item={item}
               active={location.pathname === item.path}
-              locked={level < item.minLevel}
+              locked={level < item.minLevel || item.gated}
             />
           ))}
         </div>
@@ -105,12 +110,12 @@ export default function Navbar() {
           {mobileNavItems.map((item) => {
             const Icon = item.icon;
             const active = location.pathname === item.path;
-            const locked = level < item.minLevel;
+            const locked = level < item.minLevel || item.gated;
 
             return locked ? (
               <div key={item.path} className="flex flex-col items-center gap-1 py-2 text-[10px] text-gray-400">
                 <Lock className="h-4 w-4" />
-                <span>Lv {item.minLevel}</span>
+                <span>{item.path === '/trade' || item.path === '/portfolio' ? 'Quiz' : `Lv ${item.minLevel}`}</span>
               </div>
             ) : (
               <Link

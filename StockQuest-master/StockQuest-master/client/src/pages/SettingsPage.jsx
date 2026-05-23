@@ -72,14 +72,14 @@ export default function SettingsPage() {
         <p className="mt-3 text-xs text-gray-400">
           {difficulty === 'beginner' && 'Guided hints, simpler choices, and a calmer first trading experience.'}
           {difficulty === 'intermediate' && 'Fewer hints, standard pacing, and more independence.'}
-          {difficulty === 'advanced' && 'Less guidance and more independent challenge.'}
+          {difficulty === 'advanced' && 'Less guidance and more independent decision-making.'}
         </p>
       </Section>
 
       <Section title="Notifications" icon={Bell}>
         <Toggle
           label="Push Notifications"
-          description="Daily reminders and challenge alerts"
+          description="Daily reminders and learning alerts"
           value={notifications}
           onChange={setNotifications}
         />
