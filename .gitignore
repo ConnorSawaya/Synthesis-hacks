@@ -1,0 +1,7 @@
+StockPilot/StockPilot/client/node_modules/
+StockPilot/StockPilot/server/node_modules/
+StockPilot/StockPilot/client/dist/
+StockPilot/StockPilot/client/build/
+StockPilot/StockPilot/server/.env
+StockPilot/StockPilot/**/*.log
+StockPilot/StockPilot/**/*.err.log

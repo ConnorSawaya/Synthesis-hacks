@@ -1,0 +1,283 @@
+import { create } from 'zustand';
+import { createJSONStorage, persist } from 'zustand/middleware';
+import { generateMarket } from '../lib/stockEngine';
+
+const INITIAL_HEARTS = 5;
+const MAX_HEARTS = 5;
+const HEART_REFILL_MS = 15 * 60 * 1000; // 15 minutes
+
+function buildFreshMarket() {
+  return generateMarket(90);
+}
+
+export const useStore = create(persist((set, get) => ({
+  // ── Auth ────────────────────────────────────────────
+  user: null,
+  token: null,
+
+  setUser: (user) => set({ user }),
+  setToken: (token) => {
+    if (token) localStorage.setItem('sq_token', token);
+    else localStorage.removeItem('sq_token');
+    set({ token });
+  },
+  logout: () => {
+    localStorage.removeItem('sq_token');
+    set({ user: null, token: null });
+  },
+
+  // ── Hearts ──────────────────────────────────────────
+  hearts: INITIAL_HEARTS,
+  lastHeartLoss: null,
+
+  loseHeart: () => {
+    const { hearts } = get();
+    if (hearts > 0) {
+      set({ hearts: hearts - 1, lastHeartLoss: Date.now() });
+    }
+  },
+  refillHearts: () => set({ hearts: MAX_HEARTS, lastHeartLoss: null }),
+  addHeart: () => {
+    const { hearts } = get();
+    if (hearts < MAX_HEARTS) set({ hearts: hearts + 1 });
+  },
+  hasHearts: () => get().hearts > 0,
+
+  // Check & auto-refill one heart if enough time has passed
+  tickHeartRefill: () => {
+    const { hearts, lastHeartLoss } = get();
+    if (hearts >= MAX_HEARTS || !lastHeartLoss) return;
+    if (Date.now() - lastHeartLoss >= HEART_REFILL_MS) {
+      const newHearts = hearts + 1;
+      set({
+        hearts: newHearts,
+        lastHeartLoss: newHearts < MAX_HEARTS ? Date.now() : null,
+      });
+    }
+  },
+  getNextHeartIn: () => {
+    const { hearts, lastHeartLoss } = get();
+    if (hearts >= MAX_HEARTS || !lastHeartLoss) return null;
+    const elapsed = Date.now() - lastHeartLoss;
+    return Math.max(0, HEART_REFILL_MS - elapsed);
+  },
+
+  // ── XP & Level ──────────────────────────────────────
+  xp: 0,
+  addXP: (amount) => set((s) => ({ xp: s.xp + amount })),
+  getLevel: () => {
+    const { xp } = get();
+    return Math.floor(xp / 100) + 1;
+  },
+  getLevelProgress: () => {
+    const { xp } = get();
+    return (xp % 100) / 100;
+  },
+
+  // ── Streak ──────────────────────────────────────────
+  streakCount: 0,
+  streakLastDate: null,
+  streakFreezeAvailable: true,
+
+  recordStreak: () => {
+    const today = new Date().toDateString();
+    const { streakLastDate, streakCount } = get();
+    if (streakLastDate === today) return; // already recorded today
+    const yesterday = new Date(Date.now() - 86400000).toDateString();
+    if (streakLastDate === yesterday) {
+      set({ streakCount: streakCount + 1, streakLastDate: today });
+    } else {
+      set({ streakCount: 1, streakLastDate: today });
+    }
+  },
+
+  // ── Badges ──────────────────────────────────────────
+  earnedBadges: [],
+  earnBadge: (badge) =>
+    set((s) => {
+      if (s.earnedBadges.find((b) => b.id === badge.id)) return s;
+      return { earnedBadges: [...s.earnedBadges, { ...badge, earnedAt: Date.now() }] };
+    }),
+
+  // ── Portfolio ───────────────────────────────────────
+  cash: 0,
+  holdings: [], // [{ stockId, symbol, shares, avgPrice }]
+  transactions: [],
+  marketSimulation: buildFreshMarket(),
+  addCash: (amount) => set((s) => ({ cash: s.cash + amount })),
+  updateMarketSimulation: (updater) =>
+    set((state) => ({
+      marketSimulation:
+        typeof updater === 'function' ? updater(state.marketSimulation) : updater,
+    })),
+
+  buyStock: (stock, shares) => {
+    const { cash, holdings, transactions } = get();
+    const cost = stock.price * shares;
+    if (cost > cash) return false;
+    const existing = holdings.find((h) => h.stockId === stock.id);
+    let newHoldings;
+    if (existing) {
+      const totalShares = existing.shares + shares;
+      const avgPrice =
+        (existing.avgPrice * existing.shares + stock.price * shares) / totalShares;
+      newHoldings = holdings.map((h) =>
+        h.stockId === stock.id ? { ...h, shares: totalShares, avgPrice } : h
+      );
+    } else {
+      newHoldings = [
+        ...holdings,
+        { stockId: stock.id, symbol: stock.symbol, shares, avgPrice: stock.price },
+      ];
+    }
+    set({
+      cash: cash - cost,
+      holdings: newHoldings,
+      transactions: [
+        ...transactions,
+        { stockId: stock.id, symbol: stock.symbol, type: 'buy', shares, price: stock.price, timestamp: Date.now() },
+      ],
+    });
+    return true;
+  },
+
+  sellStock: (stock, shares) => {
+    const { cash, holdings, transactions } = get();
+    const existing = holdings.find((h) => h.stockId === stock.id);
+    if (!existing || existing.shares < shares) return false;
+    const revenue = stock.price * shares;
+    const remaining = existing.shares - shares;
+    const newHoldings = remaining > 0
+      ? holdings.map((h) => (h.stockId === stock.id ? { ...h, shares: remaining } : h))
+      : holdings.filter((h) => h.stockId !== stock.id);
+    set({
+      cash: cash + revenue,
+      holdings: newHoldings,
+      transactions: [
+        ...transactions,
+        { stockId: stock.id, symbol: stock.symbol, type: 'sell', shares, price: stock.price, timestamp: Date.now() },
+      ],
+    });
+    return true;
+  },
+
+  // ── Lessons Progress ────────────────────────────────
+  completedLessons: [],
+  currentModule: 1,
+  setCurrentModule: (moduleIndex) => set({ currentModule: moduleIndex }),
+
+  completeLesson: (lessonId, score, metadata = {}) =>
+    set((s) => ({
+      completedLessons: [
+        ...s.completedLessons.filter((l) => l.lessonId !== lessonId),
+        { lessonId, score, completedAt: Date.now(), ...metadata },
+      ],
+    })),
+
+  isModuleUnlocked: (moduleIndex) => {
+    const { completedLessons } = get();
+    if (moduleIndex <= 1) return true;
+    // Check if previous module's quiz scored ≥80%
+    const prevQuiz = completedLessons.find(
+      (l) => l.lessonId === `module-${moduleIndex - 1}-quiz`
+    );
+    return prevQuiz && prevQuiz.score >= 80;
+  },
+
+  // ── Settings ────────────────────────────────────────
+  difficulty: 'beginner',
+  setDifficulty: (d) => set({ difficulty: d }),
+  notifications: true,
+  setNotifications: (n) => set({ notifications: n }),
+
+  currentChallengeId: 'snackbot-hype',
+  completedChallenges: [],
+  challengeResponses: [],
+  reviewHeartRewardsClaimed: [],
+  setCurrentChallenge: (challengeId) => set({ currentChallengeId: challengeId }),
+  claimReviewHeartReward: (lessonId) =>
+    set((s) => {
+      if (s.reviewHeartRewardsClaimed.includes(lessonId) || s.hearts >= MAX_HEARTS) return s;
+      return {
+        hearts: s.hearts + 1,
+        reviewHeartRewardsClaimed: [...s.reviewHeartRewardsClaimed, lessonId],
+      };
+    }),
+  completeChallenge: (challengeId, payload) =>
+    set((s) => {
+      const today = new Date().toDateString();
+      const yesterday = new Date(Date.now() - 86400000).toDateString();
+      const streakCount =
+        s.streakLastDate === today
+          ? s.streakCount
+          : s.streakLastDate === yesterday
+          ? s.streakCount + 1
+          : 1;
+
+      return {
+        currentChallengeId: challengeId,
+        completedChallenges: s.completedChallenges.includes(challengeId)
+          ? s.completedChallenges
+          : [...s.completedChallenges, challengeId],
+        challengeResponses: [
+          ...s.challengeResponses.filter((response) => response.challengeId !== challengeId),
+          { challengeId, completedAt: Date.now(), ...payload },
+        ],
+        xp: s.xp + (payload.xpEarned || 0),
+        streakCount,
+        streakLastDate: s.streakLastDate === today ? s.streakLastDate : today,
+      };
+    }),
+
+  // ── Admin ────────────────────────────────────────────
+  adminMode: false,
+  toggleAdminMode: () => set((s) => ({ adminMode: !s.adminMode })),
+  adminAddXP: (amount) => set((s) => ({ xp: s.xp + amount })),
+  adminResetXP: () => set({ xp: 0 }),
+  adminFillHearts: () => set({ hearts: 5 }),
+  adminAddCash: (amount) => set((s) => ({ cash: s.cash + amount })),
+  adminResetAll: () => set({
+    xp: 0,
+    hearts: 5,
+    lastHeartLoss: null,
+    streakCount: 0,
+    streakLastDate: null,
+    earnedBadges: [],
+    completedLessons: [],
+    cash: 0,
+    holdings: [],
+    transactions: [],
+    marketSimulation: buildFreshMarket(),
+    currentChallengeId: 'snackbot-hype',
+    completedChallenges: [],
+    challengeResponses: [],
+    reviewHeartRewardsClaimed: [],
+  }),
+}), {
+  name: 'sq-store',
+  storage: createJSONStorage(() => localStorage),
+  partialize: (state) => ({
+    user: state.user,
+    token: state.token,
+    hearts: state.hearts,
+    lastHeartLoss: state.lastHeartLoss,
+    xp: state.xp,
+    streakCount: state.streakCount,
+    streakLastDate: state.streakLastDate,
+    streakFreezeAvailable: state.streakFreezeAvailable,
+    earnedBadges: state.earnedBadges,
+    cash: state.cash,
+    holdings: state.holdings,
+    transactions: state.transactions,
+    marketSimulation: state.marketSimulation,
+    completedLessons: state.completedLessons,
+    currentModule: state.currentModule,
+    difficulty: state.difficulty,
+    notifications: state.notifications,
+    currentChallengeId: state.currentChallengeId,
+    completedChallenges: state.completedChallenges,
+    challengeResponses: state.challengeResponses,
+    reviewHeartRewardsClaimed: state.reviewHeartRewardsClaimed,
+    adminMode: state.adminMode,
+  }),
+}));
