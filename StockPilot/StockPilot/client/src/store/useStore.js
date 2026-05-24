@@ -10,12 +10,37 @@ function buildFreshMarket() {
   return generateMarket(90);
 }
 
+function buildFreshProgressState() {
+  return {
+    hearts: INITIAL_HEARTS,
+    lastHeartLoss: null,
+    xp: 0,
+    streakCount: 0,
+    streakLastDate: null,
+    streakFreezeAvailable: true,
+    earnedBadges: [],
+    cash: 0,
+    holdings: [],
+    transactions: [],
+    marketSimulation: buildFreshMarket(),
+    completedLessons: [],
+    currentModule: 1,
+    difficulty: 'beginner',
+    notifications: true,
+    currentChallengeId: 'snackbot-hype',
+    completedChallenges: [],
+    challengeResponses: [],
+    reviewHeartRewardsClaimed: [],
+    adminMode: false,
+  };
+}
+
 export const useStore = create(persist((set, get) => ({
   // ── Auth ────────────────────────────────────────────
   user: null,
   token: null,
 
-  setUser: (user) => set({ user }),
+  setUser: (user) => set({ ...buildFreshProgressState(), user }),
   setToken: (token) => {
     if (token) localStorage.setItem('sq_token', token);
     else localStorage.removeItem('sq_token');
@@ -23,7 +48,7 @@ export const useStore = create(persist((set, get) => ({
   },
   logout: () => {
     localStorage.removeItem('sq_token');
-    set({ user: null, token: null });
+    set({ ...buildFreshProgressState(), user: null, token: null });
   },
 
   // ── Hearts ──────────────────────────────────────────
@@ -236,23 +261,7 @@ export const useStore = create(persist((set, get) => ({
   adminResetXP: () => set({ xp: 0 }),
   adminFillHearts: () => set({ hearts: 5 }),
   adminAddCash: (amount) => set((s) => ({ cash: s.cash + amount })),
-  adminResetAll: () => set({
-    xp: 0,
-    hearts: 5,
-    lastHeartLoss: null,
-    streakCount: 0,
-    streakLastDate: null,
-    earnedBadges: [],
-    completedLessons: [],
-    cash: 0,
-    holdings: [],
-    transactions: [],
-    marketSimulation: buildFreshMarket(),
-    currentChallengeId: 'snackbot-hype',
-    completedChallenges: [],
-    challengeResponses: [],
-    reviewHeartRewardsClaimed: [],
-  }),
+  adminResetAll: () => set(buildFreshProgressState()),
 }), {
   name: 'sq-store',
   storage: createJSONStorage(() => localStorage),

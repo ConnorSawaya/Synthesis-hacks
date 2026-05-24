@@ -1,12 +1,13 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useStore } from '../store/useStore';
-import { BookOpen, BarChart3, User, Home, TrendingUp, Lock, Briefcase } from 'lucide-react';
+import { BookOpen, BarChart3, User, Home, TrendingUp, Lock, Briefcase, Newspaper } from 'lucide-react';
 import { isMarketUnlocked } from '../lib/progression';
 
 const NAV_ITEMS = [
   { path: '/', label: 'Home', icon: Home, minLevel: 1, hint: 'Pick your next move' },
   { path: '/lessons', label: 'Learn', icon: BookOpen, minLevel: 1, hint: 'Do the next lesson' },
   { path: '/trade', label: 'Market', icon: TrendingUp, minLevel: 1, hint: 'Try a practice trade' },
+  { path: '/news', label: 'News', icon: Newspaper, minLevel: 1, hint: 'Read simple market news' },
   { path: '/portfolio', label: 'Portfolio', icon: Briefcase, minLevel: 1, hint: 'Check what you own' },
 ];
 
@@ -14,7 +15,7 @@ function DesktopItem({ item, active, locked }) {
   const Icon = item.icon;
 
   if (locked) {
-    const lockedCopy = item.path === '/trade' || item.path === '/portfolio'
+    const lockedCopy = item.path === '/trade' || item.path === '/news' || item.path === '/portfolio'
       ? 'Pass Module 1 quiz to unlock'
       : `Unlocks at Level ${item.minLevel}`;
 
@@ -61,7 +62,7 @@ export default function Navbar() {
   const marketUnlocked = isMarketUnlocked(completedLessons);
   const desktopNavItems = NAV_ITEMS.map((item) => ({
     ...item,
-    gated: item.path === '/trade' || item.path === '/portfolio' ? !marketUnlocked : false,
+    gated: item.path === '/trade' || item.path === '/news' || item.path === '/portfolio' ? !marketUnlocked : false,
   }));
   const mobileNavItems = [...desktopNavItems, { path: '/profile', label: 'Profile', icon: User, minLevel: 1, hint: 'Badges and progress', gated: false }];
 
@@ -115,7 +116,7 @@ export default function Navbar() {
             return locked ? (
               <div key={item.path} className="flex flex-col items-center gap-1 py-2 text-[10px] text-gray-400">
                 <Lock className="h-4 w-4" />
-                <span>{item.path === '/trade' || item.path === '/portfolio' ? 'Quiz' : `Lv ${item.minLevel}`}</span>
+                <span>{item.path === '/trade' || item.path === '/news' || item.path === '/portfolio' ? 'Quiz' : `Lv ${item.minLevel}`}</span>
               </div>
             ) : (
               <Link
