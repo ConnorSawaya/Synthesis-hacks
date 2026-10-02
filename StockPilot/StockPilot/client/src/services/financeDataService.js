@@ -1,6 +1,6 @@
-import { resolveFinanceNews, getFinanceNewsForTicker } from '../data/financeNews';
-import { getStockProfile, normalizeTicker } from '../data/stockProfiles';
-import { createMarketStock } from '../lib/stockEngine';
+import { resolveFinanceNews, getFinanceNewsForTicker } from '../data/financeNews.js';
+import { getStockProfile, normalizeTicker } from '../data/stockProfiles.js';
+import { createMarketStock } from '../lib/stockEngine.js';
 
 const SEARCH_DELAY_MS = 180;
 
@@ -14,8 +14,7 @@ function getEnv() {
   return typeof import.meta !== 'undefined' ? import.meta.env || {} : {};
 }
 
-function getApiBaseUrl() {
-  const env = getEnv();
+function getApiBaseUrl(env = getEnv()) {
   return env.VITE_API_BASE_URL || '/api';
 }
 
@@ -45,9 +44,9 @@ export function getFinanceNews(options = {}) {
   return typeof limit === 'number' ? articles.slice(0, limit) : articles;
 }
 
-export async function fetchFinanceNewsFeed(options = {}) {
+export async function fetchFinanceNewsFeed(options = {}, dependencies = {}) {
   const { search = '', symbols = '', now = Date.now() } = options;
-  const env = getEnv();
+  const { env = getEnv(), fetchImpl = globalThis.fetch } = dependencies;
 
   if (env.VITE_DEMO_MODE === 'true') {
     return {
@@ -64,7 +63,7 @@ export async function fetchFinanceNewsFeed(options = {}) {
   if (symbols) params.set('symbols', symbols);
 
   try {
-    const response = await fetch(`${getApiBaseUrl()}/news?${params.toString()}`);
+    const response = await fetchImpl(`${getApiBaseUrl(env)}/news?${params.toString()}`);
     if (!response.ok) {
       throw new Error(`News request failed with status ${response.status}`);
     }
