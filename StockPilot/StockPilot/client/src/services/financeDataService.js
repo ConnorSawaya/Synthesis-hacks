@@ -47,6 +47,17 @@ export function getFinanceNews(options = {}) {
 
 export async function fetchFinanceNewsFeed(options = {}) {
   const { search = '', symbols = '', now = Date.now() } = options;
+  const env = getEnv();
+
+  if (env.VITE_DEMO_MODE === 'true') {
+    return {
+      mode: 'simulation_fallback',
+      provider: null,
+      articles: resolveFinanceNews(now),
+      message: '',
+    };
+  }
+
   const params = new URLSearchParams();
 
   if (search) params.set('search', search);
