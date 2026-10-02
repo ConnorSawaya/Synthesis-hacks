@@ -19,13 +19,12 @@ export default function Profile() {
   const { user, xp, streakCount, earnedBadges, completedLessons, transactions, holdings, logout } = useStore();
   const navigate = useNavigate();
   const displayName = user?.name || 'Stock Trader';
-  const displayEmail = user?.email || 'student@example.com';
+  const displayEmail = user?.email || 'Demo profile · this browser only';
   const level = Math.floor(xp / 100) + 1;
   const totalLessons = MODULES.reduce((sum, mod) => sum + mod.lessons.length, 0);
   const passedLessons = completedLessons.filter((item) => item.score >= 80).length;
   const progressPercent = Math.round((passedLessons / totalLessons) * 100);
   const badgePercent = Math.round((earnedBadges.length / ALL_BADGES.length) * 100);
-  const isDemoMode = Boolean(user?.demoMode || user?.email === 'demo@stockpilot.app');
 
   const handleLogout = () => {
     logout();
@@ -43,7 +42,7 @@ export default function Profile() {
             <h1 className="mt-6 text-3xl font-black tracking-tight text-gray-900">{displayName}</h1>
             <p className="mt-2 text-sm text-gray-500">{displayEmail}</p>
             <p className="mt-4 text-sm leading-6 text-orange-700">
-              Your desktop home for progress, milestones, and the account tools you use most often.
+              Your demo profile keeps progress and milestones together on this device. It is not an online account.
             </p>
 
             <div className="mt-6 rounded-[1.5rem] bg-white p-5 ring-1 ring-orange-100">
@@ -65,7 +64,7 @@ export default function Profile() {
           </section>
 
           <section className="rounded-[1.75rem] border border-gray-200 bg-white p-6">
-            <div className="text-sm font-semibold uppercase tracking-[0.18em] text-orange-700">Account tools</div>
+            <div className="text-sm font-semibold uppercase tracking-[0.18em] text-orange-700">Demo profile tools</div>
             <div className="mt-4 space-y-3">
               <Link
                 to="/settings"
@@ -103,10 +102,8 @@ export default function Profile() {
                 <div className="flex items-center gap-3">
                   <LogOut className="h-4 w-4 text-orange-500" />
                   <div>
-                    <div className="font-semibold text-gray-900">{isDemoMode ? 'Leave demo mode' : 'Log out'}</div>
-                    <div className="text-xs text-gray-500">
-                      {isDemoMode ? 'Return to sign-in and exit the demo session' : 'Return to sign-in'}
-                    </div>
+                    <div className="font-semibold text-gray-900">Leave demo mode</div>
+                    <div className="text-xs text-gray-500">Return to the demo start screen</div>
                   </div>
                 </div>
                 <ChevronRight className="h-4 w-4 text-gray-400" />

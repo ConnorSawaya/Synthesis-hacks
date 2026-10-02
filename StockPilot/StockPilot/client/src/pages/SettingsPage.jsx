@@ -16,7 +16,6 @@ function getInitials(name) {
 export default function SettingsPage() {
   const { user, difficulty, setDifficulty, notifications, setNotifications, logout } = useStore();
   const navigate = useNavigate();
-  const isDemoMode = Boolean(user?.demoMode || user?.email === 'demo@stockpilot.app');
 
   const handleLogout = () => {
     logout();
@@ -54,17 +53,17 @@ export default function SettingsPage() {
     <div className="mx-auto max-w-2xl">
       <h1 className="mb-2 text-2xl font-bold text-gray-900">Settings</h1>
       <p className="mb-6 text-sm leading-6 text-gray-500">
-        Keep your account preferences here so the main student experience stays focused on learning.
+        Demo preferences are stored in this browser. No account is created and settings do not sync across devices.
       </p>
 
-      <Section title="Account" icon={User}>
+      <Section title="Demo profile" icon={User}>
         <div className="flex items-center gap-4 border-b border-gray-100 py-3">
           <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-orange-100 text-lg font-bold text-orange-700">
             {getInitials(user?.name)}
           </div>
           <div className="flex-1">
             <div className="font-semibold text-gray-900">{user?.name || 'Stock Trader'}</div>
-            <div className="text-sm text-gray-500">{user?.email || 'student@example.com'}</div>
+            <div className="text-sm text-gray-500">{user?.email || 'This browser only'}</div>
           </div>
           <Link to="/profile" className="btn-secondary px-4 py-2 text-sm">Back to Profile</Link>
         </div>
@@ -74,7 +73,7 @@ export default function SettingsPage() {
           className="mt-4 inline-flex items-center gap-2 rounded-2xl border border-gray-200 bg-gray-50 px-4 py-2 text-sm font-semibold text-gray-900 transition hover:bg-gray-100"
         >
           <LogOut className="h-4 w-4 text-orange-500" />
-          {isDemoMode ? 'Leave demo mode' : 'Log out'}
+          Leave demo mode
         </button>
       </Section>
 

@@ -1,4 +1,4 @@
-import { MARKET_WATCHLIST_SYMBOLS, getStockProfile } from '../data/stockProfiles';
+import { MARKET_WATCHLIST_SYMBOLS, getStockProfile } from '../data/stockProfiles.js';
 
 // Generates realistic-looking stock price history using random walk with
 // drift, occasional market events, and sector-based correlation.

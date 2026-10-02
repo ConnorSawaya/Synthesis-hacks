@@ -2,6 +2,22 @@
 
 Experiment shelf. Current contents: **StockPilot** (nested at `StockPilot/StockPilot/`) — a Duolingo-style gamified stock-trading tutor for kids (React + Vite + Tailwind frontend, Express + SQLite backend). Same curriculum-app lineage as StockQuest.
 
+## StockPilot browser demo
+
+Expected URL after Pages is enabled and the workflow completes: <https://connorsawaya.github.io/Synthesis-hacks/>. The GitHub Actions workflow builds only `StockPilot/StockPilot/client` on pushes to `main`; direct route refreshes use the generated Pages fallback. The first deployment requires GitHub Pages to be enabled with **Build and deployment → Source → GitHub Actions** in this repository's settings.
+
+Choose **Start the demo** to try it. There is no account, password check, backend, or cross-device sync. Sample progress is saved in the current browser when storage is available; if browser storage is blocked, it lasts only until the tab closes. Market news uses sample data when its optional API is unavailable.
+
+Run the client checks locally:
+```bash
+cd StockPilot/StockPilot/client
+npm ci
+npm test
+npm run build
+```
+
+The Express/SQLite server below remains a separate local development setup and is not part of the hosted demo.
+
 ## Run StockPilot (one command per side)
 ```bash
 cd StockPilot/StockPilot/client

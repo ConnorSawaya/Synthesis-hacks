@@ -1,6 +1,9 @@
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 import { generateMarket } from '../lib/stockEngine';
+import { createResilientStorage } from '../lib/storage';
+
+const appStorage = createResilientStorage();
 
 const INITIAL_HEARTS = 5;
 const MAX_HEARTS = 5;
@@ -36,19 +39,14 @@ function buildFreshProgressState() {
 }
 
 export const useStore = create(persist((set, get) => ({
-  // ── Auth ────────────────────────────────────────────
+  // ── Local demo profile ──────────────────────────────
   user: null,
-  token: null,
-
-  setUser: (user) => set({ ...buildFreshProgressState(), user }),
-  setToken: (token) => {
-    if (token) localStorage.setItem('sq_token', token);
-    else localStorage.removeItem('sq_token');
-    set({ token });
-  },
+  setUser: (user) => set({
+    ...buildFreshProgressState(),
+    user: user ? { id: 'demo', name: 'Demo Student', demoMode: true } : null,
+  }),
   logout: () => {
-    localStorage.removeItem('sq_token');
-    set({ ...buildFreshProgressState(), user: null, token: null });
+    set({ ...buildFreshProgressState(), user: null });
   },
 
   // ── Hearts ──────────────────────────────────────────
@@ -263,11 +261,18 @@ export const useStore = create(persist((set, get) => ({
   adminAddCash: (amount) => set((s) => ({ cash: s.cash + amount })),
   adminResetAll: () => set(buildFreshProgressState()),
 }), {
-  name: 'sq-store',
-  storage: createJSONStorage(() => localStorage),
+  name: 'synthesis-hacks-stockpilot-demo',
+  storage: createJSONStorage(() => appStorage),
+  merge: (persistedState, currentState) => {
+    const mergedState = { ...currentState, ...persistedState };
+    return {
+      ...mergedState,
+      token: null,
+      user: mergedState.user ? { id: 'demo', name: 'Demo Student', demoMode: true } : null,
+    };
+  },
   partialize: (state) => ({
     user: state.user,
-    token: state.token,
     hearts: state.hearts,
     lastHeartLoss: state.lastHeartLoss,
     xp: state.xp,

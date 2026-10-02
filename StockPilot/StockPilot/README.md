@@ -2,6 +2,14 @@
 
 A Duolingo-style gamified website for teaching kids how to trade stocks.
 
+## Hosted browser demo
+
+Expected URL after Pages is enabled and the workflow completes: <https://connorsawaya.github.io/Synthesis-hacks/>. The static client is built from this directory's `client/` folder; the workflow does not publish or call the Express server.
+
+Select **Start the demo**; no account or password is created or checked. Lessons, simulated trades, and settings stay in the current browser and do not sync. Browser storage failures fall back to in-memory progress for the current tab. News falls back to bundled sample articles when the API is unavailable. These local controls are for demonstration only and do not protect real accounts or data.
+
+For the first deployment, enable GitHub Pages for the repository and choose **GitHub Actions** as its publishing source. Later pushes to `main` build, test, and publish the client automatically. Deep links such as `/Synthesis-hacks/lessons` are supported after deployment.
+
 ## Quick Start
 
 ### Prerequisites
